@@ -147,4 +147,68 @@ nav {
     margin-bottom: 10px;
 }
 
+/* Contenedor principal */
+.container3 {
+    width: 80%;
+    margin: 20px auto;
+}
+
+/* Secciones */
+.section {
+    background: #f0f0f0;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+}
+
+.section h2 {
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+/* Lista de certificaciones */
+.certificacion-item {
+    display: flex;
+    justify-content: space-between;
+    background: #d3d3d3;
+    padding: 10px;
+    margin-bottom: 5px;
+    border-radius: 5px;
+}
+
+.ver-btn {
+    background: #4CAF50;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+/* Botones principales */
+.primary-btn {
+    width: 100%;
+    background: #2962FF;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.primary-btn:hover {
+    background: #45a049;
+}
+
+/* Inputs */
+input[type="text"], input[type="file"] {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
     
