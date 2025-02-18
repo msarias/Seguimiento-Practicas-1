@@ -1,8 +1,10 @@
+require('dotenv').config();// Cargar las variables de entorno en todo el servidor
 const express = require('express');
 const aprendicesRoutes = require('./Routes/aprendicesRutas.js');
-const bodyParser = require('body-parser');
-const Aprendices = require('./Models/aprendicesModel.js');
 const sequelize = require('./Config/db.js')
+
+//const bodyParser = require('body-parser');//Eliminar dependencia cuando sehaga un commit comentar que se elimino 
+//const Aprendices = require('./Models/Aprendiz.js');
 
 //Sincronizar con la base de datos
 async () => {
@@ -19,8 +21,8 @@ async () => {
 const app = express();
 
 //Habilitar body-parser
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 
 //Agregar rutas
@@ -28,7 +30,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use('/api', aprendicesRoutes);
 
 //Puerto del servidor
-const port = 3000;
+const port = 3001
 
 app.listen(port, () => {
     console.log('Se realizo la conexion en el puerto', port)
