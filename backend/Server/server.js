@@ -1,5 +1,5 @@
 const express = require('express');
-const aprendicesRoutes = require('./Routes/aprendicesRutas.js');
+const indexRoutes = require('./Routes/index.routes.js')
 const bodyParser = require('body-parser');
 const Aprendices = require('./Models/aprendicesModel.js');
 const sequelize = require('./Config/db.js')
@@ -25,7 +25,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 //Agregar rutas
 //app.use('/routes',routes);
-app.use('/api', aprendicesRoutes);
+app.use('/api', indexRoutes);
 
 //Puerto del servidor
 const port = 3000;
