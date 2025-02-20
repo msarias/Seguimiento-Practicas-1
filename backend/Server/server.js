@@ -1,6 +1,8 @@
 require('dotenv').config();// Cargar las variables de entorno en todo el servidor
 const express = require('express');
+
 const aprendicesRoutes = require('./Routes/aprendicesRutas.js');
+
 const sequelize = require('./Config/db.js')
 
 //const bodyParser = require('body-parser');//Eliminar dependencia cuando sehaga un commit comentar que se elimino 
@@ -27,7 +29,7 @@ app.use(express.urlencoded({ extended: true }));
 
 //Agregar rutas
 //app.use('/routes',routes);
-app.use('/api', aprendicesRoutes);
+app.use('/api', indexRoutes);
 
 //Puerto del servidor
 const port = 3001
