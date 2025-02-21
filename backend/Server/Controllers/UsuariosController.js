@@ -1,4 +1,4 @@
-const { Usuarios, Aprendices, Instructores } = require('../Models/U.js');
+const { Usuarios, Aprendices, Instructores } = require('../Models/usuario.js');
 
 // Crear un usuario (aprendiz o instructor)
 exports.CrearUsuario = async (req, res) => {
