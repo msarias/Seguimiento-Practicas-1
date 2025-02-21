@@ -4,7 +4,7 @@ USE `bd_proyecto`;
 --
 -- Host: localhost    Database: bd_proyecto
 -- ------------------------------------------------------
--- Server version	9.0.1
+-- Server version	8.0.39
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -28,16 +28,14 @@ CREATE TABLE `aprendiz` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
   `id_usuario` int unsigned NOT NULL,
   `id_empresa` int unsigned NOT NULL,
-  `id_reporte` int unsigned DEFAULT NULL,
+  `activo` tinyint(1) DEFAULT '1',
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`),
   KEY `fk_id_usuario_idx` (`id_usuario`),
   KEY `fk_id_empresa_idx` (`id_empresa`),
-  KEY `fk_id_reporte_idx` (`id_reporte`),
-  CONSTRAINT `fk_id_empresa` FOREIGN KEY (`id_empresa`) REFERENCES `empresa` (`id`),
-  CONSTRAINT `fk_id_reporte` FOREIGN KEY (`id_reporte`) REFERENCES `reporte` (`id`),
-  CONSTRAINT `fk_id_usuario` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=91 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  CONSTRAINT `aprendiz_ibfk_1` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id`),
+  CONSTRAINT `fk_id_empresa` FOREIGN KEY (`id_empresa`) REFERENCES `empresa` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=94 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -46,7 +44,7 @@ CREATE TABLE `aprendiz` (
 
 LOCK TABLES `aprendiz` WRITE;
 /*!40000 ALTER TABLE `aprendiz` DISABLE KEYS */;
-INSERT INTO `aprendiz` VALUES (56,1,234,456),(59,2,234,456),(61,9,234,456),(62,2,234,456),(90,2,234,456);
+INSERT INTO `aprendiz` VALUES (56,1,234,1),(59,2,234,1),(61,9,234,1),(62,2,234,1),(90,9,234,1),(91,9,234,1),(92,1,234,1),(93,2,234,0);
 /*!40000 ALTER TABLE `aprendiz` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -62,6 +60,7 @@ CREATE TABLE `bitacora` (
   `id_aprendiz` int unsigned NOT NULL,
   `nombre` varchar(45) DEFAULT NULL,
   `fecha` date NOT NULL,
+  `numero_bitacora` int unsigned NOT NULL,
   PRIMARY KEY (`id_aprendiz`),
   UNIQUE KEY `id_UNIQUE` (`id`),
   CONSTRAINT `fk_id_aprendiz` FOREIGN KEY (`id_aprendiz`) REFERENCES `aprendiz` (`id`)
@@ -252,6 +251,8 @@ CREATE TABLE `visita` (
   `fecha` date NOT NULL,
   `hora` time NOT NULL,
   `id_aprendiz` int unsigned NOT NULL,
+  `herramienta_reunion` varchar(35) NOT NULL,
+  `tipo_visita` varchar(35) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -274,4 +275,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-02-11 19:37:21
+-- Dump completed on 2025-02-21 12:24:54
