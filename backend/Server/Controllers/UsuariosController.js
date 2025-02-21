@@ -1,4 +1,4 @@
-const { Usuarios, Aprendices, Instructores } = require('../models/usuariosModel');
+const { Usuarios, Aprendices, Instructores } = require('../Models/U.js');
 
 // Crear un usuario (aprendiz o instructor)
 exports.CrearUsuario = async (req, res) => {
@@ -151,4 +151,37 @@ exports.EliminarUsuario = async (req, res) => {
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
+};
+
+//Elimnar  desactivar aprendiz
+exports.EliminarAprendizID = async (req, res) => {
+    try{
+        const aprendiz = await Aprendices.findByPk(req.params.id);
+
+        if(!aprendiz)
+        return res.status(404).json({error: 'Aprendiz no encontrado'});
+
+        aprendiz.acticvo = false;
+        await aprendiz.save();
+
+        res.status(200).json({message: 'Aprendiz marcado como inactivo'});
+    }catch(error){
+        res.status(500).json({error: error.message});
+    }
+}
+
+//Actualizar aprendices
+exports.ActualizarAprendizID = async(req, res) => {
+    try{
+        const [filasActualizadas] = await Aprendiz.update(req.body,
+            {where: {id: req.params.id}
+        }); if (!filasActualizadas)
+
+            return res.status(404).json ({ error: 'Aprendiz no encontrado'});
+
+            res.status(200).json({message: 'Aprendiz Actualizado'});
+    }catch (error){
+        res.status(500).json({error:error.message})
+    }
+
 };
