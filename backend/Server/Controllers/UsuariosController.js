@@ -1,19 +1,23 @@
-const { Usuarios, Aprendices, Instructores } = require('../Models/usuario.js');
+const { Usuarios, Aprendices, Instructores } = require('./Models/Usuarios.js');
+
 
 // Crear un usuario (aprendiz o instructor)
 exports.CrearUsuario = async (req, res) => {
     try {
-        const { nombre, correo, contraseña, rol, id_empresa, id_reporte, especialidad } = req.body;
+        const { nombre, correo, apellido, contraseña, rol } = req.body;
 
         // Crear el usuario base
-        const nuevoUsuario = await Usuarios.create({ nombre, correo, contraseña, rol });
+        const nuevoUsuario = await Usuarios.create({ nombre, correo, apellido, contraseña, rol });
 
         // Si es aprendiz, creamos su entrada en la tabla de aprendices
         if (rol === 'aprendiz') {
             const nuevoAprendiz = await Aprendices.create({
                 id_usuario: nuevoUsuario.id,
-                id_empresa,
-                id_reporte
+                nombre,
+                apellido,
+                contraseña,
+                correo,
+                rol
             });
             return res.status(201).json({ usuario: nuevoUsuario, aprendiz: nuevoAprendiz });
         }
@@ -22,7 +26,6 @@ exports.CrearUsuario = async (req, res) => {
         if (rol === 'instructor') {
             const nuevoInstructor = await Instructores.create({
                 id_usuario: nuevoUsuario.id,
-                especialidad
             });
             return res.status(201).json({ usuario: nuevoUsuario, instructor: nuevoInstructor });
         }
