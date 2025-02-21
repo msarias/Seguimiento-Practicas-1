@@ -9,7 +9,7 @@ router.get('/listarUsuarios', UsuariosController.ObtenerUsuarios);
 router.get('/:id', UsuariosController.ObtenerUsuarioByID);
 router.get('/',UsuariosController.ObtenerAprendices);
 router.get('/', UsuariosController.ObtenerInstructores);
-router.put('/', UsuariosController.ActualizarUsuario);
-router.delete('/', UsuariosController.EliminarUsuario);
+router.put('/:id', UsuariosController.ActualizarUsuario);
+router.delete('/:id', UsuariosController.EliminarUsuario);
 
 module.exports = router
