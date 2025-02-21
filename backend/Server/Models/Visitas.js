@@ -40,7 +40,7 @@ const Visita = sequelize.define('Visita', {
             isIn: ['presencial', 'telefonica', 'virtual']
         }
     },
-    herramientaReunion: {
+    herramienta_reunion : { 
         type: DataTypes.STRING(20),
         allowNull: true,
         validate: {
