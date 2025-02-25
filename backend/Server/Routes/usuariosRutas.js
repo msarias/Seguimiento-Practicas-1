@@ -12,4 +12,4 @@ router.get('/', UsuariosController.ObtenerInstructores);
 router.put('/:id', UsuariosController.ActualizarUsuario);
 router.delete('/:id', UsuariosController.EliminarUsuario);
 
-module.exports = router
+module.exports = router;

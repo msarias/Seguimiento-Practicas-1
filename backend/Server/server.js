@@ -1,8 +1,8 @@
 const express = require('express');
-const indexRoutes = require('./Routes/index.routes.js')
-const bodyParser = require('body-parser');
-const Usuarios = require('../Models/Usuarios.js');
 const sequelize = require('./Config/db.js')
+const bodyParser = require('body-parser');
+
+const indexRoutes = require('./Routes/index.routes.js')
 
 //Sincronizar con la base de datos
 async () => {

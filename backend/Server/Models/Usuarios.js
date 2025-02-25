@@ -3,7 +3,7 @@ const sequelize = require('../Config/db.js');
 const bcrypt = require("bcryptjs");
 
 // Modelo de usuarios (base para aprendices e instructores)
-const Usuarios = sequelize.define('usuarios', {
+const Usuarios = sequelize.define('Usuarios', {
     id: {
         type: DataTypes.INTEGER,
         autoIncrement: true,
@@ -86,9 +86,10 @@ const Instructores = sequelize.define('instructores', {
         allowNull: true
     }
 }, {
-    tableName: 'instructores',
+    tableName: 'Usuarios',
     timestamps: false,
 });
 
 // Exportación de los modelos
 module.exports = { Usuarios, Aprendices, Instructores };
+

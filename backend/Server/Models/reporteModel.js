@@ -16,12 +16,18 @@ const Reporte = sequelize.define('reports', {
         },
     },
     fecha: {
-        type: DataTypes.DATE,
+        type: DataTypes.DATEONLY,
         allowNull: false,
+        validate: {
+            isBefore: new Date().toISOString().split('T')[0],
+        }
     },
     nombre: {
-        type: DataTypes.STRING(40),
+        type: DataTypes.STRING(30),
         allowNull: false,
+        validate: {
+            len: [5,30]
+        }
     },
 }, {
     tableName: 'reporte',
