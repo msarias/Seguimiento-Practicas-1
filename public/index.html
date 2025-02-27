@@ -1,66 +1,57 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inicio de Sesion</title>
+    <title>Inicio de Sesión</title>
     <link rel="stylesheet" href="./css/style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Platypi:ital,wght@0,300..800;1,300..800&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Platypi:ital@0;1&display=swap" rel="stylesheet">
 </head>
 
 <body>
-    <div class="contenedor">
+    
+    <div class="container">
         <header class="header">
-            <div class="container">
-                <div id="cbz1">
+                <div class="blue-block">
+                </div> 
+                
+                <div class="logos-container">
+                    <img src="./css/img/colombia-potencia-de-vida-logo (1).png" id="logo1">
+                    <img src="./css/img/sena-logo (1).png" id="logo2">
                 </div>
-            </div>
+            
+                <div class="title-block">
+                    <p id="title">Seguimiento Etapa Práctica</p>
+                </div>
         </header>
-        <div id="cbz2">
-            <li><img src="./css/img/colombia-potencia-de-vida-logo (1).png" id="logo1"></li>
-            <li><img src="./css/img/sena-logo (1).png" id="logo2"></li>
-        </div>
     </div>
-    <div class="contenedor2">
-        <div id="cbz3">
-            <p id="namepage">Seguimiento Etapa Practica</p>
-        </div>
-        <div class="contenedor3">
-            <div id="login">
-                <div class="ingresotext">
-                    <p>Ingreso
-                        <br>
-                        Seguimiento
-                    </p>
-                    <div class="login-container">
-                        <form style="transition: opacity 0.2s ease-in-out 0s, transform 0.2s ease-in-out 0s; transform: scale(1);" class="">
-                            <label class="login-label">Tipo de Cuenta</label>
-                            <select class="login-select" name="typeDocument">
-                                <option >Seleccione su tipo de cuenta</option>
-                                <option >Instructor</option>
-                                <option >Aprendiz</option>
-                            </select>
-                            <label class="login-label">Número de Documento</label>
-                            <input type="text" class="numeroidentidad" title="Número de documento" placeholder="Ingrese su documento" pattern="[0-9]+" required>
-                            <label class="login-label">Contraseña</label>
-                            <input type="password" class="password" title="Contraseña" placeholder="Ingrese su Contraseña" required autocomplete="nop">
-                            <a class="new-password" href="">Olvidé mi contraseña</a>
-                            <br>
-                            <a class="new-password" href="">Mi cuenta esta inactiva o bloqueada</a>
-                            <button type="submit"  name="login-boton" class="login-boton"><a href="./inicio/inicio.html">Iniciar Sesión </a></button>
-                        </form>
-                    </div>
+    <div class="login-section">
+        <div class="login">
+            <p>Ingreso Seguimiento</p>
+            <form style="transition: opacity 0.2s ease-in-out 0s, transform 0.2s ease-in-out 0s; transform: scale(1);" class="login-form">
+                <label class="login-label">Tipo de Cuenta</label>
+                <select class="login-select login-input" name="typeDocument">
+                    <option disabled>Seleccione su tipo de cuenta</option>
+                    <option>Instructor</option>
+                    <option>Aprendiz</option>
+                </select>
+                <label class="login-label">Número de Documento</label>
+                <input type="text" class="login-input" title="Número de documento" placeholder="Ingrese su documento" pattern="[0-9]+" required>
+                <label class="login-label">Contraseña</label>
+                <input type="password" class="login-input" title="Contraseña" placeholder="Ingrese su contraseña" required autocomplete="nop">
+                <div class="recuppassword">
+                    <a class="new-password" href="">Olvidé mi contraseña</a>
+                    <a class="new-password" href="">Mi cuenta está inactiva</a>
                 </div>
-            </div>
-
+                <button type="submit" id="login-boton" name="login-boton" class="login-boton"><a href="">Iniciar Sesión </a></button>
+            </form>
         </div>
-
     </div>
-
+    <script>
+        let button = document.getElementById('login-boton')
+        button.addEventListener('click', function(){alert('iniciando')})
+    </script>
 </body>
-
 </html>
