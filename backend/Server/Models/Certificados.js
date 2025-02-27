@@ -29,9 +29,9 @@ const Certificados = sequelize.define('Certificados', {
     estado: {
         type: DataTypes.STRING(20),
         allowNull: true,
-        validate: {
-            isIn: ['Activo', 'Pendiente']
-        }
+        // validate: {
+        //     isIn: ['Activo', 'Pendiente']
+        // }
     }
 }, {
     tableName: 'certificacion', 

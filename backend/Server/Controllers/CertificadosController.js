@@ -1,4 +1,5 @@
 // const { Certificado } = require('../Models');
+const { error } = require('console');
 const Certificados = require('../Models/Certificados');
 
 
@@ -14,7 +15,7 @@ const createCertificado = async (req, res) => {
         });
         res.status(201).json(nuevoCertificado);
     } catch (error) {
-        res.status(500).json({ error: 'Error al crear el certificado' });
+        res.status(500).json({ error: error.message });
     }
 };
 
@@ -22,21 +23,20 @@ const createCertificado = async (req, res) => {
 //Actualizar certificados
 const updateCertificado = async (req, res) => {
     try {
-        const { id } = req.params.id;
-        const { id_aprendiz, fecha, nombre, estado} = req.body
+        const { id } = req.params;
+        const { id_aprendiz, fecha, nombre, estado } = req.body;
 
         const certificado = await Certificados.findByPk(id);
-                if (!certificado) {
-                    return res.status(404).json({ error: 'Certificado no encontrado' });
-                }
-        
-                await Certificados.update({ id_aprendiz, fecha, nombre, estado });
-        
-                res.status(200).json(certificado);
-    }catch (error) {
-        res.status(500).json({ error: 'Error al actualizar el certificado' });
+        if (certificado) {
+            await certificado.update({ id_aprendiz, fecha, nombre, estado });
+            res.status(200).json({certificado});
+        }
+        res.status(404).json({message : 'No existe el certificado'});
+    } catch (error) {
+        res.status(500).json({ error: 'Error interno del servidor', message: error.message });
     }
 };
+
 
 // Obtener todas los Certificados
 const getAllCertificados = async (req, res) => {
@@ -51,12 +51,12 @@ const getAllCertificados = async (req, res) => {
 // Obtener un certificado por ID
 const getCertificadoById = async (req, res) => {
     try {
-        const { id } = req.params.id;
+        const { id } = req.params;
         const certificado = await Certificados.findByPk(id);
-        if (!certificado) {
-            return res.status(404).json({ error: 'Certificado no encontrado' });
+        if (certificado) {
+            return res.status(200).json({ certificado });
         }
-        res.status(200).json(certificado);
+        res.status(404).json(error.message);
     } catch (error) {
         res.status(500).json({ error: 'Error al obtener el certificado' });
     }
@@ -64,17 +64,16 @@ const getCertificadoById = async (req, res) => {
 
 const deleteCertificadoById = async (req, res) => {
     try{
-        const {id} = req.params.id;
-        await Certificados.destroy({where: {id: id}});
-        
+        const {id} = req.params;
         const certificado = await Certificados.findByPk(id);
-        if(certificado === null){
-            res.status(200).json({message: 'Reporte eliminado'})
+        
+        if(certificado){
+            await certificado.destroy(id);
+            res.status(200).json({message: 'Certificado eliminado'})
         }
-        res.status(404).json({message: 'El reporte no existe o no encontro'});
+        res.status(404).json({message: 'El certificado no existe'});
     }
     catch(error){
-        console.log(error)
         res.status(500).json({message: error.message});
     }
 };
