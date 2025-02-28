@@ -2,23 +2,23 @@ body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
-    display: flex;
-    flex-direction: column;
 }
 
-nav {
-    background-color: #f8f8f8;
-    padding: 10px;
+.navigation {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    padding: 10px;
     border-bottom: 2px solid #ccc;
+    background-color: #f8f8f8;
 }
 
 .nav-buttons, .nav-buttons1, .nav-buttons2 {
     display: flex;
     gap: 15px;
+}
+.nav-buttons img{
+    object-fit: cover;
 }
 
 .menu-icon {
@@ -39,6 +39,10 @@ nav {
     display: flex;
     flex-direction: column;
     gap: 20px;
+}
+
+.sidebar a{
+    text-decoration: none;
 }
 
 .sidebar button, .visit-row1 button, .bitacora-item2 button {
