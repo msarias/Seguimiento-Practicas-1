@@ -1,8 +1,9 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../Config/db.js');
+const bcrypt = require("bcryptjs");
 
 // Modelo de usuarios (base para aprendices e instructores)
-const Usuarios = sequelize.define('usuarios', {
+const Usuarios = sequelize.define('Usuarios', {
     id: {
         type: DataTypes.INTEGER,
         autoIncrement: true,
@@ -11,6 +12,13 @@ const Usuarios = sequelize.define('usuarios', {
     nombre: {
         type: DataTypes.STRING,
         allowNull: false,
+    },
+    apellido: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+            notEmpty: true,
+        }
     },
     correo: {
         type: DataTypes.STRING,
@@ -26,7 +34,7 @@ const Usuarios = sequelize.define('usuarios', {
         allowNull: false,
     }
 }, {
-    tableName: 'usuarios',
+    tableName: 'usuario',
     timestamps: false,
 });
 
@@ -47,11 +55,11 @@ const Aprendices = sequelize.define('aprendices', {
     },
     id_empresa: {
         type: DataTypes.INTEGER,
-        allowNull: false
+        allowNull: false,
     },
     id_reporte: {
         type: DataTypes.INTEGER,
-        allowNull: true // Permitido NULL para pruebas
+        allowNull: true, // Permitido NULL para pruebas
     }
 }, {
     tableName: 'aprendices',
@@ -75,12 +83,13 @@ const Instructores = sequelize.define('instructores', {
     },
     especialidad: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: true
     }
 }, {
-    tableName: 'instructores',
+    tableName: 'Usuarios',
     timestamps: false,
 });
 
 // Exportación de los modelos
 module.exports = { Usuarios, Aprendices, Instructores };
+

@@ -1,7 +1,7 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../Config/db.js');
 
-const Reporte = sequelize.define('reports', {
+const Bitacora = sequelize.define('Bitacora', {
     id: {
         type: DataTypes.INTEGER.UNSIGNED,
         autoIncrement: true,
@@ -12,26 +12,37 @@ const Reporte = sequelize.define('reports', {
         allowNull: false,
         references: {
             model: 'aprendiz',
-            key: 'id',
-        },
+            key: 'id'
+        }
     },
     fecha: {
         type: DataTypes.DATEONLY,
         allowNull: false,
         validate: {
+            isDate: true,
             isBefore: new Date().toISOString().split('T')[0],
-        }
+        },
     },
     nombre: {
-        type: DataTypes.STRING(30),
+        type: DataTypes.STRING(45),
         allowNull: false,
         validate: {
-            len: [5,30]
+            notEmpty: true,
+            len: [2,45]
         }
     },
+    numero_bitacora: {
+        type: DataTypes.INTEGER.UNSIGNED,
+        allowNull: false,
+        validate: {
+            isInt: true,
+            notEmpty: true,
+        }
+    }
 }, {
-    tableName: 'reporte',
+    tableName: 'bitacora',
     timestamps: false,
+    paranoid: false,
 });
 
-module.exports = Reporte;
+module.exports = Bitacora;
