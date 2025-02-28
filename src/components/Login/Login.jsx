@@ -1,4 +1,4 @@
-import '../'
+import "../Login/Login.css";
 
 export default function Login() {
   return (
@@ -7,28 +7,28 @@ export default function Login() {
         <form
           style="transition: opacity 0.2s ease-in-out 0s, transform 0.2s ease-in-out 0s; transform: scale(1);"
           id="login-form"
-          class="login-form"
+          className="login-form"
         />
         <p>Ingreso Seguimiento</p>
-        <label class="login-label">Tipo de Cuenta</label>
-        <select class="login-input" name="typeDocument">
+        <label className="login-label">Tipo de Cuenta</label>
+        <select className="login-input" name="typeDocument">
           <option disabled>Seleccione su tipo de cuenta</option>
           <option>Instructor</option>
           <option>Aprendiz</option>
         </select>
-        <label for="document-input" class="login-label">
+        <label for="document-input" className="login-label">
           Número de Documento
         </label>
         <input
           id="document-input"
           type="text"
-          class="login-input"
+          className="login-input"
           title="Número de documento"
           placeholder="Ingrese su documento"
           pattern="[0-9]+"
           required
         />
-        <label for="password-input" class="login-label">
+        <label for="password-input" className="login-label">
           Contraseña
         </label>
         <input
@@ -40,15 +40,15 @@ export default function Login() {
           required
           autocomplete="nop"
         />
-        <div class="recovery-block">
-          <a class="new-password" href="#">
+        <div className="recovery-block">
+          <a className="new-password" href="#">
             Olvidé mi contraseña
           </a>
-          <a class="new-password" href="#">
+          <a className="new-password" href="#">
             Mi cuenta está inactiva
           </a>
         </div>
-        <button type="submit" id="login-button" class="login-button">
+        <button type="submit" id="login-button" className="login-button">
           Iniciar Sesión
         </button>
       </div>

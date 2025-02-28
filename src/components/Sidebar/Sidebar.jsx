@@ -1,6 +1,8 @@
+import '../Sidebar/Sidebar.css';
+
 export default function Sidebar() {
   return (
-    <div class="sidebar">
+    <div className="sidebar">
       <a href="visitas.html">
         <button>Visitas</button>
       </a>
