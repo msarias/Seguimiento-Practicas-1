@@ -1,61 +1,58 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bitácoras - Seguimiento</title>
-    <link rel="stylesheet" href="css/style.css">
-    
+    <link rel="stylesheet" href="../inicio/css/Bitacora.css">
 </head>
-<body>
 
-    <nav>
-        <div class="menu-icon">
-            <img src="./css/img/colombia-potencia-de-vida-logo (1).png" alt="Menú" width="30">
-        </div>
-        <div class="nav-buttons2">
-            <input type="text" placeholder="Buscar...">
-            <img src="./css/img/foto-persona.png" alt="Usuario" width="30">
-            <img src="./css/img/sena-logo (1).png" alt="Inicio" width="30">
+<body>
+    <div id="root"></div>
+    <!-- Barra de navegación -->
+    <nav class="navbar">
+        <div class="navbar__buttons">
+            <input type="text" class="navbar__search" placeholder="Buscar...">
+            <img src="./css/img/foto-persona.png" alt="Usuario" class="navbar__user-img" width="30">
+            <img src="./css/img/sena-logo (1).png" alt="Inicio" class="navbar__home-img" width="30">
         </div>
     </nav>
 
     <!-- Contenido principal -->
-    <div class="main-content2">
-        
+    <main class="content">
 
-        <!-- Lista de bitácoras existentes -->
-        <div class="bitacora-list2">
-            <h2>Bitácoras</h2>
-            <div class="bitacora-item2">
-                <span>Bitácora 1</span>
-                <button>Ver</button>
+        <!-- Lista de bitácoras -->
+        <section class="bitacora-list">
+            <h2 class="bitacora-list__title">Bitácoras</h2>
+            <div class="bitacora-list__item">
+                <span class="bitacora-list__name">Bitácora 1</span>
+                <button class="bitacora-list__button">Ver</button>
             </div>
-        </div>
+        </section>
 
-        <!-- Botón de agregar bitácora -->
-        <button class="add-bitacora2" onclick="toggleForm()">Agregar Bitácora</button>
+        <!-- Botón para agregar bitácora -->
+        <button class="add-bitacora" onclick="toggleForm()">Agregar Bitácora</button>
 
-        <!-- Formulario de agregar bitácora -->
-        <div class="bitacora-form2" id="bitacoraForm">
-            <h2>Agregar Bitácora</h2>
-            <input type="file" name="archivo" placeholder="Cargar Archivo">
-            <input type="text" name="nombre-bitacora" placeholder="Nombre de la bitácora">
-            <input type="text" name="numero-bitacora" placeholder="Número de la bitácora">
-            <button>Subir Bitácora</button>
-        </div>
-    </div>
+        <!-- Formulario para agregar bitácora -->
+        <section class="bitacora-form" id="bitacoraForm">
+            <h2 class="bitacora-form__title">Agregar Bitácora</h2>
+            <input type="file" name="archivo" class="bitacora-form__input" placeholder="Cargar Archivo">
+            <input type="text" name="nombre-bitacora" class="bitacora-form__input" placeholder="Nombre de la bitácora">
+            <input type="text" name="numero-bitacora" class="bitacora-form__input" placeholder="Número de la bitácora">
+            <button class="bitacora-form__button">Subir Bitácora</button>
+        </section>
+
+    </main>
 
     <script>
+        // Función para mostrar/ocultar el formulario de agregar bitácora
         function toggleForm() {
-            var form = document.getElementById("bitacoraForm");
-            if (form.style.display === "none") {
-                form.style.display = "block";
-            } else {
-                form.style.display = "none";
-            }
+            const form = document.getElementById("bitacoraForm");
+            form.style.display = form.style.display === "none" ? "block" : "none";
         }
     </script>
 
 </body>
+
 </html>
