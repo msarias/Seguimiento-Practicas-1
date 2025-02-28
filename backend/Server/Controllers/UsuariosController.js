@@ -1,5 +1,6 @@
 const { Usuarios, Aprendices, Instructores } = require('./Models/Usuarios.js');
 
+
 // Crear un usuario (aprendiz o instructor)
 exports.CrearUsuario = async (req, res) => {
     try {
