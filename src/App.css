@@ -11,6 +11,8 @@ body {
   font-family: 'Platypi', Arial, Helvetica, sans-serif;
 }
 
+/* LOGIN */
+
 .header {
   width: 100%;
   display: flex;
@@ -140,35 +142,36 @@ body {
       padding: .5rem;
   }
 }
-/* App.css */
 
 /* Barra de navegación */
 .navbar {
   background-color: #f8f8f8;
-  padding: 10px;
+  padding: 10px 20px;
   display: flex;
   align-items: end;
   justify-content: space-between;
   align-items: end;
   border-bottom: 2px solid #ccc;
 }
-
+/* 
 .navbar__logo {
   width: 30px;
-}
+} */
 
-.navbar__buttons {
+.navbar-items {
+  padding-inline: 2.5rem;
   display: flex;
   gap: 15px;
 }
 
-.navbar__search {
+.navbar-search {
   padding: 10px;
   border-radius: 5px;
 }
 
-.navbar__user-img, .navbar__home-img {
-  width: 30px;
+.navbar-user-img, .navbar-home-img {
+  width: 45px;
+  height: auto;
 }
 
 /* Contenido principal */

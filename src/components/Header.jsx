@@ -1,10 +1,10 @@
 const Header = () => {
   return (
-    <header class="header">
-      <div class="logos-container">
+    <header className="header">
+      <div className="logos-container">
         <img src="../css/img/sena-logo (1).png" id="logo-sena" />
       </div>
-      <div class="title-block">
+      <div className="title-block">
         <p id="title">Seguimiento Etapa Práctica</p>
       </div>
     </header>
