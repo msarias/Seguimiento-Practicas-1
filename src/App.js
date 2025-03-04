@@ -1,15 +1,14 @@
 // App.js
 import React from 'react';
 import MainContent from '../src/components/MainContent';
+import Login from './components/Login/Login';
 import './App.css';
-import LoginHeader from './components/LoginHeader.jsx';
 
 const App = () => {
   return (
     <div className="App">
 
-      <LoginHeader />
-
+<Login />
       <MainContent />
 
     </div>

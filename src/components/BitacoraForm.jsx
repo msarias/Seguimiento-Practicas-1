@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import AddBitacoraButton from './AddBitacoraButton';
+
 
 const BitacoraForm = () => {
     const [isFormVisible, setIsFormVisible] = useState(false);
