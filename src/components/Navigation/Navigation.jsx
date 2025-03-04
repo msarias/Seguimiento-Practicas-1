@@ -1,6 +1,5 @@
 import "../Navigation/Navigation.css";
-
-export default function Navigation() {
+ function Navigation() {
   return (
     <>
       <nav className="navigation">
@@ -24,3 +23,5 @@ export default function Navigation() {
     </>
   );
 };
+
+export default Navigation

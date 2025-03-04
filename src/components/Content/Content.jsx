@@ -1,4 +1,4 @@
-import "../Content/content.css";
+import "../Content/Content.css";
 
 export default function Content() {
   return (
