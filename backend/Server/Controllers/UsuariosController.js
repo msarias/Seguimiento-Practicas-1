@@ -1,4 +1,5 @@
-const { Usuarios, Aprendices, Instructores } = require('./Models/Usuarios.js');
+const { Usuarios, Aprendices, Instructores } = require('../Models/Usuarios');
+const bcrypt = require('bcryptjs');
 
 
 // Crear un usuario (aprendiz o instructor)
@@ -6,8 +7,11 @@ exports.CrearUsuario = async (req, res) => {
     try {
         const { nombre, correo, apellido, contraseña, rol } = req.body;
 
+        let hashRounds = 1;
+        let hashedPassword = await bcrypt.hash(contraseña, hashRounds);
+
         // Crear el usuario base
-        const nuevoUsuario = await Usuarios.create({ nombre, correo, apellido, contraseña, rol });
+        const nuevoUsuario = await Usuarios.create({ nombre, correo, apellido, contraseña: hashedPassword, rol });
 
         // Si es aprendiz, creamos su entrada en la tabla de aprendices
         if (rol === 'aprendiz') {
@@ -15,7 +19,7 @@ exports.CrearUsuario = async (req, res) => {
                 id_usuario: nuevoUsuario.id,
                 nombre,
                 apellido,
-                contraseña,
+                contraseña: hashedPassword,
                 correo,
                 rol
             });

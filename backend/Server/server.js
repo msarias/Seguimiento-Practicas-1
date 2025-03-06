@@ -1,11 +1,8 @@
 const express = require('express');
-const sequelize = require('./Config/db.js')
+const sequelize = require('./Config/db.js');
 const bodyParser = require('body-parser');
-
-const indexRoutes = require('./Routes/index.routes.js')
-const bodyParser = require('body-parser');
+const indexRoutes = require('./Routes/index.routes.js');
 const Usuarios = require('./Models/Usuarios.js');
-const sequelize = require('./Config/db.js')
 
 //Sincronizar con la base de datos
 async () => {
@@ -16,7 +13,6 @@ async () => {
         console.log('Error alsincronizar base de datos', error.message);
     }
 };
-
 
 //Crear el servidor
 const app = express();
