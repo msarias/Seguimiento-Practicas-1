@@ -1,6 +1,4 @@
-import '../Sidebar/Sidebar.css';
-
-export default function Sidebar() {
+const Sidebar = () => {
   return (
     <div className="sidebar">
       <a href="visitas.html">
@@ -12,6 +10,11 @@ export default function Sidebar() {
       <a href="certificacion.html">
         <button>Certificación</button>
       </a>
+      <a href="bitacoras.html">
+        <button>Reportes</button>
+      </a>
     </div>
   );
 };
+
+export default Sidebar;

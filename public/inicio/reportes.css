@@ -5,32 +5,26 @@ body {
 .navbar {
     background-color: #f8f8f8;
     padding: 10px 20px;
+    width: 98%;
     display: flex;
     justify-content: space-between;
     border-bottom: 2px solid #ccc;
 }
 
-/* 
-    .navbar__logo {
-    width: 30px;
-  } */
-
 .navbar-items {
     padding-inline: 2.5rem;
     display: flex;
+    /* justify-content: flex-end; */
     gap: 15px;
-}
-
-.navbar-search {
-    padding: 10px;
-    border-radius: 5px;
 }
 
 .navbar-user-img,
 .navbar-home-img {
     width: 45px;
     height: auto;
+    /* object-fit: cover; */
 }
+
 
 .container {
     display: flex;

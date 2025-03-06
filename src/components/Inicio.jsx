@@ -1,11 +1,23 @@
 import React from "react";
+
 import Navigation from "./components/Navigation/Navigation.jsx";
 import Content from "./components/Content/Content.jsx";
+
+import Navbar from "./components/Navbar.jsx";
+// import Sidebar from "./components/Sidebar/Sidebar.jsx";
+import Content from "./components/Content.jsx";
+
+import Navigation from "./Navigation.jsx";
+import Content from "./Content.jsx";
+
 
 function Inicio() {
   return (
     <div>
       <Navigation />
+
+      <Navbar />
+
       <div className="container">
         <div className="content">
           <Content />

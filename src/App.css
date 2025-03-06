@@ -8,11 +8,10 @@ body {
   width: 100%;
   height: 100vh;
   overflow: hidden;
-  font-family: 'Platypi', Arial, Helvetica, sans-serif;
+  font-family: "Platypi", Arial, Helvetica, sans-serif;
 }
 
 /* LOGIN */
-
 .header {
   width: 100%;
   display: flex;
@@ -89,7 +88,7 @@ body {
 }
 
 .login-input {
-  margin-top: .5rem;
+  margin-top: 0.5rem;
   margin-bottom: 2rem;
   width: 100%;
   height: auto;
@@ -100,7 +99,7 @@ body {
 }
 
 .login-input::placeholder {
-  font-size: .9rem;
+  font-size: 0.9rem;
 }
 
 .recovery-block {
@@ -120,7 +119,7 @@ body {
   padding: 12px 16px;
   background: #41c001;
   border: none;
-  border-radius:10px;
+  border-radius: 10px;
   color: #fff;
   font-weight: bolder;
   cursor: pointer;
@@ -134,52 +133,123 @@ body {
 .login-button {
   text-decoration: none;
   color: black;
-  font-family: 'Platypi', Arial, Helvetica, sans-serif;
+  font-family: "Platypi", Arial, Helvetica, sans-serif;
 }
 
 @media (width < 300px) {
-  .login{
-      padding: .5rem;
+  .login {
+    padding: 0.5rem;
   }
 }
 
-/* Barra de navegación */
-.navbar {
-  background-color: #f8f8f8;
-  padding: 10px 20px;
-  display: flex;
-  align-items: end;
-  justify-content: space-between;
-  align-items: end;
-  border-bottom: 2px solid #ccc;
+/*  */
+
+.container {
+  display: grid;
+  grid-template-columns: 250px repeat(3, 1fr);
+  grid-template-rows: 80px repeat(4, 1fr);
+
+  width: 100%;
+  height: 100vh;
+  gap: 10px;
 }
-/* 
-.navbar__logo {
-  width: 30px;
-} */
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 16px;
+  border-bottom: 2px solid #ccc;
+  background-color: #f8f8f8;
+
+  grid-column: 1/5;
+  grid-row: 1/2;
+}
 
 .navbar-items {
-  padding-inline: 2.5rem;
+  padding-inline: 1rem;
   display: flex;
   gap: 15px;
 }
 
-.navbar-search {
-  padding: 10px;
-  border-radius: 5px;
+.navbar-logout {
+  background-color: #4caf50;
+  color: #ffffff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
 }
 
-.navbar-user-img, .navbar-home-img {
+.navbar-logout:hover {
+  background-color: #45a049;
+}
+
+.navbar-user-img,
+.navbar-home-img {
   width: 45px;
   height: auto;
+  object-fit: cover;
 }
 
-/* Contenido principal */
+.sidebar {
+  width: 250px;
+  height: 100vh;
+  background-color: #e0e0e0;
+  padding: 20px 30px;
+  gap: 20px;
+  display: flex;
+  flex-direction: column;
+  grid-column: 1/2;
+  grid-row: 2/6;
+}
+
+.sidebar button {
+  width: 100%;
+  padding: 10px 20px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  text-align: left;
+  transition: background-color 0.2s ease;
+}
+
+.sidebar button:hover {
+  background-color: #45a049;
+}
+
 .content {
   display: flex;
   flex-direction: column;
-  padding: 20px;
+  padding: 1rem;
+  gap: 1.2rem;
+  grid-column: 2/5;
+  grid-row: 2/6;
 }
+
+.info-section,
+.pending-info-section {
+  background-color: #f0f0f0;
+  padding: 20px 40px;
+  border-radius: 0.2rem;
+}
+
+.info-section {
+  display: flex;
+  align-items: center;
+}
+
+.info-section img {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  margin-right: 2rem;
+}
+
+/*  */
 
 /* Lista de bitácoras */
 .bitacora-list {
@@ -202,7 +272,7 @@ body {
 
 .bitacora-list__button {
   padding: 10px;
-  background-color: #4CAF50;
+  background-color: #4caf50;
   color: white;
   border: none;
   border-radius: 5px;
@@ -216,7 +286,7 @@ body {
 /* Formulario para agregar bitácora */
 .add-bitacora {
   padding: 10px 20px;
-  background-color: #007BFF;
+  background-color: #007bff;
   color: white;
   border: none;
   border-radius: 5px;
@@ -248,7 +318,7 @@ body {
 
 .bitacora-form__button {
   padding: 10px;
-  background-color: #007BFF;
+  background-color: #007bff;
   color: white;
   border: none;
   border-radius: 5px;
@@ -257,63 +327,4 @@ body {
 
 .bitacora-form__button:hover {
   background-color: #45a049;
-}
-
-
-.container {
-  display: flex;
-  flex: 1;
-  padding: 20px;
-}
-
-.sidebar {
-  width: 200px;
-  height: 100vh;
-  background-color: #e0e0e0;
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
-.sidebar button{
-  width: 100%;
-}
-
-.sidebar button, .visit-row1 button, .bitacora-item2 button {
-  padding: 10px;
-  background-color: #4CAF50;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  text-align: left;
-}
-
-.sidebar button:hover, .visit-row1 button:hover, .bitacora-item2 button:hover {
-  background-color: #45a049;
-}
-
-.content, .main-content2, .container1 {
-  flex: 1;
-  padding: 20px;
-}
-
-.info-section, .pending-info-section, .visits-section1, .bitacora-list2 {
-  background-color: #f0f0f0;
-  padding: 20px;
-  margin-bottom: 20px;
-  border-radius: 8px;
-}
-
-.info-section {
-  display: flex;
-  align-items: center;
-}
-
-.info-section img {
-  width: 80px;
-  height: 80px;
-  border-radius: 50%;
-  margin-right: 20px;
 }

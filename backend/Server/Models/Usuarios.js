@@ -47,7 +47,7 @@ const Aprendices = sequelize.define('aprendices', {
     },
     id_usuario: {
         type: DataTypes.INTEGER,
-        allowNull: false,
+        allowNull: true,
         references: {
             model: Usuarios,
             key: 'id'
@@ -55,14 +55,14 @@ const Aprendices = sequelize.define('aprendices', {
     },
     id_empresa: {
         type: DataTypes.INTEGER,
-        allowNull: false,
+        allowNull: true,
     },
     id_reporte: {
         type: DataTypes.INTEGER,
         allowNull: true, // Permitido NULL para pruebas
     }
 }, {
-    tableName: 'aprendices',
+    tableName: 'aprendiz',
     timestamps: false,
 });
 
