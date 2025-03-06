@@ -7,12 +7,12 @@ const Navbar = () => {
         className="navbar-home-img"
       />
       <div className="navbar-items">
-        <input type="text" className="navbar-search" placeholder="Buscar..." />
         <img
           src="./css/img/foto-persona.png"
           alt="Usuario"
           className="navbar-user-img"
         />
+        <button className="navbar-logout">Cerrar sesión</button>
       </div>
     </nav>
   );

@@ -1,14 +1,13 @@
 import React from "react";
-import Navigation from "./components/Navigation/Navigation.jsx";
-import Sidebar from "./components/Sidebar/Sidebar.jsx";
-import Content from "./components/Content/Content.jsx";
+import Navbar from "./components/Navbar.jsx";
+// import Sidebar from "./components/Sidebar/Sidebar.jsx";
+import Content from "./components/Content.jsx";
 
 function Inicio() {
   return (
     <div>
-      <Navigation />
+      <Navbar />
       <div className="container">
-        <Sidebar />
         <div className="content">
           <Content />
           <div className="pending-info-section">
