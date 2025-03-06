@@ -1,0 +1,117 @@
+/* App.css */
+body {
+    font-family: 'Platypi', Arial, Helvetica, sans-serif;
+}
+/* Barra de navegación */
+.navbar {
+    background-color: #f8f8f8;
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid #ccc;
+}
+
+.navbar__logo {
+    width: 30px;
+}
+
+.navbar__buttons {
+    display: flex;
+    gap: 15px;
+}
+
+.navbar__search {
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.navbar__user-img,
+.navbar__home-img {
+    width: 30px;
+}
+
+/* Contenido principal */
+.content {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+}
+
+/* Lista de bitácoras */
+.bitacora-list {
+    flex: 1;
+}
+
+.bitacora-list__title {
+    font-size: 20px;
+}
+
+.bitacora-list__item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #d3d3d3;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
+
+.bitacora-list__button {
+    padding: 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.bitacora-list__button:hover {
+    background-color: #45a049;
+}
+
+/* Formulario para agregar bitácora */
+.add-bitacora {
+    padding: 10px 20px;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    display: block;
+    width: 100%;
+    margin-top: 20px;
+}
+
+.add-bitacora:hover {
+    background-color: #45a049;
+}
+
+.bitacora-form {
+    background-color: #e0e0e0;
+    padding: 20px;
+    border-radius: 8px;
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.bitacora-form__input {
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+.bitacora-form__button {
+    padding: 10px;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.bitacora-form__button:hover {
+    background-color: #45a049;
+}
