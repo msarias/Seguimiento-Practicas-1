@@ -1,20 +1,20 @@
 const Login = () => {
   return (
-    <div class="login-section">
-      <div class="login">
-        <form class="login-form" id="login-form">
+    <div className="login-section">
+      <div className="login">
+        <form className="login-form" id="login-form">
           <p id="login-paragraph">Ingreso Seguimiento</p>
-          <label class="login-label">Tipo de Cuenta</label>
-          <select class="login-input" name="typeDocument">
+          <label className="login-label">Tipo de Cuenta</label>
+          <select className="login-input" name="typeDocument">
             <option disabled>Seleccione su tipo de cuenta</option>
             <option>Instructor</option>
             <option>Aprendiz</option>
           </select>
-          <label class="login-label" for="document-input">
+          <label className="login-label" for="document-input">
             Número de Documento
           </label>
           <input
-            class="login-input"
+            className="login-input"
             id="document-input"
             type="text"
             title="Número de documento"
@@ -22,27 +22,27 @@ const Login = () => {
             pattern="[0-9]+"
             required
           />
-          <label class="login-label" for="password-input">
+          <label className="login-label" for="password-input">
             Contraseña
           </label>
           <input
             id="password-input"
             type="password"
-            class="login-input"
+            className="login-input"
             title="Contraseña"
             placeholder="Ingrese su contraseña"
             required
             autocomplete="nop"
           />
-          <div class="recovery-block">
-            <a class="new-password" href="#">
+          <div className="recovery-block">
+            <a className="new-password" href="#">
               Olvidé mi contraseña
             </a>
-            <a class="new-password" href="#">
+            <a className="new-password" href="#">
               Mi cuenta está inactiva
             </a>
           </div>
-          <button class="login-button" id="login-button" type="submit">
+          <button className="login-button" id="login-button" type="submit">
             Iniciar Sesión
           </button>
         </form>
