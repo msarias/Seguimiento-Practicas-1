@@ -258,3 +258,62 @@ body {
 .bitacora-form__button:hover {
   background-color: #45a049;
 }
+
+
+.container {
+  display: flex;
+  flex: 1;
+  padding: 20px;
+}
+
+.sidebar {
+  width: 200px;
+  height: 100vh;
+  background-color: #e0e0e0;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.sidebar button{
+  width: 100%;
+}
+
+.sidebar button, .visit-row1 button, .bitacora-item2 button {
+  padding: 10px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  text-align: left;
+}
+
+.sidebar button:hover, .visit-row1 button:hover, .bitacora-item2 button:hover {
+  background-color: #45a049;
+}
+
+.content, .main-content2, .container1 {
+  flex: 1;
+  padding: 20px;
+}
+
+.info-section, .pending-info-section, .visits-section1, .bitacora-list2 {
+  background-color: #f0f0f0;
+  padding: 20px;
+  margin-bottom: 20px;
+  border-radius: 8px;
+}
+
+.info-section {
+  display: flex;
+  align-items: center;
+}
+
+.info-section img {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  margin-right: 20px;
+}

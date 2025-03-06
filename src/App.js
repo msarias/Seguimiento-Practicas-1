@@ -4,13 +4,12 @@ import MainContent from '../src/components/MainContent';
 import Login from './components/Login';
 import Header from './components/Header';
 import Content from './components/Content';
-import NavBar from './components/NavBar';
+// import NavBar from './components/NavBar';
 import './App.css';
 
 const App = () => {
   return (
-    <div className="App">
-      <NavBar />
+    <div className="container">
       <Content />
     </div>
   );
