@@ -1,5 +1,5 @@
 import React from "react";
-import NavBar from "./NavBar";
+import NavBar from "./Navbar";
 import BitacoraList from './BitacoraList';  // Correcto
 import BitacoraForm from "./BitacoraForm";
 
