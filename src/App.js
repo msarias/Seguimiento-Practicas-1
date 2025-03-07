@@ -1,21 +1,22 @@
 // App.js
-import React from 'react';
-import './App.js'
-import MainContent from '../src/components/MainContent';
-import Login from './components/Login/Login';
-import Inicio from './pages/inicio';
-import './App.css';
-import {BrowserRouter as Router, Routes, Route} from 'react-router-dom';
+import React from "react";
+import "./App.js";
+// import MainContent from '../src/components/MainContent';
+import Login from "./components/Login.jsx";
+import Inicio from "./Inicio.jsx";
+import "./App.css";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Content from "./components/Content.jsx";
 
 function App() {
   return (
-    <Router>
+    <Content />
+    /*  <Router>
       <Routes>
-        <Route path='/' element={<Login/>}/>
-        <Route path='/MainContent' element={<MainContent/>}/>
-        <Route path='/Inicio' element={<Inicio/>}/>
+        <Route path='/inicio' element={<Inicio/>}/>
+        <Route></Route>
       </Routes>
-    </Router>
+    </Router> */
   );
 }
 

@@ -8,7 +8,7 @@ const Navbar = () => {
       />
       <div className="navbar-items">
         <img
-          src="./css/img/foto-persona.png"
+          src="./css/img/user.png"
           alt="Usuario"
           className="navbar-user-img"
         />
