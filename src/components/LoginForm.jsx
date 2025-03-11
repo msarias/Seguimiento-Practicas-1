@@ -42,9 +42,6 @@ const LoginForm = () => {
               Mi cuenta está inactiva
             </a>
           </div>
-          <button className="login-button" id="login-button" type="submit">
-            Iniciar Sesión
-          </button>
         </form>
       </div>
     </div>
