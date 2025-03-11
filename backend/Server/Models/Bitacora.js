@@ -7,37 +7,33 @@ const Bitacora = sequelize.define('Bitacora', {
         autoIncrement: true,
         primaryKey: true,
     },
-    id_aprendiz: {
+    id_usuario: {
         type: DataTypes.INTEGER.UNSIGNED,
-        allowNull: false,
-        references: {
-            model: 'aprendiz',
-            key: 'id'
-        }
+        allowNull: true
     },
     fecha: {
-        type: DataTypes.DATEONLY,
+        type: DataTypes.DATE,
         allowNull: false,
-        validate: {
+        /* validate: {
             isDate: true,
             isBefore: new Date().toISOString().split('T')[0],
-        },
+        }, */
     },
-    nombre: {
+    archivo: {
         type: DataTypes.STRING(45),
-        allowNull: false,
-        validate: {
+        allowNull: true,
+        /* validate: {
             notEmpty: true,
             len: [2,45]
-        }
+        } */
     },
-    numero_bitacora: {
+    codigo: {
         type: DataTypes.INTEGER.UNSIGNED,
-        allowNull: false,
-        validate: {
+        allowNull: true,
+        /* validate: {
             isInt: true,
             notEmpty: true,
-        }
+        } */
     }
 }, {
     tableName: 'bitacora',

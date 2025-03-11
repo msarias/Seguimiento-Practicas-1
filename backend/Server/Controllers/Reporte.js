@@ -1,10 +1,10 @@
-const Reporte = require('../Models/reporteModel');
+const Reporte = require('../Models/Reporte');
 
-exports.createReporte = async (req, res) => {
+exports.crearReporte = async (req, res) => {
     try{
-        const {id_aprendiz, fecha, nombre} = req.body;
+        const {id_usuario, fecha, nombre} = req.body;
         const nuevoReporte = await Reporte.create({
-            id_aprendiz, fecha, nombre
+            id_usuario, fecha, nombre
         });
         res.status(201).json(nuevoReporte);
     }
@@ -13,7 +13,7 @@ exports.createReporte = async (req, res) => {
     }
 };
 
-exports.getReporteById = async (req, res) => {
+exports.verReportePorId = async (req, res) => {
     try{
         const {id} = req.params;
         const reporte = await Reporte.findByPk(id);
@@ -27,7 +27,7 @@ exports.getReporteById = async (req, res) => {
     }
 };
 
-exports.getReportes = async (req, res) => {
+exports.verReportes = async (req, res) => {
     try{
         const reportes = await Reporte.findAll();
         res.status(200).json(reportes);
@@ -37,14 +37,14 @@ exports.getReportes = async (req, res) => {
     }
 };
 
-exports.deleteReporte = async (req, res) => {
+exports.eliminarReporte = async (req, res) => {
     try{
         const {id} = req.params;
         const reporte = await Reporte.findByPk(id);
         if(!reporte){
             res.status(404).json({message: 'El reporte no existe'});
         }
-        reporte.destroy();
+        await reporte.destroy();
         res.status(200).json({message: 'Reporte eliminado'})
     }
     catch(error){
@@ -52,15 +52,15 @@ exports.deleteReporte = async (req, res) => {
     }
 };
 
-exports.updateReporte = async (req, res) => {
+exports.actualizarReporte = async (req, res) => {
     try{
         const {id} = req.params;
-        const {id_aprendiz, fecha, nombre} = req.body;
+        const {id_usuario, fecha, nombre} = req.body;
         const reporte = await Reporte.findByPk(id);
         if(!reporte){
             res.status(404).json({message: 'El reporte no exite'});
         }
-        reporte.update({id_aprendiz, fecha, nombre});
+        reporte.update({id_usuario, fecha, nombre});
         res.status(200).json({message: 'Reporte actualizado'});
     }
     catch(error){
