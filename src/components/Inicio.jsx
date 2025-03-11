@@ -13,7 +13,7 @@ function Inicio() {
           <div className="pending-info-section">
             <h3>Información del aprendiz</h3>
             <p>
-              Aquí va la información sobre las taeras o actividades pendiente
+              Aquí va la información sobre las tareas o actividades pendiente
             </p>
           </div>
         </div>
