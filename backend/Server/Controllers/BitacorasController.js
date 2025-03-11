@@ -1,4 +1,4 @@
-const Bitacoras = require('../models/Bitacoras');
+const Bitacoras = require('../Models/Bitacora');
 
 // Obtener todas las bitácoras
 const getAllBitacoras = async (req, res) => {
@@ -27,12 +27,12 @@ const getBitacoraById = async (req, res) => {
 // Crear una nueva bitácora
 const createBitacora = async (req, res) => {
     try {
-        const { id_aprendiz, nombre_bitacora, numero_bitacora, archivo } = req.body;
+        const { id_usuario, fecha, archivo, codigo} = req.body;
         const nuevaBitacora = await Bitacoras.create({
-            id_aprendiz,
-            nombre_bitacora,
-            numero_bitacora,
-            archivo
+            id_usuario,
+            fecha,
+            archivo,
+            codigo
         });
         res.status(201).json(nuevaBitacora);
     } catch (error) {

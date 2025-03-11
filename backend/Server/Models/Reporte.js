@@ -1,32 +1,28 @@
 const { DataTypes } = require('sequelize');
-const sequelize = require('../Config/db.js');
+const Sequelize = require('../Config/db.js');
 
-const Reporte = sequelize.define('reports', {
+const Reporte = Sequelize.define('Reporte', {
     id: {
         type: DataTypes.INTEGER.UNSIGNED,
         autoIncrement: true,
         primaryKey: true,
     },
-    id_aprendiz: {
+    id_usuario: {
         type: DataTypes.INTEGER.UNSIGNED,
-        allowNull: false,
-        references: {
-            model: 'aprendiz',
-            key: 'id',
-        },
+        allowNull: true,
     },
     fecha: {
-        type: DataTypes.DATEONLY,
+        type: DataTypes.DATE,
         allowNull: false,
-        validate: {
+        /* validate: {
             isBefore: new Date().toISOString().split('T')[0],
-        }
+        } */
     },
     nombre: {
-        type: DataTypes.STRING(30),
+        type: DataTypes.STRING(45),
         allowNull: false,
         validate: {
-            len: [5,30]
+            len: [3,45]
         }
     },
 }, {
