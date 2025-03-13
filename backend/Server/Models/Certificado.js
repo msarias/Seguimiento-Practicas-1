@@ -1,19 +1,19 @@
 const { DataTypes } = require('sequelize');
-const sequelize = require('../Config/db.js');
+const Sequelize = require('../Config/db.js');
 
-const Certificados = sequelize.define('Certificados', {
+const Certificado = Sequelize.define('Certificado', {
     id: {
         type: DataTypes.INTEGER.UNSIGNED,
         autoIncrement: true,
         primaryKey: true,
     },
-    id_aprendiz: {
+    id_usuario: {
         type: DataTypes.INTEGER.UNSIGNED,
         allowNull: true,
-        references: {
-            model: 'aprendiz',
-            key: 'id'
-        }
+        // references: {
+        //     model: 'aprendiz',
+        //     key: 'id'
+        // }
     },
     fecha: {
         type: DataTypes.DATE,
@@ -34,9 +34,9 @@ const Certificados = sequelize.define('Certificados', {
         // }
     }
 }, {
-    tableName: 'certificacion', 
-    timestamps: false, 
+    tableName: 'certificacion',
+    timestamps: false,
     paranoid: false,
 });
 
-module.exports = Certificados;
+module.exports = Certificado;
