@@ -6,13 +6,20 @@ const Navbar = () => {
         alt="Inicio"
         className="navbar-home-img"
       />
+      
       <div className="navbar-items">
+      <input
+    type="text"
+    placeholder="Buscar..."
+    className="search-input"
+/>
+
         <img
-          src="./css/img/foto-persona.png"
+          src="./css/img/user.png"
           alt="Usuario"
           className="navbar-user-img"
         />
-        <button className="navbar-logout">Cerrar sesión</button>
+        
       </div>
     </nav>
   );

@@ -3,20 +3,24 @@ const sequelize = require('../Config/db')
 
 const Bitacora = require('../Models/Bitacora');
 const Aprendiz = require('../Models/Aprendiz');
-const Certificado = require('./Certificados')
+const Certificado = require('./Certificados');
+const Visita = require('./Visita');
+
 
 //Asociaciones de Aprendiz-Bitacora
-Aprendiz.hasMany(Bitacora, {
+/* Aprendiz.hasMany(Bitacora, {
     foreignKey: 'id_aprendiz',
 })
 Bitacora.belongsTo(Aprendiz, {
     foreignKey: 'id_aprendiz',
 });
-
+ */
 module.exports = {
     Aprendiz,
     Bitacora,
-    Certificado
+    Certificado,
+    Visita,
+    Reporte
 }
 
 

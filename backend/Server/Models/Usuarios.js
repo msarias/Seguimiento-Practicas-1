@@ -3,6 +3,11 @@ const sequelize = require('../Config/db.js');
 const bcrypt = require("bcryptjs");
 
 // Modelo de usuarios (base para aprendices e instructores)
+Usuarios.beforeCreate(async (usuario) => {
+    const salt = await bcrypt.genSalt(10);
+    usuario.contraseña = await bcrypt.hash(usuario.contraseña, salt);
+});
+
 const Usuarios = sequelize.define('Usuarios', {
     id: {
         type: DataTypes.INTEGER,
@@ -86,7 +91,7 @@ const Instructores = sequelize.define('instructores', {
         allowNull: true
     }
 }, {
-    tableName: 'Usuarios',
+    tableName: 'instructor',
     timestamps: false,
 });
 
