@@ -3,15 +3,13 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import React from 'react';
 import './App.js'
 import MainContent from '../src/components/MainContent';
-import Login from "./components/Login.jsx";
-import Inicio from "./components/Login.jsx";
-import Reportes from "./components/Reportes/Reportes.jsx";
-import Visitas from "./components/Visitas/Visitas.jsx";
+import Login from './components/Login/Login';
+import Inicio from './pages/inicio';
 import './App.css';
 
 function App() {
   return (
-  <BrowserRouter>
+    <Router>
       <Routes>
         <Route path='/' element={<Login/>}/> 
         <Route path='/MainContent' element={<MainContent/>}/>
@@ -21,7 +19,7 @@ function App() {
         
         
       </Routes>
-      </BrowserRouter>
+    </Router>
   );
 }
 

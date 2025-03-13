@@ -2,7 +2,6 @@ const express = require('express');
 const sequelize = require('./Config/db.js');
 const bodyParser = require('body-parser');
 const indexRoutes = require('./Routes/index.routes.js');
-const Usuarios = require('./Models/Usuarios.js');
 
 //Sincronizar con la base de datos
 async () => {
@@ -21,13 +20,12 @@ const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-
 //Agregar rutas
 //app.use('/routes',routes);
 app.use('/api', indexRoutes);
 
 //Puerto del servidor
-const port = 3000;
+const port = 3001;
 
 app.listen(port, () => {
     console.log('Se realizo la conexion en el puerto', port)

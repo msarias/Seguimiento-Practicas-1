@@ -1,40 +1,42 @@
-const { Usuarios, Aprendices, Instructores } = require('../Models/Usuarios');
+const { Usuarios, Aprendices, Instructores } = require('../Models/Usuario');
 const bcrypt = require('bcryptjs');
 
 
 // Crear un usuario (aprendiz o instructor)
 exports.CrearUsuario = async (req, res) => {
     try {
-        const { nombre, correo, apellido, contraseña, rol } = req.body;
+        const { nombres, apellidos, correo, rol, id_empresa, contraseña, identificación } = req.body;
 
         let hashRounds = 1;
         let hashedPassword = await bcrypt.hash(contraseña, hashRounds);
 
         // Crear el usuario base
-        const nuevoUsuario = await Usuarios.create({ nombre, correo, apellido, contraseña: hashedPassword, rol });
+        const nuevoUsuario = await Usuarios.create({ nombres, apellidos, correo, rol, id_empresa, contraseña: hashedPassword, identificación });
 
         // Si es aprendiz, creamos su entrada en la tabla de aprendices
-        if (rol === 'aprendiz') {
-            const nuevoAprendiz = await Aprendices.create({
-                id_usuario: nuevoUsuario.id,
-                nombre,
-                apellido,
-                contraseña: hashedPassword,
-                correo,
-                rol
-            });
-            return res.status(201).json({ usuario: nuevoUsuario, aprendiz: nuevoAprendiz });
-        }
+        // if (rol === 'aprendiz') {
+        //     const nuevoAprendiz = await Aprendices.create({
+        //         id_usuario: nuevoUsuario.id,
+        //         nombre,
+        //         apellido,
+        //         contraseña: hashedPassword,
+        //         correo,
+        //         rol
+        //     });
+        //     res.status(201).send(porfisporfis)
+        //     // return res.status(201).json({ usuario: nuevoUsuario, aprendiz: nuevoAprendiz });
+        // }
 
         // Si es instructor, creamos su entrada en la tabla de instructores
-        if (rol === 'instructor') {
-            const nuevoInstructor = await Instructores.create({
-                id_usuario: nuevoUsuario.id,
-            });
-            return res.status(201).json({ usuario: nuevoUsuario, instructor: nuevoInstructor });
-        }
+        // if (rol === 'instructor') {
+        //     const nuevoInstructor = await Instructores.create({
+        //         id_usuario: nuevoUsuario.id,
+        //     });
+        //     return res.status(201).json({ usuario: nuevoUsuario, instructor: nuevoInstructor });
+        // }
 
-        res.status(400).json({ error: 'Rol inválido' });
+        // res.status(400).json({ error: 'Rol inválido' });
+        res.status(201).send(nuevoUsuario);
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
@@ -110,15 +112,15 @@ exports.ObtenerUsuarioByID = async (req, res) => {
         }
 
         // Buscar en aprendices o instructores según el rol
-        if (usuario.rol === 'aprendiz') {
-            const aprendiz = await Aprendices.findOne({ where: { id_usuario: id } });
-            return res.status(200).json({ usuario, aprendiz });
-        }
+        // if (usuario.rol === 'aprendiz') {
+        //     const aprendiz = await Aprendices.findOne({ where: { id_usuario: id } });
+        //     return res.status(200).json({ usuario, aprendiz });
+        // }
 
-        if (usuario.rol === 'instructor') {
-            const instructor = await Instructores.findOne({ where: { id_usuario: id } });
-            return res.status(200).json({ usuario, instructor });
-        }
+        // if (usuario.rol === 'instructor') {
+        //     const instructor = await Instructores.findOne({ where: { id_usuario: id } });
+        //     return res.status(200).json({ usuario, instructor });
+        // }
 
         res.status(200).json(usuario);
     } catch (error) {
@@ -130,12 +132,12 @@ exports.ObtenerUsuarioByID = async (req, res) => {
 exports.ActualizarUsuario = async (req, res) => {
     try {
         const { id } = req.params;
-        const { nombre, correo, contraseña } = req.body;
+        const {nombres, apellidos, correo, rol, id_empresa, contraseña: hashedPassword, identificación } = req.body;
 
         const usuario = await Usuarios.findByPk(id);
         if (!usuario) return res.status(404).json({ error: 'Usuario no encontrado' });
 
-        await usuario.update({ nombre, correo, contraseña });
+        await usuario.update({ nombres, apellidos, correo, rol, id_empresa, contraseña: hashedPassword, identificación });
 
         res.status(200).json({ message: 'Usuario actualizado correctamente', usuario });
     } catch (error) {
@@ -161,21 +163,24 @@ exports.EliminarUsuario = async (req, res) => {
 };
 
 //Elimnar  desactivar aprendiz
-exports.EliminarAprendizID = async (req, res) => {
-    try{
-        const aprendiz = await Aprendices.findByPk(req.params.id);
+exports.EliminarUsuario = async (req, res) => {
 
-        if(!aprendiz)
-        return res.status(404).json({error: 'Aprendiz no encontrado'});
+    setTimeout(async () => {
+        try {
+            const { id } = req.params;
+            const usuario = await Usuarios.findByPk(id);
+            if (!usuario) {
+                res.status(404).json('Usuario no encontrado');
+            }
 
-        aprendiz.acticvo = false;
-        await aprendiz.save();
+            await usuario.destroy();
+            res.status(200).json({message: 'usuario eliminado'});
+        } catch (error) {
+            res.status(500).json({error: error.message});
+        }
+    }, 20000);
+};
 
-        res.status(200).json({message: 'Aprendiz marcado como inactivo'});
-    }catch(error){
-        res.status(500).json({error: error.message});
-    }
-}
 
 //Actualizar aprendices
 exports.ActualizarAprendizID = async(req, res) => {
@@ -184,11 +189,10 @@ exports.ActualizarAprendizID = async(req, res) => {
             {where: {id: req.params.id}
         }); if (!filasActualizadas)
 
-            return res.status(404).json ({ error: 'Aprendiz no encontrado'});
+            return res.status(404).json({ error: 'Aprendiz no encontrado'});
 
             res.status(200).json({message: 'Aprendiz Actualizado'});
     }catch (error){
         res.status(500).json({error:error.message})
     }
-
 };
