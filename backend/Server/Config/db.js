@@ -2,7 +2,7 @@
 const  {Sequelize} = require('sequelize');
 
 //Configurar el Sequelize
-const sequelize = new Sequelize('bd_project','root','123456',{
+const sequelize = new Sequelize('bd_proyecto','root','1234567',{
     host:'localhost',
     dialect:'mysql',
     logging:false, // Los logs son mesajes que dicen que esta sucediendo
@@ -18,5 +18,6 @@ const sequelize = new Sequelize('bd_project','root','123456',{
         console.log('No se pudo conectar a MySQL:',error.message);
     }
 });
+
 
 module.exports = sequelize;

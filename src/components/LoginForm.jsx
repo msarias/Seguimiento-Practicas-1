@@ -1,16 +1,58 @@
+import { useState } from "react";
+
 const LoginForm = () => {
+  // Estados para manejar los valores de los inputs
+  const [typeAccount, setTypeAccount] = useState("");
+  const [document, setDocument] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+
+  
+  const handleSubmit = (e) => {
+    e.preventDefault(); // Evita que la página se recargue
+
+    // Validaciones básicas
+    if (!typeAccount) {
+      setError("Debe seleccionar un tipo de cuenta.");
+      return;
+    }
+
+    if (!document.match(/^\d+$/)) {
+      setError("El número de documento solo debe contener números.");
+      return;
+    }
+
+    if (password.length < 6) {
+      setError("La contraseña debe tener al menos 6 caracteres.");
+      return;
+    }
+
+    // Si pasa las validaciones, simula el "ingreso"
+    setError(""); // Limpia errores
+    alert("Inicio de sesión exitoso"); // Simulación de ingreso
+  };
+
   return (
     <div className="login-section">
       <div className="login">
-        <form className="login-form" id="login-form">
+        <form className="login-form" id="login-form" onSubmit={handleSubmit}>
           <p id="login-paragraph">Ingreso Seguimiento</p>
+
           <label className="login-label">Tipo de Cuenta</label>
-          <select className="login-input" name="typeDocument">
-            <option disabled>Seleccione su tipo de cuenta</option>
+          <select
+            className="login-input"
+            name="typeDocument"
+            value={typeAccount}
+            onChange={(e) => setTypeAccount(e.target.value)}
+          >
+            <option value="" disabled>
+              Seleccione su tipo de cuenta
+            </option>
             <option>Instructor</option>
             <option>Aprendiz</option>
           </select>
-          <label className="login-label" for="document-input">
+
+          <label className="login-label" htmlFor="document-input">
             Número de Documento
           </label>
           <input
@@ -20,9 +62,12 @@ const LoginForm = () => {
             title="Número de documento"
             placeholder="Ingrese su documento"
             pattern="[0-9]+"
+            value={document}
+            onChange={(e) => setDocument(e.target.value)}
             required
           />
-          <label className="login-label" for="password-input">
+
+          <label className="login-label" htmlFor="password-input">
             Contraseña
           </label>
           <input
@@ -31,9 +76,11 @@ const LoginForm = () => {
             className="login-input"
             title="Contraseña"
             placeholder="Ingrese su contraseña"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
             required
-            autoComplete="nop"
           />
+
           <div className="recovery-block">
             <a className="new-password" href="#">
               Olvidé mi contraseña
@@ -42,6 +89,13 @@ const LoginForm = () => {
               Mi cuenta está inactiva
             </a>
           </div>
+
+          {/* Mostrar error si hay */}
+          {error && <p className="error-message">{error}</p>}
+
+          <button type="submit" className="login-button">
+            Iniciar Sesión
+          </button>
         </form>
       </div>
     </div>
