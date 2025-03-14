@@ -1,33 +1,38 @@
 const { DataTypes } = require('sequelize');
 const Sequelize = require('../Config/db.js');
 
-const Reporte = Sequelize.define('Reporte', {
+const Reporte = Sequelize.define(
+  'Reporte',
+  {
     id: {
-        type: DataTypes.INTEGER.UNSIGNED,
-        autoIncrement: true,
-        primaryKey: true,
+      type: DataTypes.INTEGER.UNSIGNED,
+      autoIncrement: true,
+      primaryKey: true,
     },
     id_usuario: {
-        type: DataTypes.INTEGER.UNSIGNED,
-        allowNull: true,
+      type: DataTypes.INTEGER.UNSIGNED,
+      allowNull: true,
     },
     fecha: {
-        type: DataTypes.DATE,
-        allowNull: false,
-        /* validate: {
-            isBefore: new Date().toISOString().split('T')[0],
-        } */
+      type: DataTypes.DATE,
+      allowNull: false,
+      validate: {
+        isDate: true,
+        isAfter: new Date().toISOString().split('T')[0],
+      },
     },
     nombre: {
-        type: DataTypes.STRING(45),
-        allowNull: false,
-        validate: {
-            len: [3,45]
-        }
+      type: DataTypes.STRING(45),
+      allowNull: false,
+      validate: {
+        len: [3, 45],
+      },
     },
-}, {
+  },
+  {
     tableName: 'reporte',
     timestamps: false,
-});
+  }
+);
 
 module.exports = Reporte;

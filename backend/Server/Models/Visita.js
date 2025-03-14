@@ -1,40 +1,43 @@
-// MODELO DE VISITAS EN SEQUELIZE
 const { DataTypes } = require('sequelize');
-const sequelize = require('../Config/db.js');
-// const Aprendiz = require('./Aprendiz');
+const Sequelize = require('../Config/db.js');
 
-const Visita = sequelize.define('Visita', {
+const Visita = Sequelize.define(
+  'Visita',
+  {
     id: {
-        type: DataTypes.INTEGER.UNSIGNED,
-        primaryKey: true,
-        autoIncrement: true
+      type: DataTypes.INTEGER.UNSIGNED,
+      primaryKey: true,
+      autoIncrement: true,
     },
     direccion: {
-        type: DataTypes.STRING(100),
-        allowNull: false,
-        validate: {
-            notEmpty: false,
-            len: [2, 100]
-        }
+      type: DataTypes.STRING(100),
+      allowNull: false,
+      validate: {
+        notEmpty: true,
+        len: [2, 100],
+      },
     },
     tipo: {
-        type: DataTypes.STRING(30),
-        allowNull: false,
-        /* validate: {
-            notEmpty: true,
-            isIn: ['presencial', 'telefonica', 'virtual']
-        } */
+      type: DataTypes.STRING(25),
+      allowNull: false,
+      validate: {
+        notEmpty: true,
+        isIn: ['Presencial', 'Telefónica', 'Virtual'].toLocaleString(),
+      },
     },
     fecha: {
-        type: DataTypes.DATE,
-        allowNull: false,
-        /* validate: {
-            isDate: true,
-            isBefore: new Date.toString(),
-        } */
+      type: DataTypes.DATE,
+      allowNull: false,
+      validate: {
+        isDate: true,
+        isAfter: new Date().toISOString(),
+      },
     },
-}, {
-    timestamps: false
-});
+  },
+  {
+    tableName: 'visita',
+    timestamps: false,
+  }
+);
 
 module.exports = Visita;
