@@ -1,12 +1,6 @@
 import React from "react";
-<<<<<<< HEAD:src/Inicio.jsx
-import Navbar from "./components/Navbar.jsx";
-// import Sidebar from "./components/Sidebar/Sidebar.jsx";
-import Content from "./components/Content.jsx";
-=======
-import Navigation from "./Navigation.jsx";
+import Navbar from "./NavBar.jsx";
 import Content from "./Content.jsx";
->>>>>>> f8a4868db30059d4aaf0d852792fd975fbd95df9:src/components/Inicio.jsx
 
 function Inicio() {
   return (

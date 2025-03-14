@@ -1,5 +1,5 @@
 import Sidebar from "./Sidebar";
-import Contenido from "./Contenido";
+import Contenido from "./Content";
 import NavBar from "./NavBar.jsx";
 
 const Content = () => {

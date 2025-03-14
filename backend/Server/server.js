@@ -25,7 +25,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use('/api', indexRoutes);
 
 //Puerto del servidor
-const port = 3001;
+const port = 3000;
 
 app.listen(port, () => {
     console.log('Se realizo la conexion en el puerto', port)
