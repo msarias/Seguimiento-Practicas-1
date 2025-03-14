@@ -1,6 +1,7 @@
-const Usuarios = require("../Models/Usuarios");
+const Usuarios = require("../Models/Usuario");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const crypto = require("crypto");
 const transporter = require("../Config/nodemailer");
 require("dotenv").config();
 
