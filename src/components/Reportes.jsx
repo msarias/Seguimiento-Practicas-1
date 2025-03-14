@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import NavBar from "../NavBar";  // Importa tu componente Navbar existente
-import Sidebar from "../Sidebar";  // Importa tu componente Sidebar existente
+import NavBar from "./NavBar";  // Importa tu componente Navbar existente
+import Sidebar from "./Sidebar";  // Importa tu componente Sidebar existente
 import "../Reportes/reportes.css"; // Importa el archivo CSS para los estilos
 
 const ReportForm = ({ onAddReporte, onClose }) => {
