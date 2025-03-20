@@ -98,5 +98,5 @@ const Usuarios = sequelize.define('Usuario', {
 // });
 
 // Exportación de los modelos
-module.exports = { Usuarios };
+module.exports = Usuarios;
 
