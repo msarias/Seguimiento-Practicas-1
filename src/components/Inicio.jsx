@@ -9,7 +9,7 @@ import Navbar from "./components/Navbar.jsx";
 import Content from "./Container.jsx";
 
 import Navigation from "./Navigation.jsx";
-import Navbar from "./NavBar.jsx";
+import Navbar from "./Navbar.jsx";
 import Content from "./Content.jsx";
 
 function Inicio() {

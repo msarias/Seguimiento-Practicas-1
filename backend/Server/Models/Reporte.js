@@ -12,6 +12,9 @@ const Reporte = Sequelize.define(
     id_usuario: {
       type: DataTypes.INTEGER.UNSIGNED,
       allowNull: true,
+      validate: {
+        isInt: true,
+      }
     },
     fecha: {
       type: DataTypes.DATE,
