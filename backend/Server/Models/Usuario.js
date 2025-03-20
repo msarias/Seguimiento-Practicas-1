@@ -113,4 +113,10 @@ const Usuario = Sequelize.define('Usuario', {
 //     timestamps: false,
 // });
 
+<<<<<<< HEAD
 module.exports = Usuario;
+=======
+// Exportación de los modelos
+module.exports = Usuarios;
+
+>>>>>>> 82c6aeda80d598070a4e79e23b9f94d6fe970dcd
