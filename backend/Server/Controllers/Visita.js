@@ -15,10 +15,9 @@ exports.verVisitaPorId = async (req, res) => {
     const { id } = req.params;
     const visita = await Visita.findByPk(id);
     if (!visita) {
-      res.status(404).json({ error: 'La visita no existe' });
-    } else {
-      res.status(200).json({ visita });
+      return res.status(404).json({ error: 'La visita no existe' });
     }
+    res.status(200).json({ visita });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -26,12 +25,11 @@ exports.verVisitaPorId = async (req, res) => {
 
 exports.verVisitas = async (req, res) => {
   try {
-    const visita = await Visita.findAll();
-    if (visita.length === 0) {
-      res.status(404).json({ message: 'No existen visitas' });
-    } else {
-      res.status(200).json({ visita });
+    const visitas = await Visita.findAll();
+    if (visitas.length === 0) {
+      return res.status(404).json({ message: 'No existen visitas' });
     }
+    res.status(200).json({ visitas });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -43,11 +41,10 @@ exports.actualizarVisita = async (req, res) => {
     const { direccion, tipo, fecha } = req.body;
     const visita = await Visita.findByPk(id);
     if (!visita) {
-      res.status(404).json({ error: ' La visita no existe' });
-    } else {
-      visita.update({ direccion, tipo, fecha });
-      res.status(200).json({ message: 'Visita actualizada' });
+      return res.status(404).json({ error: 'La visita no existe' });
     }
+    await visita.update({ direccion, tipo, fecha });
+    res.status(200).json({ message: 'Visita actualizada' });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -58,11 +55,11 @@ exports.eliminarVisita = async (req, res) => {
     const { id } = req.params;
     const visita = await Visita.findByPk(id);
     if (!visita) {
-      res.status(404).json({ error: ' La visita no existe' });
-    } else {
-      await visita.destroy();
-      res.status(201).json({ message: 'Visita eliminada' });
+      return res.status(404).json({ error: 'La visita no existe' });
     }
+    await visita.destroy();
+    res.status(201).json({ message: 'Visita eliminada' });
+
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
