@@ -2,7 +2,6 @@ const express = require('express');
 const sequelize = require('./Config/db.js');
 const bodyParser = require('body-parser');
 const indexRoutes = require('./Routes/index.routes.js');
-const Usuarios = require('./Models/Usuarios.js');
 
 //Sincronizar con la base de datos
 async () => {
@@ -20,7 +19,6 @@ const app = express();
 //Habilitar body-parser
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-
 
 //Agregar rutas
 //app.use('/routes',routes);
