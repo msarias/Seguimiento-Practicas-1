@@ -1,5 +1,15 @@
 import React from "react";
-import Navbar from "./NavBar.jsx";
+import Navbar from "./Navbar.jsx";
+
+import Navigation from "./components/Navigation/Navigation.jsx";
+import Content from "./components/Content/Content.jsx";
+
+import Navbar from "./components/Navbar.jsx";
+// import Sidebar from "./components/Sidebar/Sidebar.jsx";
+import Content from "./Container.jsx";
+
+import Navigation from "./Navigation.jsx";
+import Navbar from "./Navbar.jsx";
 import Content from "./Content.jsx";
 
 function Inicio() {
@@ -20,4 +30,5 @@ function Inicio() {
     </div>
   );
 }
+
 export default Inicio;
