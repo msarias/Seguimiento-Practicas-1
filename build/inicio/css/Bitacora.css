@@ -5,27 +5,31 @@ body {
 /* Barra de navegación */
 .navbar {
     background-color: #f8f8f8;
-    padding: 10px 20px;
-    width: 98%;
+    padding: 10px;
     display: flex;
     justify-content: space-between;
+    align-items: center;
     border-bottom: 2px solid #ccc;
 }
 
-.navbar-items {
-    padding-inline: 2.5rem;
+.navbar__logo {
+    width: 30px;
+}
+
+.navbar__buttons {
     display: flex;
-    /* justify-content: flex-end; */
     gap: 15px;
 }
 
-.navbar-user-img,
-.navbar-home-img {
-    width: 45px;
-    height: auto;
-    /* object-fit: cover; */
+.navbar__search {
+    padding: 10px;
+    border-radius: 5px;
 }
 
+.navbar__user-img,
+.navbar__home-img {
+    width: 30px;
+}
 
 /* Contenido principal */
 .content {
@@ -80,7 +84,7 @@ body {
 }
 
 .add-bitacora:hover {
-    background-color: #0d6bcf;
+    background-color: #45a049;
 }
 
 .bitacora-form {
@@ -109,5 +113,5 @@ body {
 }
 
 .bitacora-form__button:hover {
-    background-color: #0d6bcf;
+    background-color: #45a049;
 }
