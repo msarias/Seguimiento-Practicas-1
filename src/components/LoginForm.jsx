@@ -7,7 +7,6 @@ const LoginForm = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
-  
   const handleSubmit = (e) => {
     e.preventDefault(); // Evita que la página se recargue
 
@@ -35,9 +34,8 @@ const LoginForm = () => {
   return (
     <div className="login-section">
       <div className="login">
+          <h2 id="login-title">Ingreso Seguimiento</h2>
         <form className="login-form" id="login-form" onSubmit={handleSubmit}>
-          <p id="login-paragraph">Ingreso Seguimiento</p>
-
           <label className="login-label">Tipo de Cuenta</label>
           <select
             className="login-input"
@@ -45,7 +43,7 @@ const LoginForm = () => {
             value={typeAccount}
             onChange={(e) => setTypeAccount(e.target.value)}
           >
-            <option value="" disabled>
+            <option disabled>
               Seleccione su tipo de cuenta
             </option>
             <option>Instructor</option>
@@ -82,11 +80,8 @@ const LoginForm = () => {
           />
 
           <div className="recovery-block">
-            <a className="new-password" href="#">
+            <a className="new-password" href="./Inicio">
               Olvidé mi contraseña
-            </a>
-            <a className="new-password" href="#">
-              Mi cuenta está inactiva
             </a>
           </div>
 
