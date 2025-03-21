@@ -82,11 +82,8 @@ const LoginForm = () => {
           />
 
           <div className="recovery-block">
-            <a className="new-password" href="#">
+            <a className="new-password" href="./Inicio">
               Olvidé mi contraseña
-            </a>
-            <a className="new-password" href="#">
-              Mi cuenta está inactiva
             </a>
           </div>
 

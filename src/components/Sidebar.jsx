@@ -1,18 +1,20 @@
+import { Link } from "react-router-dom";
+
 const Sidebar = () => {
   return (
     <div className="sidebar">
-      <a href="visitas.html">
+      <Link to="/visitas">
         <button>Visitas</button>
-      </a>
-      <a href="bitacoras.html">
-        <button>Bitacoras</button>
-      </a>
-      <a href="certificacion.html">
+      </Link>
+      <Link to="/bitacoras">
+        <button>Bitácoras</button>
+      </Link>
+      <Link to="/certificacion">
         <button>Certificación</button>
-      </a>
-      <a href="bitacoras.html">
+      </Link>
+      <Link to="/reportes">
         <button>Reportes</button>
-      </a>
+      </Link>
     </div>
   );
 };
