@@ -1,3 +1,8 @@
+
+import Sidebar from "./Sidebar";
+import Contenido from "./Content";
+import NavBar from "./NavBar.jsx";
+
 const Content = () => {
   return (
     <div className="content">

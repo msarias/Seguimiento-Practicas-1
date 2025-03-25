@@ -30,7 +30,7 @@ app.use('/api', indexRoutes);
 app.use("/api/auth",authRoutes)
 
 //Puerto del servidor
-const port = process.env.PORT || 3001
+const port = 3001;
 
 app.listen(port, () => {
     console.log('Se realizo la conexion en el puerto', port)
