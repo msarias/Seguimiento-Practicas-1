@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 // App.js
 import React from 'react';
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
@@ -18,10 +19,10 @@ function App() {
           <Route path='/MainContent' element={<MainContent />} />
           <Route path='/Inicio' element={<Inicio />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/bitacoras" element={<MainContent />} />
         </Routes>
       </Router>
     </div>
   )
 };
-
 export default App;

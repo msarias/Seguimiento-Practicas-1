@@ -83,7 +83,7 @@ const LoginForm = () => {
           <div className="recovery-block">
             <Link to="/forgot-password">Olvidé mi contraseña</Link>
             <a className="new-password" href="#">
-              Mi cuenta está inactiva
+              Mi cuenta está inactiva{" "}
             </a>
           </div>
 
