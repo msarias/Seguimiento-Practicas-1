@@ -2,7 +2,7 @@ const Navbar = () => {
     return (
       <nav className="navbar">
         <img
-          src="./css/img/sena-logo (1).png"
+          src="../css/img/sena-logo (1).png"
           alt="Inicio"
           className="navbar-home-img"
         />
@@ -15,7 +15,7 @@ const Navbar = () => {
   />
   
           <img
-            src="./css/img/user.png"
+            src="../css/img/user.png"
             alt="Usuario"
             className="navbar-user-img"
           />

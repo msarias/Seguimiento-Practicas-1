@@ -1,6 +1,5 @@
-require("dotenv").config();
+/* require("dotenv").config();
 const nodemailer = require("nodemailer");
-
 
 console.log("EMAIL_USER:", process.env.EMAIL_USER);
 console.log("EMAIL_PASS:", process.env.EMAIL_PASS);
@@ -25,3 +24,4 @@ transporter.verify((error, success) => {
 });
 
 module.exports = transporter; // Exporta solo el transporter sin enviar correos manualmente
+ */
