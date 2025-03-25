@@ -5,7 +5,7 @@ import Navbar from "./NavBar";
 const Container = () => {
   return (
     <div className="container">
-      <Navbar />
+      <NavBar />
       <Sidebar />
       <Content />
     </div>
