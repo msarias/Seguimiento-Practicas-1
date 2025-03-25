@@ -1,18 +1,18 @@
 import React from "react";
-import NavBar from "./Navbar";
-import BitacoraList from './BitacoraList';  // Correcto
 import BitacoraForm from "./BitacoraForm";
+import BitacoraList from "./BitacoraList"; // Correcto
+import NavBar from "./NavBar";
 
 const MainContent = () => {
-    return (
-        <main className="content">
-            <NavBar />
-            
-            <BitacoraList />
-            
-            <BitacoraForm />
-        </main>
-    );
+  return (
+    <main className="content">
+      <NavBar />
+
+      <BitacoraList />
+
+      <BitacoraForm />
+    </main>
+  );
 };
 
 export default MainContent;
