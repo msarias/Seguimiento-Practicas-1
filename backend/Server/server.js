@@ -23,6 +23,7 @@ app.use(cors());
 //Habilitar body-parser
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.json());
 
 //Agregar rutas
 //app.use('/routes',routes);
