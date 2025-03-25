@@ -1,5 +1,5 @@
 import { useState } from "react";
-
+import { Link } from "react-router-dom";
 const LoginForm = () => {
   // Estados para manejar los valores de los inputs
   const [typeAccount, setTypeAccount] = useState("");
@@ -7,7 +7,6 @@ const LoginForm = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
-  
   const handleSubmit = (e) => {
     e.preventDefault(); // Evita que la página se recargue
 
@@ -82,11 +81,9 @@ const LoginForm = () => {
           />
 
           <div className="recovery-block">
+            <Link to="/forgot-password">Olvidé mi contraseña</Link>
             <a className="new-password" href="#">
-              Olvidé mi contraseña
-            </a>
-            <a className="new-password" href="#">
-              Mi cuenta está inactiva
+              Mi cuenta está inactiva{" "}
             </a>
           </div>
 
