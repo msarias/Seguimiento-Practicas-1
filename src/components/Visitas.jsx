@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import "../Visitas/Visitas.css";
+import NavBar from "./NavBar";  // Importa tu componente Navbar existente
+import Sidebar from "./Sidebar";
 
 function Visitas() {
   const [showForm, setShowForm] = useState(false);
@@ -21,7 +22,10 @@ function Visitas() {
   };
 
   return (
-    <div className="container">
+    <div>
+        <NavBar />
+        <div className="container">
+          <Sidebar />
       <div className="visits-section">
         <h2>Visitas</h2>
         <div className="visit-row">
@@ -47,6 +51,7 @@ function Visitas() {
           <button type="submit">Solicitar</button>
         </form>
       )}
+    </div>
     </div>
   );
 }
