@@ -3,6 +3,8 @@ import Content from "./Content.jsx";
 import NavBar from "./NavBar.jsx";
 import Sidebar from "./Sidebar.jsx";
 
+
+
 function Inicio() {
   return (
     <div className="container">

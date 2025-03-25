@@ -34,9 +34,8 @@ const LoginForm = () => {
   return (
     <div className="login-section">
       <div className="login">
+          <h2 id="login-title">Ingreso Seguimiento</h2>
         <form className="login-form" id="login-form" onSubmit={handleSubmit}>
-          <p id="login-paragraph">Ingreso Seguimiento</p>
-
           <label className="login-label">Tipo de Cuenta</label>
           <select
             className="login-input"
@@ -44,7 +43,7 @@ const LoginForm = () => {
             value={typeAccount}
             onChange={(e) => setTypeAccount(e.target.value)}
           >
-            <option value="" disabled>
+            <option disabled>
               Seleccione su tipo de cuenta
             </option>
             <option>Instructor</option>
@@ -81,9 +80,15 @@ const LoginForm = () => {
           />
 
           <div className="recovery-block">
+
             <Link to="/forgot-password">Olvidé mi contraseña</Link>
-            <a className="new-password" href="#">
-              Mi cuenta está inactiva{" "}
+            <Link to="/Register">Registrarme</Link>
+
+            
+
+
+            <a className="new-password" href="./Inicio">
+              Inicio provicional
             </a>
           </div>
 
