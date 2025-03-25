@@ -22,7 +22,7 @@ const Visita = Sequelize.define(
       allowNull: false,
       validate: {
         notEmpty: true,
-        isIn: ['Presencial', 'Telefónica', 'Virtual'].toLocaleString(),
+        isIn: [['Presencial', 'Telefónica', 'Virtual']],
       },
     },
     fecha: {
