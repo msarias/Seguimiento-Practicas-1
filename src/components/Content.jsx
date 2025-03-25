@@ -1,13 +1,8 @@
-
-import Sidebar from "./Sidebar";
-import Contenido from "./Content";
-import NavBar from "./NavBar.jsx";
-
 const Content = () => {
   return (
     <div className="content">
       <section className="info-section">
-        <img src="./css/img/foto-persona.png" alt="Profile image" />
+        <img src="../css/img/user.png" alt="Profile" />
         <div>
           <h2>Información del Aprendiz</h2>
           <p>Nombre del aprendiz, detalles del perfil, etc.</p>
