@@ -12,6 +12,7 @@ import Login from './components/Login';
 import Register from './components/Register.jsx';
 import Certificacion from './components/certificacion.jsx';
 import Reportes from './components/Reportes.jsx';
+import Visitas from './components/Visitas.jsx';
 
 
 
@@ -19,7 +20,7 @@ import Reportes from './components/Reportes.jsx';
 function App() {
 
   return (
-    <div className="container">
+    <div>
       <Router>
         <Routes>
           <Route path='/' element={<Login />} />
@@ -30,6 +31,7 @@ function App() {
           <Route path="/bitacoras" element={<MainContent />} />
           <Route path="/certificacion" element={<Certificacion />} />
           <Route path="/reportes" element={<Reportes />} />
+          <Route path="/visitas" element={<Visitas />} />
           
 
         </Routes>
