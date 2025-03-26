@@ -7,6 +7,7 @@ const RegisterForm = () => {
   const [document, setDocument] = useState("");
   const [password, setPassword] = useState("");
   const [ficha, setFicha] = useState("");
+  const [error, setError] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault(); // Evita que la página se recargue
@@ -53,6 +54,8 @@ const RegisterForm = () => {
 
         <label htmlFor="password-input">Contraseña</label>
         <input type="password" onChange={(e) => setPassword(e.target.value)} value={password} id="password-input" placeholder="Ingrese su contraseña" required />
+
+        {error && <p className="error-message">{error}</p>}
 
         <div className="log-in">
           <button type="submit" className="register-button">Registrarse</button>
