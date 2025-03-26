@@ -22,36 +22,40 @@ function Visitas() {
   };
 
   return (
-    <div>
-        <NavBar />
-        <div className="container">
-          <Sidebar />
+
+
+    <div className="container">
+      <NavBar />
+      <Sidebar />
       <div className="visits-section">
         <h2>Visitas</h2>
         <div className="visit-row">
           <input type="text" placeholder="Visita 1" readOnly />
           <button>Button</button>
         </div>
+        <div>
+          {showForm && (
+            <form className="visita-form" id="visitaForm" onSubmit={handleAddVisita}>
+              <h2>Solicitud de visita</h2>
+              <input type="date" name="dia" placeholder="Día de la visita" required />
+              <input
+                type="text"
+                name="nombre-bitacora"
+                placeholder="Motivo de la visita"
+                required
+              />
+              <button type="submit">Solicitar</button>
+            </form>
+
+          )}
+          <button className="new-visit-button" onClick={toggleForm}>
+            {showForm ? "Cancelar" : "Solicitar visita"}
+          </button>
+        </div>
       </div>
 
-      <button className="new-visit-button" onClick={toggleForm}>
-        {showForm ? "Cancelar" : "Solicitar visita"}
-      </button>
 
-      {showForm && (
-        <form className="visita-form" id="visitaForm" onSubmit={handleAddVisita}>
-          <h2>Solicitud de visita</h2>
-          <input type="date" name="dia" placeholder="Día de la visita" required />
-          <input
-            type="text"
-            name="nombre-bitacora"
-            placeholder="Motivo de la visita"
-            required
-          />
-          <button type="submit">Solicitar</button>
-        </form>
-      )}
-    </div>
+
     </div>
   );
 }

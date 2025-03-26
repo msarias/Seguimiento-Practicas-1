@@ -9,11 +9,10 @@ import './App.js';
 import ForgotPassword from "./components/ForgotPassword.jsx";
 import Inicio from "./components/Inicio.jsx";
 import Login from './components/Login';
-import ResetPassword from "./components/ResetPassword.jsx"
-import Visitas from "./components/Visitas/Visitas.jsx"
-import Register from './components/Register.jsx';
-import Certificacion from './components/certificacion.jsx';
-import Reportes from './components/Reportes.jsx';
+import ResetPassword from "./components/ResetPassword.jsx";
+import Visitas from "./components/Visitas.jsx";
+import Register from "./components/Register.jsx";
+import Reportes from "./components/Reportes.jsx";
 
 
 function App() {
@@ -30,7 +29,6 @@ function App() {
           <Route path="/reset-password/:token" element={<ResetPassword />} />
           <Route path="/visita" element={<Visitas />} />
           <Route path="/bitacoras" element={<MainContent />} />
-          <Route path="/certificacion" element={<Certificacion />} />
           <Route path="/reportes" element={<Reportes />} />
           <Route path="/visitas" element={<Visitas />} />
           
