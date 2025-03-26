@@ -1,13 +1,11 @@
 import Sidebar from "./Sidebar";
-import Contenido from "./Content";
-import NavBar from "./NavBar";
-// import Navbar from "./Navbar";
 import Content from "./Content";
+import Navbar from "./Navbar";
 
 const Container = () => {
   return (
     <div className="container">
-      <NavBar />
+      <Navbar />
       <Sidebar />
       <Content />
     </div>
