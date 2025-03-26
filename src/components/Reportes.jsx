@@ -74,9 +74,8 @@ const ReportForm = ({ onAddReporte, onClose }) => {
     };
   
     return (
-      <div>
+      <div className="container">
         <NavBar />
-        <div className="container">
           <Sidebar />
           <div className="content">
             <h2 className="report-list__title">Reportes</h2>
@@ -101,7 +100,7 @@ const ReportForm = ({ onAddReporte, onClose }) => {
             )}
           </div>
         </div>
-      </div>
+      
     );
   };
 

@@ -356,9 +356,7 @@ body {
   background-color: #45a049;
 }
 /* VISITAS */
-.container {
-  padding: 20px;
-}
+
 .visits-section {
   background-color: #f0f0f0;
   padding: 20px;
@@ -409,7 +407,6 @@ body {
   background-color: #e0e0e0;
   padding: 20px;
   border-radius: 8px;
-  display: none; /* Oculto por defecto */
   margin-top: 20px;
 }
 
@@ -579,9 +576,4 @@ input:valid {
 }
 .register-button:hover{
   background-color: #0056b3;
-}
-a{
-  /* text-decoration: none; */
-  padding: 4px 8px;
-  /* text-align: center; */
 }

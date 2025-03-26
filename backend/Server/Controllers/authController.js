@@ -16,8 +16,8 @@ const forgotPassword = async (req, res) => {
 
         const token = jwt.sign({ id: usuario.id }, process.env.JWT_SECRET, { expiresIn: "1h" });
 
-        const resetLink = `http://localhost:3000/reset-password/${token}`;
-        console.log("🔗 Enlace de restablecimiento generado:", resetLink);
+        const resetLink =  `http://localhost:3001/reset-password/${token}`;
+        console.log(" Enlace de restablecimiento generado:", resetLink);
 
         const mailOptions = {
             from: process.env.EMAIL_USER,
@@ -45,9 +45,40 @@ const forgotPassword = async (req, res) => {
         res.status(500).json({ error: "Error al enviar el correo" });
     }
 };
-
 const resetPassword = async (req, res) => {
-    res.json({ message: "Función resetPassword en construcción" });
+    const { token } = req.params;
+    const { password } = req.body;
+
+    if (!token) {
+        return res.status(400).json({ message: "Token no válido o expirado." });
+    }
+
+    if (!password) {
+        return res.status(400).json({ message: "La nueva contraseña es obligatoria." });
+    }
+
+    try {
+        // Verifica el token y extrae el ID del usuario
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        console.log("Token decodificado:", decoded); // 👀 Para verificar en la consola
+
+        const userId = decoded.id;
+
+        //Busca el usuario en la base de datos
+        const user = await Usuario.findByPk(userId);
+        if (!user) {
+            return res.status(404).json({ message: "Usuario no encontrado." });
+        }
+
+        //Cambia la contraseña
+        user.password = await bcrypt.hash(password, 10);
+        await user.save();
+
+        res.json({ message: "Contraseña restablecida correctamente." });
+    } catch (error) {
+        console.error("Error en resetPassword:", error);
+        res.status(500).json({ message: "Error al procesar la solicitud." });
+    }
 };
 
 
