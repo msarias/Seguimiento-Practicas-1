@@ -22,42 +22,51 @@ function Visitas() {
   };
 
   return (
-
-
     <div className="container">
       <NavBar />
       <Sidebar />
       <div className="visits-section">
-        <h2>Visitas</h2>
-        <div className="visit-row">
+        <h2 className="report-list__title">Visitas</h2>
+        <div className="report-list__item">
           <input type="text" placeholder="Visita 1" readOnly />
-          <button>Button</button>
+          <button className="report-list__button">Button</button>
         </div>
+
         <div>
           {showForm && (
-            <form className="visita-form" id="visitaForm" onSubmit={handleAddVisita}>
+            <form
+              className="report-form"
+              id="visitaForm"
+              onSubmit={handleAddVisita}
+            >
               <h2>Solicitud de visita</h2>
-              <input type="date" name="dia" placeholder="Día de la visita" required />
+              <input
+                type="date"
+                name="dia"
+                placeholder="Día de la visita"
+                className="report-form__input"
+                required
+              />
               <input
                 type="text"
                 name="nombre-bitacora"
                 placeholder="Motivo de la visita"
+                className="report-form__input"
                 required
               />
-              <button type="submit">Solicitar</button>
+              <button type="submit" className="report-form__button">
+                Solicitar
+              </button>
             </form>
-
           )}
-          <button className="new-visit-button" onClick={toggleForm}>
+          <button className="add-report" onClick={toggleForm}>
             {showForm ? "Cancelar" : "Solicitar visita"}
           </button>
         </div>
       </div>
-
-
-
     </div>
   );
 }
 
 export default Visitas;
+
