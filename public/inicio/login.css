@@ -1,0 +1,162 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Platypi", Arial, Helvetica, sans-serif;
+}
+.header {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.logos-container {
+  display: flex;
+  justify-content: center;
+  padding: 4px 8px;
+}
+
+#logo-sena {
+  width: 80px;
+  height: auto;
+}
+
+.title-block {
+  background: #04324d;
+  border-bottom-left-radius: 30px;
+  border-bottom-right-radius: 30px;
+  text-align: center;
+  align-content: center;
+  min-height: 60px;
+}
+
+#title {
+  font-size: 1.2rem;
+  color: #fff;
+}
+.login-section {
+  display: flex;
+  height: 100%;
+}
+
+#login-paragraph {
+  font-weight: bold;
+  font-size: 1.3rem;
+  text-align: center;
+  margin-bottom: 3rem;
+}
+.login {
+  margin: 2.2rem;
+  width: 40%;
+  height: 100%;
+  background: #e6e6e6da;
+  padding: 1rem;
+  border-radius: 20px;
+}
+.login-form {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  /* padding: .5rem; */
+}
+.login-label {
+  color: #2e8602;
+  font-size: 1rem;
+  justify-self: flex-start;
+  margin-left: 0.3rem;
+}
+
+.login-input {
+  margin-top: 0.5rem;
+  margin-bottom: 2rem;
+  width: 100%;
+  height: auto;
+  border: none;
+  border-radius: 10px;
+  padding: 8px 12px;
+  outline: 1px solid #2e8602;
+}
+
+.login-input::placeholder {
+  font-size: 0.9rem;
+  color: #333;
+}
+.login-input:focus{
+  outline: none;
+  border-bottom: 2px solid #45a049;
+}
+.login-input-select {
+  margin-top: 0.5rem;
+  margin-bottom: 2rem;
+  width: 100%;
+  height: auto;
+  border: none;
+  border-radius: 10px;
+  padding: 8px 12px;
+  outline: 1px solid #2e8602;
+}
+
+.login-input-select::placeholder {
+  font-size: 0.9rem;
+  color: #333;
+}
+.login-input-select{
+  outline: none;
+  border-bottom: 2px solid #45a049;
+}
+.login-button {
+  padding: 12px 16px;
+  background: #45a049;
+  border: none;
+  border-radius: 10px;
+  color: #fff;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.login-button:hover {
+  background-color: #2e8602;
+}
+.recovery-block {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 25px;
+}
+
+.recovery-block a {
+  margin-left: 10px;
+}
+#login-image {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+#login-image img {
+  margin-top: 3rem;
+  margin-left: 3rem;
+  width: 90%;
+  height: 90%;
+  border-radius: 20px;
+  display: block;
+}
+
+#login-image::after {
+  content: "";
+  position: absolute;
+  top: 3rem;
+  left: 0;
+  width: 80%;
+  height: 92%;
+  border-radius: 20px 0 0 20px;
+  background: linear-gradient(to right, rgba(252, 252, 252, 0.712) 10%, rgba(255, 255, 255, 0) 100%);
+  pointer-events: none;
+}
+
