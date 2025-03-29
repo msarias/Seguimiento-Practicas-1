@@ -357,12 +357,32 @@ body {
 }
 /* VISITAS */
 
+
 .visits-section {
-  background-color: #f0f0f0;
+  background-color: #ffffff;
   padding: 20px;
   border-radius: 8px;
   margin-bottom: 20px;
 }
+.visit-list__title{
+font-size: 20px;
+  margin-bottom: 10px;
+}
+.visit-form__input{
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+.visit-list__item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #c2c1c1;
+  padding: 15px;
+  border-radius: 8px;
+  margin-bottom: 10px;
+}
+
 .visit-row {
   display: flex;
   justify-content: space-between;
@@ -376,9 +396,9 @@ body {
   border: 1px solid #ccc;
   border-radius: 5px;
 }
-.visit-row button {
+.visit-list__button  {
   padding: 10px 20px;
-  background-color: #4CAF50;
+  background-color: #61bd66;
   color: white;
   border: none;
   border-radius: 5px;
@@ -400,17 +420,17 @@ body {
   width: 100%;
 }
 .new-visit-button:hover {
-  background-color: #45a049;
+  background-color: #4CAF50;;
 }
 
-.visita-form {
+.visit-form {
   background-color: #e0e0e0;
   padding: 20px;
   border-radius: 8px;
   margin-top: 20px;
 }
 
-.visita-form input[type="text"], .visita-form input[type="date"] {
+.visit-form input[type="text"], .visit-form input[type="date"] {
   width: 100%;
   padding: 10px;
   margin-bottom: 15px;
@@ -418,7 +438,7 @@ body {
   border-radius: 5px;
 }
 
-.visita-form button {
+.visit-form button {
   width: 100%;
   padding: 10px;
   background-color: #007BFF;
@@ -427,10 +447,10 @@ body {
   border-radius: 5px;
   cursor: pointer;
 }
-
-.visita-form button:hover {
-  background-color: #45a049;
+.visit-form button:hover {
+  background-color: #4CAF50;
 }
+
 
 /* REPORTES */
 
