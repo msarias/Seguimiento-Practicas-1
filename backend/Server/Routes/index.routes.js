@@ -1,6 +1,7 @@
 const express = require("express");
 const indexRoutes = express.Router();
 
+
 // const aprendicesRoutes = require('./aprendicesRutas.js');
 const Reporte = require("./Reporte.js");
 const usuarios = require("./Usuario.js");
