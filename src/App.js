@@ -21,7 +21,7 @@ function App() {
     <div>
       <Router>
         <Routes>
-          <Route path='/' element={<Login />} />
+          <Route path='/Login' element={<Login />} />
           <Route path='/Register' element={<Register />} />
           <Route path='/MainContent' element={<MainContent />} />
           <Route path='/Inicio' element={<Inicio />} />
