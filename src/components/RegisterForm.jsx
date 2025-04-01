@@ -37,29 +37,30 @@ const RegisterForm = () => {
     <div className="form-container">
       <h2 className="register-title" style={{ color: '#0056b3' }}>Registro Usuarios</h2>
       <form className="form" onStalledCapture={handleSubmit}>
-        <label htmlFor="names-input">Nombres</label>
-        <input type="text" id="names-input" placeholder="Ingrese sus nombres" required minLength="3" />
+        <label className='register-label' htmlFor="names-input">Nombres</label>
+        <input className='register-input' type="text" id="names-input" placeholder="Ingrese sus nombres" required minLength="3" />
 
-        <label htmlFor="lastnames-input">Apellidos</label>
-        <input type="text" id="lastnames-input" placeholder="Ingrese sus apellidos" required />
+        <label className='register-label' htmlFor="lastnames-input">Apellidos</label>
+        <input className='register-input' type="text" id="lastnames-input" placeholder="Ingrese sus apellidos" required />
 
-        <label htmlFor="code-input">Número de ficha</label>
-        <input type="text" onChange={(e) => setFicha(e.target.value)} value={ficha} id="code-input" placeholder="Ingrese su número de ficha" required />
+        <label className='register-label' htmlFor="code-input">Número de ficha</label>
+        <input className='register-input' type="text" onChange={(e) => setFicha(e.target.value)} value={ficha} id="code-input" placeholder="Ingrese su número de ficha" required />
 
-        <label htmlFor="document-input">Número de documento</label>
-        <input type="text" onChange={(e) => setDocument(e.target.value)} value={document} id="document-input" placeholder="Ingrese su documento" required />
+        <label className='register-label' htmlFor="document-input">Número de documento</label>
+        <input className='register-input' type="text" onChange={(e) => setDocument(e.target.value)} value={document} id="document-input" placeholder="Ingrese su documento" required />
 
-        <label htmlFor="email-input">Correo electrónico</label>
-        <input type="email" id="email-input" placeholder="Ingrese su correo electrónico" required />
+        <label className='register-label' htmlFor="email-input">Correo electrónico</label>
+        <input className='register-input' type="email" id="email-input" placeholder="Ingrese su correo electrónico" required />
 
-        <label htmlFor="password-input">Contraseña</label>
-        <input type="password" onChange={(e) => setPassword(e.target.value)} value={password} id="password-input" placeholder="Ingrese su contraseña" required />
+        <label className='register-label' htmlFor="password-input">Contraseña</label>
+        <input className='register-input' type="password" onChange={(e) => setPassword(e.target.value)} value={password} id="password-input" placeholder="Ingrese su contraseña" required />
 
         {error && <p className="error-message">{error}</p>}
 
         <div className="log-in">
-          <button type="submit" className="register-button">Registrarse</button>
-          <a href="./Login">Iniciar Sesión</a>
+          <button type="submit" className="register-button">
+            <a href="./Login">Registrarse</a>
+          </button>
         </div>
       </form>
     </div>

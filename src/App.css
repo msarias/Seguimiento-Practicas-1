@@ -7,7 +7,7 @@
 body {
   width: 100%;
   height: 100vh;
-  overflow: hidden;
+  /* overflow: hidden; */
   font-family: "Platypi", Arial, Helvetica, sans-serif;
 }
 
@@ -441,6 +441,7 @@ body {
 
 .report-list__item {
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
   background-color: #d3d3d3;
@@ -483,10 +484,11 @@ body {
   padding: 20px;
   border-radius: 8px;
   margin-top: 20px;
-  display: none;
-  flex-direction: column;
+  /* display: none; */
   gap: 15px;
-  display: block !important;
+  /* display: block !important; */
+  display: flex;
+  flex-direction: column;
 }
 
 .report-form__input {
@@ -530,7 +532,7 @@ body {
   margin-left: 100px;
   margin-right: 100px;
 }
-label {
+.register-label {
   color: #0056b3;
   position: relative;
   top: 6px;
@@ -538,7 +540,7 @@ label {
   text-transform: capitalize;
   font-size: 1rem;
 }
-input {
+.register-input {
   padding: 8px 12px;
   outline:  1.5px solid #007bff;
   border: none;
@@ -576,4 +578,8 @@ input:valid {
 }
 .register-button:hover{
   background-color: #0056b3;
+}
+.register-button a{
+  color: #fff;
+  text-decoration: none;
 }
