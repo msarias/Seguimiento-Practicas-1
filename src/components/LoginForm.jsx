@@ -81,9 +81,13 @@ const LoginForm = () => {
             <Link to="/forgot-password">Olvidé mi contraseña</Link>
             <Link to="/Register">Registrarme</Link>
 
+
             <a className="new-password" href="./Inicio">
               Inicio provicional
             </a>
+
+            <a className="new-password" href="./Inicio">Inicio provicional</a>
+            
           </div>
 
           {/* Mostrar error si hay */}

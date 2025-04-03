@@ -34,7 +34,7 @@ app.use(express.json());
 
 //Agregar rutas
 //app.use('/routes',routes);
-app.use("/api", indexRoutes);
+app.use("/api/", indexRoutes);
 app.use("/api/auth", authRoutes);
 
 //Puerto del servidor

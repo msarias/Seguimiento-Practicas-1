@@ -1,22 +1,18 @@
-
 // App.js
-
 import React from 'react';
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
-import MainContent from './components/MainContent';
-import './App.css';
-import './App.js';
+import MainContent from '../src/components/MainContent';
+import Register from './components/Register.jsx'
+import Login from './components/Login';
 import ForgotPassword from "./components/ForgotPassword.jsx";
 import Inicio from "./components/Inicio.jsx";
-import Login from './components/Login';
-import ResetPassword from "./components/ResetPassword.jsx";
 import Visitas from "./components/Visitas.jsx";
-import Register from "./components/Register.jsx";
 import Reportes from "./components/Reportes.jsx";
-
+import ResetPassword from "./components/ResetPassword.jsx"
+import './App.css';
+import './App.js';
 
 function App() {
-
   return (
     <div>
       <Router>
@@ -30,14 +26,10 @@ function App() {
           <Route path="/visita" element={<Visitas />} />
           <Route path="/bitacoras" element={<MainContent />} />
           <Route path="/reportes" element={<Reportes />} />
-          <Route path="/visitas" element={<Visitas />} />
-          
-
         </Routes>
       </Router>
     </div>
   )
 };
+
 export default App;
-
-
