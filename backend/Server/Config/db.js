@@ -4,7 +4,7 @@ const { Sequelize } = require("sequelize");
 
 //Configurar el Sequelize
 
-const sequelize = new Sequelize('bd_proyecto','root','1234567',{
+const sequelize = new Sequelize('bd_project','root','123456',{
     host:'localhost',
     dialect:'mysql',
     logging:false, // Los logs son mesajes que dicen que esta sucediendo
@@ -12,7 +12,7 @@ const sequelize = new Sequelize('bd_proyecto','root','1234567',{
 
 });
 
-//verificar la conexion
+//verificar la conexion 
 async () => {
   try {
     await sequelize.authenticate(); //Metodo para verificar la conexion
