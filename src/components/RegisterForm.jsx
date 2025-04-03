@@ -53,13 +53,13 @@ const RegisterForm = () => {
       }
 
       Swal.fire({
-        position: "top-end",
+        position: "center",
         icon: "success",
         title: "Usuario registrado con éxito",
         showConfirmButton: false,
         timer: 1500
       });
-      
+
       setFormData({
         nombres: "",
         apellidos: "",
