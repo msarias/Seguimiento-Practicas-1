@@ -3,8 +3,8 @@ const router = express.Router();
 const Usuario = require('../Controllers/Usuario');
 
 //Rutas
-router.post('/', Usuario.crearUsuario);
 router.get('/listarUsuarios', Usuario.obtenerUsuarios);
+router.post('/', Usuario.crearUsuario);
 router.get('/:id', Usuario.obtenerUsuarioPorId);
 router.put('/:id', Usuario.actualizarUsuario);
 router.delete('/:id', Usuario.eliminarUsuario);
