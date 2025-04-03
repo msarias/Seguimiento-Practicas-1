@@ -6,6 +6,11 @@ const dotenv = require("dotenv");
 const indexRoutes = require("./Routes/index.routes.js");
 const authRoutes = require("./Routes/authRutas.js");
 
+require('dotenv').config();
+
+console.log("EMAIL_USER:", process.env.EMAIL_USER); // Prueba si se carga correctamente
+console.log("EMAIL_PASS:", process.env.EMAIL_PASS);
+
 //Sincronizar con la base de datos
 // eslint-disable-next-line no-unused-expressions
 async () => {
