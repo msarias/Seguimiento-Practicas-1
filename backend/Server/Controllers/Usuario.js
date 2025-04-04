@@ -9,7 +9,7 @@ exports.crearUsuario = async (req, res) => {
         const { nombres, apellidos, correo, rol, id_empresa, contraseña, identificacion } = req.body;
 
         // Convertir "" en null si está vacío
-        const empresaId = id_empresa && id_empresa.trim() !== "" ? parseInt(id_empresa, 10) : null;
+        // const empresaId = id_empresa && id_empresa.trim() !== "" ? parseInt(id_empresa, 10) : null;
 
         let hashedPassword = await bcrypt.hash(contraseña, 10);
 
@@ -18,7 +18,7 @@ exports.crearUsuario = async (req, res) => {
             apellidos, 
             correo, 
             rol, 
-            id_empresa: empresaId,  // Ahora null si está vacío
+            id_empresa: null,  // Ahora null si está vacío
             contraseña: hashedPassword, 
             identificacion 
         });
