@@ -1,24 +1,20 @@
-
 // App.js
-
 import React from 'react';
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
-import MainContent from './components/MainContent';
-import './App.css';
-import './App.js';
+import MainContent from '../src/components/MainContent';
+import Register from './components/Register.jsx'
+import Login from './components/Login';
 import ForgotPassword from "./components/ForgotPassword.jsx";
 import Inicio from "./components/Inicio.jsx";
 import Login from './components/Login';
 import Register from './components/Register.jsx';
 import Certificacion from './components/certificacion.jsx';
 import Reportes from './components/Reportes.jsx';
-import Visitas from './components/Visitas.jsx';
 
 
 
 
 function App() {
-
   return (
     <div>
       <Router>
@@ -28,10 +24,10 @@ function App() {
           <Route path='/MainContent' element={<MainContent />} />
           <Route path='/Inicio' element={<Inicio />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/reset-password/:token" element={<ResetPassword />} />
+          <Route path="/visita" element={<Visitas />} />
           <Route path="/bitacoras" element={<MainContent />} />
-          <Route path="/certificacion" element={<Certificacion />} />
           <Route path="/reportes" element={<Reportes />} />
-          <Route path="/visitas" element={<Visitas />} />
           
 
         </Routes>
@@ -39,6 +35,5 @@ function App() {
     </div>
   )
 };
+
 export default App;
-
-

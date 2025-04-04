@@ -1,36 +1,77 @@
-import React from 'react';
-import { useState } from 'react';
+import React, { useState } from "react";
+import Swal from "sweetalert2";
 
 
 const RegisterForm = () => {
-  // Estados para manejar los valores de los inputs
-  const [document, setDocument] = useState("");
-  const [password, setPassword] = useState("");
-  const [ficha, setFicha] = useState("");
-  const [error, setError] = useState("");
+  const [formData, setFormData] = useState({
+    nombres: "",
+    apellidos: "",
+    id_empresa: "",
+    identificacion: "",
+    correo: "",
+    contraseña: "",
+    rol: "aprendiz", // Valor por defecto pero se adapta al cambio de rol
+  });
 
-  const handleSubmit = (e) => {
-    e.preventDefault(); // Evita que la página se recargue
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
+
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError("");
+    setSuccess("");
 
     // Validaciones básicas
-    if (!document.match(/^\d+$/)) {
+    if (!formData.identificacion.match(/^\d+$/)) {
       setError("El número de documento solo debe contener números.");
       return;
     }
-    
-    if(!ficha.match(/^\d+$/)) {
-      setError("La ficha solo debe contener números.");
-      return;
-    }
 
-    if (password.length < 6) {
+    if (formData.contraseña.length < 6) {
       setError("La contraseña debe tener al menos 6 caracteres.");
       return;
     }
-    
-    // Si pasa las validaciones, simula el "ingreso"
-    setError(""); // Limpia errores
-    alert("Inicio de sesión exitoso"); // Simulación de ingreso
+
+    try {
+      const response = await fetch("http://localhost:3000/api/usuarios", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        throw new Error(result.message || "Error al registrar usuario");
+      }
+
+      Swal.fire({
+        position: "center",
+        icon: "success",
+        title: "Usuario registrado con éxito",
+        showConfirmButton: false,
+        timer: 1500
+      });
+
+      setFormData({
+        nombres: "",
+        apellidos: "",
+        id_empresa: "",
+        identificacion: "",
+        correo: "",
+        contraseña: "",
+        rol: "aprendiz",
+      });
+    } catch (err) {
+      setError(err.message);
+    }
   };
 
   return (

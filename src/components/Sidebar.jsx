@@ -9,9 +9,6 @@ const Sidebar = () => {
       <Link to="/bitacoras">
         <button>Bitácoras</button>
       </Link>
-      <Link to="/certificacion">
-        <button>Certificación</button>
-      </Link>
       <Link to="/reportes">
         <button>Reportes</button>
       </Link>
