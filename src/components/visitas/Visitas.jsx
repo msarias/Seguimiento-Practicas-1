@@ -4,46 +4,58 @@ import Sidebar from "../generales/Sidebar";
 
 function Visitas() {
   const [showForm, setShowForm] = useState(false);
-  const [visitas, setVisitas] = useState([]); // Estado para almacenar visitas
+  const [visitas, setVisitas] = useState([]);
 
   const toggleForm = () => {
     setShowForm(!showForm);
   };
 
-  const handleAddVisita = (e) => {
-    e.preventDefault();
-    const fecha = e.target.dia.value;
-    const motivo = e.target["motivo-visita"].value;
-
-    if (fecha && motivo) {
-      // Agregar nueva visita al estado
-      const nuevaVisita = { motivo, id: Date.now() };
-      setVisitas([...visitas, nuevaVisita]);
-
-      console.log("Nueva visita agregada:", nuevaVisita);
-      e.target.reset();
-      setShowForm(false);
+  // Función para obtener visitas desde el backend
+  const obtenerVisitas = async () => {
+    try {
+      const response = await fetch("http://localhost:3000/api/visitas/verVisitas");
+      if (!response.ok) throw new Error("No se pudieron obtener las visitas.");
+      const data = await response.json();
+      setVisitas(data.visitas || []);
+    } catch (error) {
+      console.error("Error al obtener visitas:", error.message);
     }
   };
 
-    useEffect(() => {
-      const obtenerVisitas = async () => {
-        try {
-          const response = await fetch(
-            'http://localhost:3000/api/visitas/verVisitas'
-          );
-          if (!response.ok && visitas.length > 0) {
-            throw new Error('No se pudieron obtener los reportes.');
-          }
-          const data = await response.json();
-          setVisitas(data.visitas || []);
-          console.log(data.visitas || []);
-        } catch (error) {
-          console.log(error.message);
-        }
-      };
-      obtenerVisitas();
-    }, [visitas.length]);
+  // Cargar visitas al iniciar el componente
+  useEffect(() => {
+    obtenerVisitas();
+  }, []);
+
+  // Agregar nueva visita
+  const handleAddVisita = async (e) => {
+    e.preventDefault();
+
+    const nuevaVisita = {
+      fecha: e.target["dia"].value,
+      tipo: e.target["tipo-visita"].value,
+      direccion: e.target["direccion-visita"].value,
+    };
+
+    try {
+      const response = await fetch("http://localhost:3000/api/visitas", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(nuevaVisita),
+      });
+
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.message || "Error al agregar visita");
+
+      // Recargar la lista de visitas después de agregar una nueva
+      await obtenerVisitas();
+
+      e.target.reset();
+      setShowForm(false);
+    } catch (error) {
+      console.error("Error:", error.message);
+    }
+  };
 
   return (
     <div className="container">
@@ -52,30 +64,27 @@ function Visitas() {
       <div className="visits-section">
         <h2 className="visit-list__title">Visitas</h2>
 
-        {/* Mostrar visitas almacenadas */}
         <div className="visit-list">
           {visitas.length === 0 ? (
             <p>No hay visitas registradas</p>
           ) : (
             visitas.map((visita) => (
               <div key={visita.id} className="report-list__item">
-                  <p>{visita.direccion}</p> 
-                  <p>{visita.tipo}</p> 
-                  <p>{visita.fecha}</p>
+                <p>{visita.direccion}</p>
+                <p>{visita.tipo}</p>
+                <p>{visita.fecha}</p>
                 <button className="visit-list__button">Ver</button>
               </div>
             ))
           )}
         </div>
 
-        {/* Formulario para agregar visita */}
         {showForm && (
           <form className="visit-form" onSubmit={handleAddVisita}>
             <h2>Solicitud de visita</h2>
             <input
               type="date"
               name="dia"
-              placeholder="Día de la visita"
               className="visit-form__input"
               required
             />
@@ -86,7 +95,7 @@ function Visitas() {
               className="visit-form__input"
               required
             />
-            <select className="login-input">
+            <select name="tipo-visita" className="login-input" required>
               <option value="Presencial">Presencial</option>
               <option value="Virtual">Virtual</option>
             </select>
@@ -96,7 +105,6 @@ function Visitas() {
           </form>
         )}
 
-        {/* Botón para abrir/cerrar formulario */}
         <button className="new-visit-button" onClick={toggleForm}>
           {showForm ? "Cancelar" : "Solicitar visita"}
         </button>
