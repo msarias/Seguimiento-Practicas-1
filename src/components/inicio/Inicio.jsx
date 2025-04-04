@@ -1,7 +1,6 @@
-import React from "react";
-import Content from "./Content.jsx";
-import NavBar from "./NavBar.jsx";
-import Sidebar from "./Sidebar.jsx";
+import Content from "../generales/Content";
+import NavBar from "../generales/NavBar";
+import Sidebar from "../generales/Sidebar";
 
 function Inicio() {
   return (

@@ -1,7 +1,7 @@
 import React from "react";
 import BitacoraList from "./BitacoraList"; // Correcto
-import NavBar from "./NavBar";
-import Sidebar from "./Sidebar";
+import NavBar from "../generales/NavBar";
+import Sidebar from "../generales/Sidebar";
 
 const MainContent = () => {
   return (

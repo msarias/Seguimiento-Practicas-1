@@ -3,13 +3,11 @@
 const { Sequelize } = require("sequelize");
 
 //Configurar el Sequelize
-
-const sequelize = new Sequelize('bd_proyecto','root','juanma123',{
-    host:'localhost',
-    dialect:'mysql',
-    logging:false, // Los logs son mesajes que dicen que esta sucediendo
+const sequelize = new Sequelize('bd_project','root','123456', {
+    host: 'localhost',
+    dialect: 'mysql',
+    logging: false, // Los logs son mesajes que dicen que esta sucediendo
     //muestran las consultas SQL que el ORM ejecuta
-
 });
 
 //verificar la conexion 

@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+
 const LoginForm = () => {
   // Estados para manejar los valores de los inputs
   const [typeAccount, setTypeAccount] = useState('');
@@ -80,14 +81,7 @@ const LoginForm = () => {
           <div className="recovery-block">
             <Link to="/forgot-password">Olvidé mi contraseña</Link>
             <Link to="/Register">Registrarme</Link>
-
-
-            <a className="new-password" href="./Inicio">
-              Inicio provicional
-            </a>
-
-           
-            
+            <Link to="/Inicio">Inicio</Link>
           </div>
 
           {/* Mostrar error si hay */}

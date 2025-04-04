@@ -1,6 +1,6 @@
-import React, { useState } from "react";
-import NavBar from "./NavBar";
-import Sidebar from "./Sidebar";
+import React, { useState, useEffect } from "react";
+import NavBar from "../generales/NavBar";
+import Sidebar from "../generales/Sidebar";
 
 function Visitas() {
   const [showForm, setShowForm] = useState(false);
@@ -26,6 +26,25 @@ function Visitas() {
     }
   };
 
+    useEffect(() => {
+      const obtenerVisitas = async () => {
+        try {
+          const response = await fetch(
+            'http://localhost:3000/api/visitas/verVisitas'
+          );
+          if (!response.ok && visitas.length > 0) {
+            throw new Error('No se pudieron obtener los reportes.');
+          }
+          const data = await response.json();
+          setVisitas(data.visitas || []);
+          console.log(data.visitas || []);
+        } catch (error) {
+          console.log(error.message);
+        }
+      };
+      obtenerVisitas();
+    }, [visitas.length]);
+
   return (
     <div className="container">
       <NavBar />
@@ -39,10 +58,10 @@ function Visitas() {
             <p>No hay visitas registradas</p>
           ) : (
             visitas.map((visita) => (
-              <div key={visita.id} className="visit-list__item">
-                <span className="visit-list__name">
-                  {visita.fecha} {visita.motivo}
-                </span>
+              <div key={visita.id} className="report-list__item">
+                  <p>{visita.direccion}</p> 
+                  <p>{visita.tipo}</p> 
+                  <p>{visita.fecha}</p>
                 <button className="visit-list__button">Ver</button>
               </div>
             ))
@@ -62,11 +81,15 @@ function Visitas() {
             />
             <input
               type="text"
-              name="motivo-visita"
-              placeholder="Motivo de la visita"
+              name="direccion-visita"
+              placeholder="Dirección de la empresa"
               className="visit-form__input"
               required
             />
+            <select className="login-input">
+              <option value="Presencial">Presencial</option>
+              <option value="Virtual">Virtual</option>
+            </select>
             <button type="submit" className="visit-form__button">
               Solicitar
             </button>
