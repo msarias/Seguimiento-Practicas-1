@@ -600,8 +600,19 @@ input:valid {
 .register-button:hover {
   background-color: #0056b3;
 }
-a{
-  /* text-decoration: none; */
-  padding: 4px 8px;
-  /* text-align: center; */
+.register-button a {
+  color: #fff;
+  text-decoration: none;
+}
+
+.delete-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#delete-img {
+  width: 25px;
+  height: 25px;
+  pointer-events: none;
 }

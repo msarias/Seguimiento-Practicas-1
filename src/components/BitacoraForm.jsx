@@ -6,7 +6,7 @@ const BitacoraForm = ({ onAddBitacora, onClose }) => {
   const [bitacora, setBitacora] = useState({
     id_usuario: '',
     fecha: '',
-    archivo: '',
+    archivo: null,
     codigo: '',
   });
 
@@ -16,38 +16,45 @@ const BitacoraForm = ({ onAddBitacora, onClose }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    subirBitacora(); // Llamamos a la función que realiza el POST
+    subirBitacora(); // Realiza el POST al backend
   };
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setBitacora({ ...bitacora, [name]: value });
+    const { name, value, files } = e.target;
+
+    if (name === 'archivo') {
+      setBitacora({ ...bitacora, archivo: files[0] }); // Guardamos el archivo (File)
+    } else {
+      setBitacora({ ...bitacora, [name]: value }); // Guardamos campos normales
+    }
   };
 
   const subirBitacora = async () => {
     try {
+      const formData = new FormData();
+      formData.append('id_usuario', bitacora.id_usuario);
+      formData.append('fecha', bitacora.fecha);
+      formData.append('archivo', bitacora.archivo);
+      formData.append('codigo', bitacora.codigo);
+
       const res = await fetch('http://localhost:3000/api/bitacoras/', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'Application/json',
-        },
-        body: JSON.stringify(bitacora),
+        body: formData,
       });
-
-      if (res.ok) {
-        console.log('Error');
-      }
 
       const data = await res.json();
 
-      if (data.bitacora) {
-        onAddBitacora(data.bitacora); // Llamamos a la función del componente padre para agregar el reporte
-        alert('¡Reporte subido exitosamente!');
-        onClose(); // Cerramos el formulario
-        setBitacora({ id_usuario: '', fecha: '', archivo: '', codigo: '' });
+      if (res.ok) {
+        onAddBitacora(data); // Puedes cambiar esto según la estructura de tu respuesta
+        alert('¡Bitácora subida exitosamente!');
+        onClose(); // Cierra el formulario
+        setBitacora({ id_usuario: '', fecha: '', archivo: null, codigo: '' }); // Limpia formulario
+      } else {
+        alert(data.message || 'Error al subir la bitácora');
       }
     } catch (error) {
-      console.log(error);
+      console.error('Error al subir la bitácora:', error);
+      alert('Ocurrió un error al enviar la bitácora.');
     }
   };
 
@@ -58,47 +65,45 @@ const BitacoraForm = ({ onAddBitacora, onClose }) => {
         <section className="bitacora-form" id="bitacoraForm">
           <h2 className="bitacora-form__title">Agregar Bitácora</h2>
 
-          {/* Campo para el número de bitácora */}
           <input
             type="text"
-            name="codigo" // Cambié 'numero-bitacora' a 'codigo' para que coincida con el estado
+            name="codigo"
             className="bitacora-form__input"
             placeholder="Número de la bitácora"
-            value={bitacora.codigo} // Vincula el valor al estado
+            value={bitacora.codigo}
             onChange={handleChange}
+            required
           />
 
-          {/* Campo para el nombre del usuario o propietario de la bitácora */}
           <input
             type="text"
-            name="id_usuario" // Cambié 'nombre-bitacora' a 'id_usuario' para que coincida con el estado
+            name="id_usuario"
             className="bitacora-form__input"
-            placeholder="Nombre de la bitácora"
-            value={bitacora.id_usuario} // Vincula el valor al estado
+            placeholder="ID del usuario"
+            value={bitacora.id_usuario}
             onChange={handleChange}
+            required
           />
 
-          {/* Campo para cargar archivo */}
           <input
             type="file"
             name="archivo"
             className="bitacora-form__input"
-            value={bitacora.archivo}
-            onChange={handleChange} // Aquí solo necesitas el nombre para cambiar el archivo
+            onChange={handleChange}
+            
           />
 
-          {/* Campo de fecha */}
           <input
             type="date"
-            name="fecha" // El nombre debe coincidir con el estado
+            name="fecha"
             className="bitacora-form__input"
-            value={bitacora.fecha} // Vincula el valor al estado
+            value={bitacora.fecha}
             onChange={handleChange}
+            required
           />
 
           <button
             type="submit"
-            onAddBitacora={subirBitacora}
             className="bitacora-form__button"
           >
             Subir Bitácora

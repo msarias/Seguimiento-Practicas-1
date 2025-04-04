@@ -100,7 +100,7 @@ const RegisterForm = () => {
 
         <div className="log-in">
           <button type="submit" className="register-button">Registrarse</button>
-          <a href="./Login">Iniciar Sesión</a>
+          <a href="./">Iniciar Sesión</a>
         </div>
       </form>
     </div>

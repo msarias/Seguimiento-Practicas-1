@@ -86,7 +86,7 @@ const LoginForm = () => {
               Inicio provicional
             </a>
 
-            <a className="new-password" href="./Inicio">Inicio provicional</a>
+           
             
           </div>
 

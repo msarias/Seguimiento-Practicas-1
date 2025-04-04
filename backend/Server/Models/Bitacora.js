@@ -14,27 +14,30 @@ const Bitacora = sequelize.define('Bitacora', {
     fecha: {
         type: DataTypes.DATE,
         allowNull: false,
-        /* validate: {
+         validate: {
             isDate: true,
             isBefore: new Date().toISOString().split('T')[0],
-        }, */
+        }, 
     },
     archivo: {
         type: DataTypes.STRING(45),
         allowNull: true,
-        /* validate: {
-            notEmpty: true,
-            len: [2,45]
-        } */
-    },
-    codigo: {
+        validate: {
+          len: {
+            args: [2, 45],
+            msg: 'El nombre del archivo debe tener entre 2 y 45 caracteres.'
+          }
+        }
+      },
+      codigo: {
         type: DataTypes.INTEGER.UNSIGNED,
         allowNull: true,
-        /* validate: {
-            isInt: true,
-            notEmpty: true,
-        } */
-    }
+        validate: {
+          isInt: {
+            msg: 'El código debe ser un número entero.'
+          }
+        }
+      }
 }, {
     tableName: 'bitacora',
     timestamps: false,
