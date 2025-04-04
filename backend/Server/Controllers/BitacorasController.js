@@ -36,7 +36,7 @@ const createBitacora = async (req, res) => {
         });
         res.status(201).json(nuevaBitacora);
     } catch (error) {
-        res.status(500).json({ error: 'Error al crear la bitácora' });
+        res.status(500).json({ error: error.message });
     }
 };
 

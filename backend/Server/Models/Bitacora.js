@@ -13,7 +13,7 @@ const Bitacora = sequelize.define('Bitacora', {
     },
     fecha: {
         type: DataTypes.DATE,
-        allowNull: false,
+        allowNull: true,
          validate: {
             isDate: true,
             isBefore: new Date().toISOString().split('T')[0],

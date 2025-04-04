@@ -44,13 +44,14 @@ const BitacoraForm = ({ onAddBitacora, onClose }) => {
 
       const data = await res.json();
 
-      if (res.ok) {
-        onAddBitacora(data); // Puedes cambiar esto según la estructura de tu respuesta
+      if (!res.ok) {
+        console.log(data)
+        console.log(res.error)
+        alert(data.message || 'Error al subir la bitácora');
+      } else {
+        onAddBitacora(formData); // Puedes cambiar esto según la estructura de tu respuesta
         alert('¡Bitácora subida exitosamente!');
         onClose(); // Cierra el formulario
-        setBitacora({ id_usuario: '', fecha: '', archivo: null, codigo: '' }); // Limpia formulario
-      } else {
-        alert(data.message || 'Error al subir la bitácora');
       }
     } catch (error) {
       console.error('Error al subir la bitácora:', error);
@@ -59,7 +60,7 @@ const BitacoraForm = ({ onAddBitacora, onClose }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={subirBitacora}>
       <AddBitacoraButton toggleForm={toggleForm} />
       {isFormVisible && (
         <section className="bitacora-form" id="bitacoraForm">
@@ -105,6 +106,7 @@ const BitacoraForm = ({ onAddBitacora, onClose }) => {
           <button
             type="submit"
             className="bitacora-form__button"
+            onSubmit={subirBitacora}
           >
             Subir Bitácora
           </button>

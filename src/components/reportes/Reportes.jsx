@@ -1,7 +1,7 @@
 // Componente ReportForm
 import React, { useState, useEffect } from "react";
-import NavBar from "./NavBar";  // Importa tu componente Navbar existente
-import Sidebar from "./Sidebar";  // Importa tu componente Sidebar existente
+import NavBar from "../generales/NavBar";  // Importa tu componente Navbar existente
+import Sidebar from "../generales/Sidebar";  // Importa tu componente Sidebar existente
 const ReportForm = ({ onAddReporte, onClose }) => {
   const [reporte, setReporte] = useState({
     id_usuario: '',
