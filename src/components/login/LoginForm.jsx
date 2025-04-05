@@ -3,14 +3,14 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 const LoginForm = () => {
-  // Estados para manejar los valores de los inputs
   const [typeAccount, setTypeAccount] = useState("");
   const [document, setDocument] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
+
   const handleSubmit = async (e) => {
-    e.preventDefault(); // Evita que la página se recargue
+    e.preventDefault();
 
     // Validaciones básicas
     if (!typeAccount) {
@@ -18,7 +18,7 @@ const LoginForm = () => {
       return;
     }
 
-    if (!document.match(/^\d+$/)) {
+    if (!/^\d+$/.test(document)) {
       setError("El número de documento solo debe contener números.");
       return;
     }
@@ -27,22 +27,25 @@ const LoginForm = () => {
       setError("La contraseña debe tener al menos 6 caracteres.");
       return;
     }
+
     setError("");
 
     try {
-      const response = await axios.post(
-        "http://localhost:3000/api/auth/login",
-        {
-          tipoCuenta: typeAccount,
-          documento: document,
-          password,
-        }
-      );
-      //setError(response);
+      await axios.post("http://localhost:3000/api/auth/login", {
+        tipoCuenta: typeAccount,
+        documento: document,
+        password,
+      });
       navigate("/Inicio");
-    } catch (error) {
-      setError(error.response.data.message || "Error al iniciar sesión");
-      console.error(error);
+
+      // Puedes guardar el token si lo recibes
+      // localStorage.setItem("token", response.data.token);
+
+      navigate("/Inicio");
+    } catch (err) {
+      const message = err.response?.data?.message || "Error al iniciar sesión";
+      setError(message);
+      console.error("Login error:", err);
     }
   };
 
@@ -50,17 +53,21 @@ const LoginForm = () => {
     <div className="login-section">
       <div className="login">
         <h2 id="login-title">Ingreso Seguimiento</h2>
+
         <form className="login-form" id="login-form" onSubmit={handleSubmit}>
           <label className="login-label">Tipo de Cuenta</label>
           <select
             className="login-input"
-            name="typeDocument"
+            name="typeAccount"
             value={typeAccount}
             onChange={(e) => setTypeAccount(e.target.value)}
+            required
           >
-            <option disabled>Seleccione su tipo de cuenta</option>
-            <option>Instructor</option>
-            <option>Aprendiz</option>
+            <option value="" disabled>
+              Seleccione su tipo de cuenta
+            </option>
+            <option value="instructor">Instructor</option>
+            <option value="aprendiz">Aprendiz</option>
           </select>
 
           <label className="login-label" htmlFor="document-input">
@@ -70,9 +77,7 @@ const LoginForm = () => {
             className="login-input"
             id="document-input"
             type="text"
-            title="Número de documento"
             placeholder="Ingrese su documento"
-            pattern="[0-9]+"
             value={document}
             onChange={(e) => setDocument(e.target.value)}
             required
@@ -85,7 +90,6 @@ const LoginForm = () => {
             id="password-input"
             type="password"
             className="login-input"
-            title="Contraseña"
             placeholder="Ingrese su contraseña"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
