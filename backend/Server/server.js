@@ -12,15 +12,18 @@ console.log("EMAIL_USER:", process.env.EMAIL_USER); // Prueba si se carga correc
 console.log("EMAIL_PASS:", process.env.EMAIL_PASS);
 
 //Sincronizar con la base de datos
-// eslint-disable-next-line no-unused-expressions
-async () => {
+
+async function connectDB() {
   try {
     await sequelize.sync({ force: false });
     console.log("Base de datos sincronizada");
   } catch (error) {
-    console.log("Error alsincronizar base de datos", error.message);
+    console.log("Error al sincronizar base de datos:", error.message);
   }
-};
+}
+
+connectDB();
+
 
 //Crear el servidor
 dotenv.config();
@@ -34,8 +37,12 @@ app.use(express.json());
 
 //Agregar rutas
 //app.use('/routes',routes);
-app.use("/api/", indexRoutes);
-app.use("/api/auth", authRoutes);
+app.use("/api", indexRoutes);
+// app.use("/",(req,res)=>{
+//   console.log("Hola");
+//   return res.status(200).json({message:"Hola"});
+// })
+//app.use("/api/auth", authRoutes);
 
 //Puerto del servidor
 const port = 3000

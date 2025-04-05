@@ -64,19 +64,27 @@ exports.obtenerUsuarioPorId = async (req, res) => {
 exports.actualizarUsuario = async (req, res) => {
     try {
         const { id } = req.params;
-        const { nombres, apellidos, correo, rol, id_empresa, contraseña: hashedPassword, identificacion } = req.body;
+        let { nombres, apellidos, correo, rol, id_empresa, contraseña, identificacion } = req.body;
 
         const usuario = await Usuario.findByPk(id);
         if (!usuario) return res.status(404).json({ message: 'Usuario no encontrado' });
 
-        await usuario.update({ nombres, apellidos, correo, rol, id_empresa, contraseña: hashedPassword, identificacion });
+        // Si enviaron contraseña nueva, la hasheas
+        if (contraseña && contraseña.trim() !== "") {
+            const salt = await bcrypt.genSalt(10);
+            contraseña = await bcrypt.hash(contraseña, salt);
+        } else {
+            // Si no mandaron nueva contraseña, mantenés la actual
+            contraseña = usuario.contraseña;
+        }
+
+        await usuario.update({ nombres, apellidos, correo, rol, id_empresa, contraseña, identificacion });
 
         res.status(200).json({ message: 'Usuario actualizado correctamente' });
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
 };
-
 
 //Elimnar  desactivar aprendiz
 exports.eliminarUsuario = async (req, res) => {

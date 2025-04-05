@@ -80,9 +80,37 @@ const resetPassword = async (req, res) => {
         res.status(500).json({ message: "Error al procesar la solicitud." });
     }
 };
+    //Controlador ingreso del login a la plataforma
+const login = async(req,res)=>{
+    const {tipoCuenta, documento, password} = req.body;
+
+    try{
+        const usuario = await Usuario.findOne({ where: { identificacion: documento } });
+        // console.log("Usuario:",usuario);
+        // console.log("Body",req.body);
+
+        if(!usuario){
+            return res.status(404).json({message:"El usuario no esta registrado"})
+        }
+        
+        if (usuario.rol !== tipoCuenta) {
+            return res.status(404).json({ message: "El tipo de cuenta no coincide" });
+        }
+        //Falta probar este codigo que tengan las contraseñas encriptadas
+        // const validarPassword = await bcrypt.compare(password, usuario.contraseña);
+        // if(!validarPassword){
+        //     return res.status(401).json({message:"Contraseña incorrecta"});
+        // }
+        res.status(200).json({message:"Inicio de sesión exitoso"});
+    }catch(error){
+        res.status(500).json({message:"Error en el servidor", error})
+    }
+};
+
 
 
 module.exports = {
     forgotPassword,
-    resetPassword
+    resetPassword,
+    login
 };

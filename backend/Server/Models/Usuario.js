@@ -61,6 +61,7 @@ const Usuario = Sequelize.define('Usuario', {
 }, {
     tableName: 'usuario',
     timestamps: false,
+    
 });
 
 // Modelo de aprendices
