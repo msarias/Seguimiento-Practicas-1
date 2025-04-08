@@ -16,7 +16,7 @@ const Bitacora = sequelize.define('Bitacora', {
         allowNull: true,
          validate: {
             isDate: true,
-            isBefore: new Date().toISOString().split('T')[0],
+            isAfter: new Date().toISOString().split('T')[0],
         }, 
     },
     archivo: {

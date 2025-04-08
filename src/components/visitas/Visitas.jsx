@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
-import NavBar from "../generales/NavBar";
-import Sidebar from "../generales/Sidebar";
+import React, { useState, useEffect } from 'react';
+import NavBar from '../generales/NavBar';
+import Sidebar from '../generales/Sidebar';
 
 function Visitas() {
   const [showForm, setShowForm] = useState(false);
@@ -13,12 +13,14 @@ function Visitas() {
   // Función para obtener visitas desde el backend
   const obtenerVisitas = async () => {
     try {
-      const response = await fetch("http://localhost:3000/api/visitas/verVisitas");
-      if (!response.ok) throw new Error("No se pudieron obtener las visitas.");
+      const response = await fetch(
+        'http://localhost:3000/api/visitas/verVisitas'
+      );
+      if (!response.ok) throw new Error('No se pudieron obtener las visitas.');
       const data = await response.json();
       setVisitas(data.visitas || []);
     } catch (error) {
-      console.error("Error al obtener visitas:", error.message);
+      console.error('Error al obtener visitas:', error.message);
     }
   };
 
@@ -32,20 +34,21 @@ function Visitas() {
     e.preventDefault();
 
     const nuevaVisita = {
-      fecha: e.target["dia"].value,
-      tipo: e.target["tipo-visita"].value,
-      direccion: e.target["direccion-visita"].value,
+      fecha: e.target['dia'].value,
+      tipo: e.target['tipo-visita'].value,
+      direccion: e.target['direccion-visita'].value,
     };
 
     try {
-      const response = await fetch("http://localhost:3000/api/visitas", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
+      const response = await fetch('http://localhost:3000/api/visitas', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(nuevaVisita),
       });
 
       const data = await response.json();
-      if (!response.ok) throw new Error(data.message || "Error al agregar visita");
+      if (!response.ok)
+        throw new Error(data.message || 'Error al agregar visita');
 
       // Recargar la lista de visitas después de agregar una nueva
       await obtenerVisitas();
@@ -53,7 +56,7 @@ function Visitas() {
       e.target.reset();
       setShowForm(false);
     } catch (error) {
-      console.error("Error:", error.message);
+      console.error('Error:', error.message);
     }
   };
 
@@ -63,7 +66,6 @@ function Visitas() {
       <Sidebar />
       <div className="visits-section">
         <h2 className="visit-list__title">Visitas</h2>
-
         <div className="visit-list">
           {visitas.length === 0 ? (
             <p>No hay visitas registradas</p>
@@ -106,7 +108,7 @@ function Visitas() {
         )}
 
         <button className="new-visit-button" onClick={toggleForm}>
-          {showForm ? "Cancelar" : "Solicitar visita"}
+          {showForm ? 'Cancelar' : 'Solicitar visita'}
         </button>
       </div>
     </div>

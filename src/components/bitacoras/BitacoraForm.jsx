@@ -6,7 +6,7 @@ const BitacoraForm = ({ onAddBitacora, onClose }) => {
   const [bitacora, setBitacora] = useState({
     id_usuario: '',
     fecha: '',
-    archivo: null,
+    // archivo: '',
     codigo: '',
   });
 
@@ -16,56 +16,56 @@ const BitacoraForm = ({ onAddBitacora, onClose }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    subirBitacora(); // Realiza el POST al backend
-  };
-
-  const handleChange = (e) => {
-    const { name, value, files } = e.target;
-
-    if (name === 'archivo') {
-      setBitacora({ ...bitacora, archivo: files[0] }); // Guardamos el archivo (File)
-    } else {
-      setBitacora({ ...bitacora, [name]: value }); // Guardamos campos normales
-    }
   };
 
   const subirBitacora = async () => {
-    try {
-      const formData = new FormData();
-      formData.append('id_usuario', bitacora.id_usuario);
-      formData.append('fecha', bitacora.fecha);
-      formData.append('archivo', bitacora.archivo);
-      formData.append('codigo', bitacora.codigo);
+    if (!bitacora.codigo || !bitacora.id_usuario || !bitacora.fecha) {
+      alert('Completa todos los campos.');
+      return;
+    }
 
+    try {
       const res = await fetch('http://localhost:3000/api/bitacoras/', {
         method: 'POST',
-        body: formData,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(bitacora),
       });
+
+      if (!res.ok) {
+        throw new Error('Error al subir la bitácora.');
+      }
 
       const data = await res.json();
 
-      if (!res.ok) {
-        console.log(data)
-        console.log(res.error)
-        alert(data.message || 'Error al subir la bitácora');
-      } else {
-        onAddBitacora(formData); // Puedes cambiar esto según la estructura de tu respuesta
+      if (data.bitacora) {
         alert('¡Bitácora subida exitosamente!');
-        onClose(); // Cierra el formulario
+        toggleForm();
+        setBitacora({ codigo: '', id_usuario: '', fecha: '' });
+        onAddBitacora(bitacora);
+      } else {
+        console.log('Ocrrió un error');
       }
     } catch (error) {
       console.error('Error al subir la bitácora:', error);
-      alert('Ocurrió un error al enviar la bitácora.');
     }
   };
 
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setBitacora({
+      ...bitacora,
+      [name]: value,
+    });
+  };
+
   return (
-    <form onSubmit={subirBitacora}>
+    <form onSubmit={handleSubmit}>
       <AddBitacoraButton toggleForm={toggleForm} />
       {isFormVisible && (
         <section className="bitacora-form" id="bitacoraForm">
           <h2 className="bitacora-form__title">Agregar Bitácora</h2>
-
           <input
             type="text"
             name="codigo"
@@ -91,7 +91,7 @@ const BitacoraForm = ({ onAddBitacora, onClose }) => {
             name="archivo"
             className="bitacora-form__input"
             onChange={handleChange}
-            
+            // required
           />
 
           <input
@@ -106,7 +106,7 @@ const BitacoraForm = ({ onAddBitacora, onClose }) => {
           <button
             type="submit"
             className="bitacora-form__button"
-            onSubmit={subirBitacora}
+            onClick={subirBitacora}
           >
             Subir Bitácora
           </button>
