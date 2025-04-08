@@ -1,7 +1,7 @@
 // Componente ReportForm
-import React, { useState, useEffect } from "react";
-import NavBar from "../generales/NavBar";  // Importa tu componente Navbar existente
-import Sidebar from "../generales/Sidebar";  // Importa tu componente Sidebar existente
+import React, { useState, useEffect } from 'react';
+import NavBar from '../generales/NavBar';
+import Sidebar from '../generales/Sidebar';
 const ReportForm = ({ onAddReporte, onClose }) => {
   const [reporte, setReporte] = useState({
     id_usuario: '',
@@ -15,8 +15,7 @@ const ReportForm = ({ onAddReporte, onClose }) => {
     setReporte({ ...reporte, [name]: value });
   };
 
-  const uploadReport = async () => {
-    // Verifica que todos los campos sean correctos
+  const uploadReport = async (e) => {
     if (
       !reporte.id_usuario ||
       !reporte.nombre ||
@@ -42,22 +41,15 @@ const ReportForm = ({ onAddReporte, onClose }) => {
 
       const data = await response.json();
 
-      // Si se recibe un reporte, se actualiza el estado en el componente principal
-      if (data.reporte) {
-        onAddReporte(data.reporte); // Llamamos a la función del componente padre para agregar el reporte
+      if (data.reportes) {
+        onAddReporte(data.reportes);
         alert('¡Reporte subido exitosamente!');
-        onClose(); // Cerramos el formulario
-        setReporte({ id_usuario: '', nombre: '', motivo: '', fecha: '' }); // Limpiamos el formulario
-        
-        
-        setTimeout(()=>{
-          window.location.reload();     
-        }, 1000)
+        onClose();
+        setReporte({ id_usuario: '', nombre: '', motivo: '', fecha: '' });
+      }; /* else {
+        console.error('No se recibió correctamente la información.');
+      } */
 
-      } else {
-        console.error('No se recibió el reporte esperado en la respuesta.');
-        window.location.reload();
-      }
     } catch (error) {
       console.error('Error al subir el reporte:', error);
     }
@@ -122,7 +114,7 @@ const Reportes = () => {
           'http://localhost:3000/api/reportes/verReportes'
         );
         if (!response.ok && reportes.length > 0) {
-          throw new Error('No se pudieron obtener los reportes.');
+          setError('No se pudieron obtener los reportes.');
         }
         const data = await response.json();
         setReportes(data.reportes || []);
@@ -131,7 +123,7 @@ const Reportes = () => {
       }
     };
     obtenerReportes();
-  }, [reportes.length]);
+  });
 
   const toggleForm = () => setMostrarFormulario(!mostrarFormulario);
 
@@ -154,10 +146,8 @@ const Reportes = () => {
       console.log('Reporte eliminado:', data);
       const updatedReports = reportes.filter((reporte) => reporte.id !== id);
       setReportes(updatedReports);
-      window.location.reload();
     } catch (error) {
       setError(error.message);
-      console.error('Error:', error);
     }
   };
 
@@ -181,7 +171,11 @@ const Reportes = () => {
                 onClick={deleteReport}
                 className="report-list__button delete-button"
               >
-                <img id='delete-img' src="../css/img/trash.png" alt="Eliminar" />
+                <img
+                  id="delete-img"
+                  src="../css/img/trash.png"
+                  alt="Eliminar"
+                />
               </button>
             </div>
           ))
