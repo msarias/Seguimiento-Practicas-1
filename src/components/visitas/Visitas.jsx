@@ -4,13 +4,16 @@ import Sidebar from "../generales/Sidebar";
 
 function Visitas() {
   const [showForm, setShowForm] = useState(false);
+  const [modoEdicion, setModoEdicion] = useState(false);
   const [visitas, setVisitas] = useState([]);
+  const [visitaEditando, setVisitaEditando] = useState(null);
 
   const toggleForm = () => {
     setShowForm(!showForm);
+    setModoEdicion(false);
+    setVisitaEditando(null);
   };
 
-  // Función para obtener visitas desde el backend
   const obtenerVisitas = async () => {
     try {
       const response = await fetch("http://localhost:3000/api/visitas/verVisitas");
@@ -22,13 +25,11 @@ function Visitas() {
     }
   };
 
-  // Cargar visitas al iniciar el componente
   useEffect(() => {
     obtenerVisitas();
   }, []);
 
-  // Agregar nueva visita
-  const handleAddVisita = async (e) => {
+  const handleAddOrUpdateVisita = async (e) => {
     e.preventDefault();
 
     const nuevaVisita = {
@@ -38,23 +39,36 @@ function Visitas() {
     };
 
     try {
-      const response = await fetch("http://localhost:3000/api/visitas", {
-        method: "POST",
+      const url = modoEdicion
+        ? `http://localhost:3000/api/visitas/${visitaEditando.id}`
+        : "http://localhost:3000/api/visitas";
+
+      const method = modoEdicion ? "PUT" : "POST";
+
+      const response = await fetch(url, {
+        method,
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(nuevaVisita),
       });
 
       const data = await response.json();
-      if (!response.ok) throw new Error(data.message || "Error al agregar visita");
+      if (!response.ok) throw new Error(data.message || "Error en la solicitud");
 
-      // Recargar la lista de visitas después de agregar una nueva
       await obtenerVisitas();
 
       e.target.reset();
       setShowForm(false);
+      setModoEdicion(false);
+      setVisitaEditando(null);
     } catch (error) {
       console.error("Error:", error.message);
     }
+  };
+
+  const handleEditar = (visita) => {
+    setModoEdicion(true);
+    setVisitaEditando(visita);
+    setShowForm(true);
   };
 
   return (
@@ -73,20 +87,30 @@ function Visitas() {
                 <p>{visita.direccion}</p>
                 <p>{visita.tipo}</p>
                 <p>{visita.fecha}</p>
-                <button className="visit-list__button">Ver</button>
+                <button
+                  className="visit-list__button"
+                  onClick={() => handleEditar(visita)}
+                >
+                  Editar
+                </button>
               </div>
             ))
           )}
         </div>
 
         {showForm && (
-          <form className="visit-form" onSubmit={handleAddVisita}>
-            <h2>Solicitud de visita</h2>
+          <form className="visit-form" onSubmit={handleAddOrUpdateVisita}>
+            <h2>{modoEdicion ? "Editar Visita" : "Solicitud de Visita"}</h2>
             <input
               type="date"
               name="dia"
               className="visit-form__input"
               required
+              defaultValue={
+                modoEdicion
+                  ? visitaEditando.fecha.split("T")[0]
+                  : ""
+              }
             />
             <input
               type="text"
@@ -94,13 +118,19 @@ function Visitas() {
               placeholder="Dirección de la empresa"
               className="visit-form__input"
               required
+              defaultValue={modoEdicion ? visitaEditando.direccion : ""}
             />
-            <select name="tipo-visita" className="login-input" required>
+            <select
+              name="tipo-visita"
+              className="login-input"
+              required
+              defaultValue={modoEdicion ? visitaEditando.tipo : ""}
+            >
               <option value="Presencial">Presencial</option>
               <option value="Virtual">Virtual</option>
             </select>
             <button type="submit" className="visit-form__button">
-              Solicitar
+              {modoEdicion ? "Actualizar" : "Solicitar"}
             </button>
           </form>
         )}
