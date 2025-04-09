@@ -52,9 +52,10 @@ const LoginForm = () => {
         <h2 id="login-title">Ingreso Seguimiento</h2>
 
         <form className="login-form" onSubmit={handleSubmit}>
-          <label className="login-label">Tipo de Cuenta</label>
+          <label className="login-label" htmlFor="login-select">Tipo de Cuenta</label>
           <select
             className="login-input"
+            id="login-select"
             name="typeAccount"
             value={typeAccount}
             onChange={(e) => setTypeAccount(e.target.value)}
