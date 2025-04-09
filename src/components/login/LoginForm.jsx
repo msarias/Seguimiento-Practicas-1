@@ -87,13 +87,14 @@ const LoginForm = () => {
           />
 
           {error && <p className="error-message">{error}</p>}
-
-          <button type="submit" className="login-button">Iniciar Sesión</button>
-
+          
           <div className="recovery-block">
             <Link to="/forgot-password">Olvidé mi contraseña</Link>
             <Link to="/Register">Registrarme</Link>
           </div>
+
+          <button type="submit" className="login-button">Iniciar Sesión</button>
+
         </form>
       </div>
     </div>
