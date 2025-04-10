@@ -31,13 +31,13 @@ const Reporte = Sequelize.define(
         len: [3, 45],
       },
     },
-    // motivo: {
-    //   type: DataTypes.STRING(255),
-    //   allowNull: true,
-    //   validate: {
-    //     len: [0, 255],
-    //   },
-    // }
+    motivo: {
+      type: DataTypes.STRING(255),
+      allowNull: true,
+      validate: {
+        len: [0, 255],
+      },
+    }
   },
   {
     tableName: 'reporte',
