@@ -108,11 +108,20 @@ function Visitas() {
           {visitas.length === 0 ? (
             <p>No hay visitas registradas</p>
           ) : (
-            visitas.map((visita) => (
+            visitas.map((visita, usuario) => (
               <div key={visita.id} className={`report-list__item estado-${visita.estado}`}>
-                <p><strong>Dirección:</strong> {visita.direccion}</p>
-                <p><strong>Tipo:</strong> {visita.tipo}</p>
-                <p><strong>Fecha:</strong> {visita.fecha.split("T")[0]}</p>
+                <div>
+                  <p><strong>Dirección:</strong> {visita.direccion}</p>
+                </div>
+                <div>
+                  <p><strong>Tipo:</strong> {visita.tipo}</p>
+                </div>
+                <div>
+                  <p><strong>Fecha:</strong> {visita.fecha.split("T")[0]}</p> 
+                </div>
+                <div>
+                  <p><strong>Estudiante:</strong> {usuario.nombre}</p> 
+                </div>
 
                 {/* Mostrar estado si el usuario es aprendiz */}
                 {/* {rol === "aprendiz" && (
