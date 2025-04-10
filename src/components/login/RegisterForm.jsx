@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import axios from "axios";
 import Swal from "sweetalert2";
 
 const RegisterForm = () => {
@@ -24,54 +25,48 @@ const RegisterForm = () => {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    setError("");
+  e.preventDefault();
+  setError("");
 
-    if (!formData.identificacion.match(/^\d+$/)) {
-      setError("El número de documento solo debe contener números.");
-      return;
-    }
+  if (!formData.identificacion.match(/^\d+$/)) {
+    setError("El número de documento solo debe contener números.");
+    return;
+  }
 
-    if (password.length < 6) {
-      setError("La contraseña debe tener al menos 6 caracteres.");
-      return;
-    }
+  if (password.length < 6) {
+    setError("La contraseña debe tener al menos 6 caracteres.");
+    return;
+  }
 
-    try {
-      const response = await fetch("http://localhost:3000/api/usuarios", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...formData, contraseña: password }),
-      });
+  try {
+    await axios.post("http://localhost:3000/api/usuarios", {
+      ...formData,
+      contraseña: password,
+    });
 
-      const result = await response.json();
 
-      if (!response.ok) {
-        throw new Error(result.message || "Error al registrar usuario");
-      }
+    Swal.fire({
+      position: "center",
+      icon: "success",
+      title: "Usuario registrado con éxito",
+      showConfirmButton: false,
+      timer: 1500,
+    });
 
-      Swal.fire({
-        position: "center",
-        icon: "success",
-        title: "Usuario registrado con éxito",
-        showConfirmButton: false,
-        timer: 1500,
-      });
-
-      setFormData({
-        nombres: "",
-        apellidos: "",
-        id_empresa: "",
-        identificacion: "",
-        ficha: "",
-        correo: "",
-        rol: "aprendiz",
-      });
-      setPassword("");
-    } catch (err) {
-      setError(err.message);
-    }
-  };
+    setFormData({
+      nombres: "",
+      apellidos: "",
+      id_empresa: "",
+      identificacion: "",
+      ficha: "",
+      correo: "",
+      rol: "aprendiz",
+    });
+    setPassword("");
+  } catch (err) {
+    setError(err.response?.data?.message || "Error al registrar usuario");
+  }
+};
 
   return (
     <div className="form-container">

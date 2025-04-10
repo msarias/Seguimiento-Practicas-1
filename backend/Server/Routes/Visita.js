@@ -19,7 +19,17 @@ router.put("/visitas/:id", async (req, res) => {
     }
   });
   
-router.put('/:id', Visita.actualizarVisita);
+  router.put("/visitas/estado/:id", async (req, res) => {
+    const { id } = req.params;
+    const { estado } = req.body;
+    try {
+      await pool.query("UPDATE visitas SET estado = ? WHERE id = ?", [estado, id]);
+      res.json({ message: "Estado actualizado" });
+    } catch (error) {
+      res.status(500).json({ message: "Error al actualizar estado" });
+    }
+  });
+  
 router.delete('/:id', Visita.eliminarVisita);
 
 module.exports = router;

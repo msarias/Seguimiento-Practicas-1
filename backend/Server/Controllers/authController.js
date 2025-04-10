@@ -4,9 +4,17 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const transporter = require("../Config/nodemailer");
 
+// ==============================
+// Forgot Password
+// ==============================
 const forgotPassword = async (req, res) => {
   try {
     const { correo } = req.body;
+
+    if (!correo) {
+      return res.status(400).json({ message: "El correo es obligatorio." });
+    }
+
     const usuario = await Usuario.findOne({ where: { correo } });
 
     if (!usuario) {
@@ -26,7 +34,7 @@ const forgotPassword = async (req, res) => {
       subject: "Restablecer contraseña",
       html: `
         <h2>Solicitud de restablecimiento de contraseña</h2>
-        <p>Haz click en el enlace para restablecer tu contraseña:</p>
+        <p>Haz clic en el enlace para restablecer tu contraseña:</p>
         <a href="${resetLink}">${resetLink}</a>
         <p>Si no solicitaste este cambio, ignora este mensaje.</p>
       `,
@@ -46,6 +54,9 @@ const forgotPassword = async (req, res) => {
   }
 };
 
+// ==============================
+// Reset Password
+// ==============================
 const resetPassword = async (req, res) => {
   const { token } = req.params;
   const { password } = req.body;
@@ -77,22 +88,29 @@ const resetPassword = async (req, res) => {
   }
 };
 
+// ==============================
+// Login
+// ==============================
 const login = async (req, res) => {
-  const { tipoCuenta, documento, password } = req.body;
-
   try {
-    const usuario = await Usuario.findOne({ where: { identificacion: documento } });
+    const { tipoCuenta, documento, password } = req.body;
+
+    // Validar datos obligatorios
+    if (!documento || !password || !tipoCuenta) {
+      return res.status(400).json({ message: "Todos los campos son obligatorios." });
+    }
+
+    const usuario = await Usuario.findOne({ where: { identificacion: documento.trim() } });
 
     if (!usuario) {
       return res.status(404).json({ message: "El usuario no está registrado" });
     }
 
-    if (usuario.rol.trim().toLowerCase() !== tipoCuenta.trim().toLowerCase()) {
-        return res.status(404).json({ message: "El tipo de cuenta no coincide" });
-      }
-      
+    if (usuario.rol?.trim().toLowerCase() !== tipoCuenta.trim().toLowerCase()) {
+      return res.status(403).json({ message: "El tipo de cuenta no coincide con el rol del usuario." });
+    }
 
-    const validarPassword = await bcrypt.compare(password, usuario.contraseña);
+    const validarPassword = await bcrypt.compare(password.trim(), usuario.contraseña);
     if (!validarPassword) {
       return res.status(401).json({ message: "Contraseña incorrecta" });
     }
