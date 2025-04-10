@@ -75,14 +75,26 @@ function Visitas() {
     setShowForm(true);
   };
 
-  const handleAceptar = (id) => {
-    console.log("Aceptar visita:", id);
-    // Aquí puedes implementar la lógica para aceptar una visita
+  const handleAceptar = async (id) => {
+    try {
+      await fetch(`http://localhost:3000/api/visitas/aceptar/${id}`, {
+        method: "PUT",
+      });
+      await obtenerVisitas();
+    } catch (error) {
+      console.error("Error al aceptar visita:", error);
+    }
   };
 
-  const handleRechazar = (id) => {
-    console.log("Rechazar visita:", id);
-    // Aquí puedes implementar la lógica para rechazar una visita
+  const handleRechazar = async (id) => {
+    try {
+      await fetch(`http://localhost:3000/api/visitas/rechazar/${id}`, {
+        method: "PUT",
+      });
+      await obtenerVisitas();
+    } catch (error) {
+      console.error("Error al rechazar visita:", error);
+    }
   };
 
   return (
@@ -97,15 +109,22 @@ function Visitas() {
             <p>No hay visitas registradas</p>
           ) : (
             visitas.map((visita) => (
-              <div key={visita.id} className="report-list__item">
+              <div key={visita.id} className={`report-list__item estado-${visita.estado}`}>
                 <p><strong>Dirección:</strong> {visita.direccion}</p>
                 <p><strong>Tipo:</strong> {visita.tipo}</p>
                 <p><strong>Fecha:</strong> {visita.fecha.split("T")[0]}</p>
 
+                {/* Mostrar estado si el usuario es aprendiz */}
+                {/* {rol === "aprendiz" && (
+                  <p><strong>Estado:<span className={`estado ${visita.estado}`}>
+                    </span></strong> {visita.estado}
+                  </p>
+                )} */}
+
                 {/* Botón de editar solo para aprendices */}
                 {rol === "aprendiz" && (
                   <button
-                    className="visit-list__button"
+                    className="visit-list__buttone"
                     onClick={() => handleEditar(visita)}
                   >
                     Editar
@@ -119,13 +138,13 @@ function Visitas() {
                       className="visit-list__button accept"
                       onClick={() => handleAceptar(visita.id)}
                     >
-                      Aceptar
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="blue" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-checkbox"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M9 11l3 3l8 -8" /><path d="M20 12v6a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h9" /></svg>
                     </button>
                     <button
                       className="visit-list__button reject"
                       onClick={() => handleRechazar(visita.id)}
                     >
-                      Rechazar
+                      <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="red"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-copy-x"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path stroke="none" d="M0 0h24v24H0z" /><path d="M7 9.667a2.667 2.667 0 0 1 2.667 -2.667h8.666a2.667 2.667 0 0 1 2.667 2.667v8.666a2.667 2.667 0 0 1 -2.667 2.667h-8.666a2.667 2.667 0 0 1 -2.667 -2.667z" /><path d="M4.012 16.737a2 2 0 0 1 -1.012 -1.737v-10c0 -1.1 .9 -2 2 -2h10c.75 0 1.158 .385 1.5 1" /><path d="M11.5 11.5l4.9 5" /><path d="M16.5 11.5l-5.1 5" /></svg>
                     </button>
                   </div>
                 )}
