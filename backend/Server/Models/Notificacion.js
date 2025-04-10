@@ -6,9 +6,13 @@ const Notificacion = sequelize.define("Notificacion",{
         type:DataTypes.STRING,
         allowNull:false,
     },
-    para:{
+    tipoUsuario:{
         type:DataTypes.ENUM("aprendiz", "instructor", "ambos"),
         allowNull:false,
+    },
+    usuarioId: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
     },
     leida:{
         type:DataTypes.BOOLEAN,
