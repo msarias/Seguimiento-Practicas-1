@@ -64,3 +64,29 @@ exports.eliminarVisita = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+
+exports.aceptarVisita = async (req, res) => {
+  try {
+    const visita = await Visita.findByPk(req.params.id);
+    if (!visita) return res.status(404).json({ message: "Visita no encontrada" });
+
+    visita.estado = "aceptada";
+    await visita.save();
+    res.json({ message: "Visita aceptada" });
+  } catch (err) {
+    res.status(500).json({ error: "Error al aceptar la visita" });
+  }
+};
+
+exports.rechazarVisita = async (req, res) => {
+  try {
+    const visita = await Visita.findByPk(req.params.id);
+    if (!visita) return res.status(404).json({ message: "Visita no encontrada" });
+
+    visita.estado = "rechazada";
+    await visita.save();
+    res.json({ message: "Visita rechazada" });
+  } catch (err) {
+    res.status(500).json({ error: "Error al rechazar la visita" });
+  }
+};
