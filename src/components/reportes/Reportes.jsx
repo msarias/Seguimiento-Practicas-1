@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+// import axios from 'axios';
 import NavBar from '../generales/NavBar';
 import Sidebar from '../generales/Sidebar';
 const ReportForm = ({ onAddReporte, onClose }) => {
@@ -46,10 +46,9 @@ const ReportForm = ({ onAddReporte, onClose }) => {
         alert('¡Reporte subido exitosamente!');
         onClose();
         setReporte({ id_usuario: '', nombre: '', motivo: '', fecha: '' });
-      }; /* else {
+      } /* else {
         console.error('No se recibió correctamente la información.');
       } */
-
     } catch (error) {
       console.error('Error al subir el reporte:', error);
     }
@@ -163,8 +162,7 @@ const Reportes = () => {
         ) : (
           reportes.map((reporte, index) => (
             <div className="report-list__item" key={index}>
-              <p><strong>{`Reporte ${index + 1}`}</strong></p>
-              <p>ID Usuario: {reporte.id_usuario}</p>
+              <p>ID Aprendiz: {reporte.id_usuario}</p>
               <p>Nombre: {reporte.nombre}</p>
               <p>Motivo: {reporte.motivo}</p>
               <p>Fecha: {reporte.fecha}</p>
@@ -183,7 +181,7 @@ const Reportes = () => {
           ))
         )}
 
-        <button className="add-report" onClick={toggleForm}>
+        <button className="add-report report-form__button" onClick={toggleForm}>
           {mostrarFormulario ? 'Cerrar Formulario' : 'Agregar Reporte'}
         </button>
 
