@@ -93,7 +93,7 @@ const Reportes = () => {
         method: 'DELETE',
       });
       if (!response.ok) throw new Error('No se pudo eliminar el reporte.');
-      setReportes((prev) => prev.filter((reporte) => reporte.id != id));
+      setReportes((prev) => prev.filter((reporte) => reporte.id !== id));
     } catch (error) {
       setError(error.message);
     }
