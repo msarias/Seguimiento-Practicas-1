@@ -1,135 +1,104 @@
-const enviarNotificacion = require("../Sockets/Notificacion");
+//SEGURUDAD - CUENTA
 
-// ==================== SEGURIDAD / CUENTA ====================
 exports.notificarCambioPassword = (io, usuarioId, tipoUsuario) => {
-    enviarNotificacion({
-      mensaje: "Tu contraseña ha sido actualizada con éxito.",
-      tipoUsuario,
-      usuarioId,
-      tipo: "success",
-      io,
-    });
-  };
+  crearYEmitirNotificacion({
+    mensaje: "Tu contraseña ha sido actualizada con éxito.",
+    tipoUsuario,
+    usuarioId,
+    tipo: "success",
+    io,
+  });
+};
 
-  exports.notificarIntentosFallidos = (io, usuarioId, tipoUsuario) => {
-    enviarNotificacion({
-      mensaje: "Alguien intentó acceder a tu cuenta sin éxito.",
-      tipoUsuario,
-      usuarioId,
-      tipo: "error",
-      io,
-    });
-  };
-  
-  exports.notificarPrimerInicioSesion = (io, usuarioId) => {
-    enviarNotificacion({
-      mensaje: "¡Bienvenido! No olvides actualizar tu perfil.",
-      tipoUsuario: "ambos",
-      usuarioId,
-      tipo: "info",
-      io,
-    });
-  };
-  
-  // ==================== VISITAS ====================
-exports.notificarNuevaVisita = (io, usuarioId, tipoUsuario, fecha) => {
-    enviarNotificacion({
-      mensaje: `Se ha agendado una visita para el ${fecha}.`,
-      tipoUsuario,
-      usuarioId,
-      tipo: "info",
-      io,
-    });
-  };
-  
-  exports.notificarCambioVisita = (io, usuarioId, tipoUsuario, nuevaFecha) => {
-    enviarNotificacion({
-      mensaje: `Tu visita fue reprogramada para el ${nuevaFecha}.`,
-      tipoUsuario,
-      usuarioId,
-      tipo: "warning",
-      io,
-    });
-  };
-  
-  exports.notificarCancelacionVisita = (io, usuarioId, fecha) => {
-    enviarNotificacion({
-      mensaje: `Tu visita del ${fecha} ha sido cancelada.`,
-      tipoUsuario: "ambos",
-      usuarioId,
-      tipo: "error",
-      io,
-    });
-  };
-  
-  // ==================== REPORTES / BITÁCORAS ====================
-exports.notificarNuevoReporte = (io, usuarioId) => {
-    enviarNotificacion({
-      mensaje: "Has enviado un nuevo reporte. Revisión en curso.",
-      tipoUsuario: "aprendiz",
-      usuarioId,
-      tipo: "info",
-      io,
-    });
-  };
-  
-  exports.notificarReporteAprobado = (io, usuarioId) => {
-    enviarNotificacion({
-      mensaje: "Tu reporte ha sido aprobado por el instructor.",
-      tipoUsuario: "aprendiz",
-      usuarioId,
-      tipo: "success",
-      io,
-    });
-  };
-  
-  exports.notificarReporteRechazado = (io, usuarioId) => {
-    enviarNotificacion({
-      mensaje: "Tu reporte fue rechazado. Revisa los comentarios.",
-      tipoUsuario: "aprendiz",
-      usuarioId,
-      tipo: "error",
-      io,
-    });
-  };
-  
-  exports.notificarNuevaBitacora = (io, usuarioId) => {
-    enviarNotificacion({
-      mensaje: "Se ha registrado una nueva bitácora.",
-      tipoUsuario: "instructor",
-      usuarioId,
-      tipo: "info",
-      io,
-    });
-  };
-  
-  exports.notificarComentarioBitacora = (io, usuarioId, fecha) => {
-    enviarNotificacion({
-      mensaje: `Tu instructor comentó en tu bitácora del ${fecha}.`,
-      tipoUsuario: "aprendiz",
-      usuarioId,
-      tipo: "info",
-      io,
-    });
-  };
-  
-  // ==================== USUARIOS / EMPRESAS ====================
-exports.notificarUsuarioCreado = (io, usuarioId, tipoUsuario) => {
-    enviarNotificacion({
-      mensaje: "Se ha creado tu cuenta con éxito.",
-      tipoUsuario,
-      usuarioId,
-      tipo: "success",
-      io,
-    });
-  };
-  exports.notificarCambioEmpresa = (io, usuarioId) => {
-    enviarNotificacion({
-      mensaje: "Se actualizó la información de tu empresa asociada.",
-      tipoUsuario: "aprendiz",
-      usuarioId,
-      tipo: "info",
-      io,
-    });
-  };
-  
+exports.notificarCambioCorreo = (io, usuarioId, tipoUsuario) => {
+  crearYEmitirNotificacion({
+    mensaje: "Tu correo electrónico ha sido actualizado.",
+    tipoUsuario,
+    usuarioId,
+    tipo: "info",
+    io,
+  });
+};
+
+exports.notificarAccesoNoAutorizado = (io, usuarioId, tipoUsuario) => {
+  crearYEmitirNotificacion({
+    mensaje: "Se detectó un intento de acceso no autorizado a tu cuenta.",
+    tipoUsuario,
+    usuarioId,
+    tipo: "error",
+    io,
+  });
+};
+
+//VISITAS
+exports.notificarVisitaAgendada = (io, usuarioId, tipoUsuario) => {
+  crearYEmitirNotificacion({
+    mensaje: "Tienes una nueva visita agendada. Revisa tu calendario.",
+    tipoUsuario,
+    usuarioId,
+    tipo: "info",
+    io,
+  });
+};
+
+exports.notificarConflictoHorario = (io, usuarioId, tipoUsuario) => {
+  crearYEmitirNotificacion({
+    mensaje: "Conflicto de horario detectado al agendar una visita.",
+    tipoUsuario,
+    usuarioId,
+    tipo: "warning",
+    io,
+  });
+};
+
+exports.notificarVisitaCancelada = (io, usuarioId, tipoUsuario) => {
+  crearYEmitirNotificacion({
+    mensaje: "Una visita que tenías agendada ha sido cancelada.",
+    tipoUsuario,
+    usuarioId,
+    tipo: "warning",
+    io,
+  });
+};
+
+//REPORTE - BITACORAS
+exports.notificarNuevoReporte = (io, usuarioId, tipoUsuario) => {
+  crearYEmitirNotificacion({
+    mensaje: "Se ha generado un nuevo reporte.",
+    tipoUsuario,
+    usuarioId,
+    tipo: "info",
+    io,
+  });
+};
+
+exports.notificarObservacionEnBitacora = (io, usuarioId, tipoUsuario) => {
+  crearYEmitirNotificacion({
+    mensaje: "Tienes una nueva observación en tu bitácora.",
+    tipoUsuario,
+    usuarioId,
+    tipo: "warning",
+    io,
+  });
+};
+
+//USUARIO EMPRESAS
+exports.notificarNuevoUsuario = (io, usuarioId, tipoUsuario) => {
+  crearYEmitirNotificacion({
+    mensaje: "Se ha registrado un nuevo usuario en el sistema.",
+    tipoUsuario,
+    usuarioId,
+    tipo: "info",
+    io,
+  });
+};
+
+exports.notificarUsuarioEliminado = (io, usuarioId, tipoUsuario) => {
+  crearYEmitirNotificacion({
+    mensaje: "Un usuario ha sido eliminado del sistema.",
+    tipoUsuario,
+    usuarioId,
+    tipo: "warning",
+    io,
+  });
+};

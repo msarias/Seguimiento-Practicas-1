@@ -32,7 +32,8 @@ exports.crearUsuario = async (req, res) => {
             identificacion,
             ficha: codigoFicha
         });
-         //Notificacion
+
+        // Notificacion
         const io = req.app.get("io");
         notificarNuevoUsuario(io, nuevoUsuario);
 
@@ -82,14 +83,15 @@ exports.actualizarUsuario = async (req, res) => {
         if (!usuario) return res.status(404).json({ message: 'Usuario no encontrado' });
 
         // Si enviaron contraseña nueva, la hasheas
-        /* if (contraseña && contraseña.trim() !== "") {
+        if (contraseña && contraseña.trim() !== "") {
             const salt = await bcrypt.genSalt(10);
             contraseña = await bcrypt.hash(contraseña, salt);
         } else {
             // Si no mandaron nueva contraseña, mantenés la actual
             contraseña = usuario.contraseña;
         }
-        await usuario.update({ nombres, apellidos, correo, rol, id_empresa, contraseña: hashedPassword, identificacion, ficha });
+
+        await usuario.update({ nombres, apellidos, correo, rol, id_empresa, contraseña, identificacion, ficha });
 
         res.status(200).json({ message: 'Usuario actualizado correctamente' });
     } catch (error) {
