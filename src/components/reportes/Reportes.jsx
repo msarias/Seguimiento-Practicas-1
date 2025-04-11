@@ -112,7 +112,6 @@ const Reportes = () => {
         ) : (
           reportes.map((reporte, index) => (
             <div className="report-list__item" key={index}>
-              <p><strong>{`Reporte ${index + 1}`}</strong></p>
               <p>ID Usuario: {reporte.id_usuario}</p>
               <p>Nombre: {reporte.nombre}</p>
               <p>Motivo: {reporte.motivo}</p>
