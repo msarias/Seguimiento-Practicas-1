@@ -1,4 +1,5 @@
 const Usuario = require('../Models/Usuario');
+const Ficha = require('../Models/Ficha');
 const bcrypt = require('bcryptjs');
 
 // Crear un usuario (aprendiz o instructor)
@@ -6,22 +7,29 @@ exports.crearUsuario = async (req, res) => {
     try {
         console.log("Datos recibidos:", req.body);
 
-        const { nombres, apellidos, correo, rol, id_empresa, contraseña, identificacion, ficha } = req.body;
+        const { nombres, apellidos, correo, rol, id_empresa, contraseña, identificacion, ficha: codigoFicha, programa } = req.body;
 
-        // Convertir "" en null si está vacío
-        // const empresaId = id_empresa && id_empresa.trim() !== "" ? parseInt(id_empresa, 10) : null;
-
+        // Hashear la contraseña
         let hashedPassword = await bcrypt.hash(contraseña, 10);
+
+        // Crear la ficha si no existe
+        let ficha = await Ficha.findByPk(codigoFicha);
+        if (!ficha) {
+            ficha = await Ficha.create({
+                codigo: codigoFicha,
+                nombre: programa
+            });
+        }
 
         const nuevoUsuario = await Usuario.create({
             nombres,
             apellidos,
             correo,
             rol,
-            id_empresa: id_empresa || null,  // Ahora null si está vacío
+            id_empresa: null,  // Ahora null si está vacío
             contraseña: hashedPassword,
             identificacion,
-            ficha
+            ficha: codigoFicha
         });
 
         res.status(201).json(nuevoUsuario);
@@ -30,7 +38,6 @@ exports.crearUsuario = async (req, res) => {
         res.status(500).json({ error: "Error interno del servidor" });
     }
 };
-
 
 // Obtener todos los usuarios (sin importar su rol)
 exports.obtenerUsuarios = async (req, res) => {
@@ -65,8 +72,7 @@ exports.obtenerUsuarioPorId = async (req, res) => {
 exports.actualizarUsuario = async (req, res) => {
     try {
         const { id } = req.params;
-
-        const { nombres, apellidos, correo, rol, id_empresa, contraseña: hashedPassword, identificacion, ficha } = req.body;
+        let { nombres, apellidos, correo, rol, id_empresa, contraseña, identificacion, ficha } = req.body;
 
         const usuario = await Usuario.findByPk(id);
         if (!usuario) return res.status(404).json({ message: 'Usuario no encontrado' });
@@ -78,7 +84,7 @@ exports.actualizarUsuario = async (req, res) => {
         } else {
             // Si no mandaron nueva contraseña, mantenés la actual
             contraseña = usuario.contraseña;
-        } */
+        }
         await usuario.update({ nombres, apellidos, correo, rol, id_empresa, contraseña: hashedPassword, identificacion, ficha });
 
         res.status(200).json({ message: 'Usuario actualizado correctamente' });
@@ -87,9 +93,8 @@ exports.actualizarUsuario = async (req, res) => {
     }
 };
 
-//Elimnar  desactivar aprendiz
+// Eliminar (desactivar) aprendiz
 exports.eliminarUsuario = async (req, res) => {
-
     setTimeout(async () => {
         try {
             const { id } = req.params;
