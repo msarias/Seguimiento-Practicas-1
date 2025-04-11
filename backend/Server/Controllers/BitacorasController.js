@@ -1,4 +1,5 @@
 const Bitacoras = require('../Models/Bitacora');
+const { notificarNuevaBitacora } = require("../utils/NotificacionSistema");
 
 // Obtener todas las bitácoras
 const getAllBitacoras = async (req, res) => {
@@ -34,6 +35,11 @@ const createBitacora = async (req, res) => {
             archivo,
             codigo
         });
+         //Notificacion
+
+         const io = req.app.get("io");
+         notificarNuevaBitacora(io, nuevaBitacora);
+
         res.status(201).json(nuevaBitacora);
     } catch (error) {
         res.status(500).json({ error: error.message });

@@ -97,10 +97,10 @@ const login = async(req,res)=>{
             return res.status(404).json({ message: "El tipo de cuenta no coincide" });
         }
         //Falta probar este codigo que tengan las contraseñas encriptadas
-        // const validarPassword = await bcrypt.compare(password, usuario.contraseña);
-        // if(!validarPassword){
-        //     return res.status(401).json({message:"Contraseña incorrecta"});
-        // }
+        const validarPassword = await bcrypt.compare(password, usuario.contraseña);
+        if(!validarPassword){
+            return res.status(401).json({message:"Contraseña incorrecta"});
+        }
         res.status(200).json({message:"Inicio de sesión exitoso"});
     }catch(error){
         res.status(500).json({message:"Error en el servidor", error})

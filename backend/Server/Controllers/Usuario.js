@@ -1,5 +1,6 @@
 const Usuario = require('../Models/Usuario');
 const bcrypt = require('bcryptjs');
+const { notificarNuevoUsuario } = require("../utils/NotificacionSistema");
 
 // Crear un usuario (aprendiz o instructor)
 exports.crearUsuario = async (req, res) => {
@@ -22,6 +23,9 @@ exports.crearUsuario = async (req, res) => {
             contraseña: hashedPassword, 
             identificacion 
         });
+         //Notificacion
+        const io = req.app.get("io");
+        notificarNuevoUsuario(io, nuevoUsuario);
 
         res.status(201).json(nuevoUsuario);
     } catch (error) {

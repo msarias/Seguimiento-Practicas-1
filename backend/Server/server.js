@@ -4,6 +4,7 @@ const {Server} = require("socket.io");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const dotenv = require("dotenv");
+require("./Models/Notificacion"); // 💥 Carga el modelo aquí
 
 const sequelize = require("./Config/db.js");
 const indexRoutes = require("./Routes/index.routes.js");
@@ -51,7 +52,7 @@ app.use("/api", indexRoutes);
 async function connectDB() {
   try {
     await sequelize.sync({ force: false });
-    console.log("Base de datos sincronizada ✅");
+    console.log("Base de datos sincronizada");
   } catch (error) {
     console.log("Error al sincronizar DB:", error.message);
   }

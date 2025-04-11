@@ -1,4 +1,5 @@
 const Empresa = require("../Models/Empresa");
+const { notificarNuevaEmpresa } = require("../utils/NotificacionSistema");
 
 exports.crearEmpresa = async (req, res) => {
   try {
@@ -9,6 +10,10 @@ exports.crearEmpresa = async (req, res) => {
       encargado,
       contacto,
     });
+    //Notificacion
+    const io = req.app.get("io");
+    notificarNuevaEmpresa(io, nuevaEmpresa)
+
     res.status(201).json({ nuevaEmpresa });
   } catch (error) {
     res.status(500).json({ error: error.message });

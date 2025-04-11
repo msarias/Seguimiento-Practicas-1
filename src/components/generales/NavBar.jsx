@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-
+import Notificaciones from "../Notificaciones/Notificaciones";
 const Navbar = () => {
   return (
     <nav className="navbar">
@@ -10,6 +10,7 @@ const Navbar = () => {
         draggable="false"
       />
       <div className="navbar-items">
+      <Notificaciones userId={"123"} tipoUsuario={"aprendiz"} />
         <input
           type="button"
           value="Cerrar sesión"

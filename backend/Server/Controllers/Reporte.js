@@ -1,4 +1,5 @@
 const Reporte = require('../Models/Reporte');
+const { notificarNuevoReporte } = require("../utils/NotificacionSistema");
 
 exports.crearReporte = async (req, res) => {
   try {
@@ -9,6 +10,11 @@ exports.crearReporte = async (req, res) => {
       nombre,
       motivo
     });
+
+      //Notificacion
+    const io = req.app.get("io");
+    notificarNuevoReporte(io, nuevoReporte)
+
     res.status(201).json({ nuevoReporte });
   } catch (error) {
     res.status(500).json({ error: error.message });

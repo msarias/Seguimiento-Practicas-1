@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
-const {Notificacion} = require("../Controllers/Notificacion");
+const {crearNotificacion} = require("../Controllers/Notificacion");
 
-router.post('/',Notificacion);
+router.post('/',crearNotificacion);
 
 module.exports = router;

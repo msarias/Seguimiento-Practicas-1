@@ -1,9 +1,15 @@
 const Visita = require('../Models/Visita');
+const { notificarNuevaVisita } = require("../utils/NotificacionSistema");
 
 exports.crearVisita = async (req, res) => {
   try {
     const { direccion, tipo, fecha } = req.body;
     const nuevaVisita = await Visita.create({ direccion, tipo, fecha });
+    
+    //Notificacion
+    const io = req.app.get("io");
+    notificarNuevaVisita(io, nuevaVisita);
+
     res.status(201).json({ nuevaVisita });
   } catch (error) {
     res.status(500).json({ error: error.message });
