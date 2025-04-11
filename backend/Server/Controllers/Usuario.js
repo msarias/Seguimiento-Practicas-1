@@ -1,4 +1,5 @@
 const Usuario = require('../Models/Usuario');
+const Ficha = require('../Models/Ficha');
 const bcrypt = require('bcryptjs');
 const { notificarNuevoUsuario } = require("../utils/NotificacionSistema");
 
@@ -7,21 +8,29 @@ exports.crearUsuario = async (req, res) => {
     try {
         console.log("Datos recibidos:", req.body);
 
-        const { nombres, apellidos, correo, rol, id_empresa, contraseña, identificacion } = req.body;
+        const { nombres, apellidos, correo, rol, id_empresa, contraseña, identificacion, ficha: codigoFicha, programa } = req.body;
 
-        // Convertir "" en null si está vacío
-        // const empresaId = id_empresa && id_empresa.trim() !== "" ? parseInt(id_empresa, 10) : null;
-
+        // Hashear la contraseña
         let hashedPassword = await bcrypt.hash(contraseña, 10);
 
-        const nuevoUsuario = await Usuario.create({ 
-            nombres, 
-            apellidos, 
-            correo, 
-            rol, 
+        // Crear la ficha si no existe
+        let ficha = await Ficha.findByPk(codigoFicha);
+        if (!ficha) {
+            ficha = await Ficha.create({
+                codigo: codigoFicha,
+                nombre: programa
+            });
+        }
+
+        const nuevoUsuario = await Usuario.create({
+            nombres,
+            apellidos,
+            correo,
+            rol,
             id_empresa: null,  // Ahora null si está vacío
-            contraseña: hashedPassword, 
-            identificacion 
+            contraseña: hashedPassword,
+            identificacion,
+            ficha: codigoFicha
         });
          //Notificacion
         const io = req.app.get("io");
@@ -33,7 +42,6 @@ exports.crearUsuario = async (req, res) => {
         res.status(500).json({ error: "Error interno del servidor" });
     }
 };
-
 
 // Obtener todos los usuarios (sin importar su rol)
 exports.obtenerUsuarios = async (req, res) => {
@@ -68,21 +76,20 @@ exports.obtenerUsuarioPorId = async (req, res) => {
 exports.actualizarUsuario = async (req, res) => {
     try {
         const { id } = req.params;
-        let { nombres, apellidos, correo, rol, id_empresa, contraseña, identificacion } = req.body;
+        let { nombres, apellidos, correo, rol, id_empresa, contraseña, identificacion, ficha } = req.body;
 
         const usuario = await Usuario.findByPk(id);
         if (!usuario) return res.status(404).json({ message: 'Usuario no encontrado' });
 
         // Si enviaron contraseña nueva, la hasheas
-        if (contraseña && contraseña.trim() !== "") {
+        /* if (contraseña && contraseña.trim() !== "") {
             const salt = await bcrypt.genSalt(10);
             contraseña = await bcrypt.hash(contraseña, salt);
         } else {
             // Si no mandaron nueva contraseña, mantenés la actual
             contraseña = usuario.contraseña;
         }
-
-        await usuario.update({ nombres, apellidos, correo, rol, id_empresa, contraseña, identificacion });
+        await usuario.update({ nombres, apellidos, correo, rol, id_empresa, contraseña: hashedPassword, identificacion, ficha });
 
         res.status(200).json({ message: 'Usuario actualizado correctamente' });
     } catch (error) {
@@ -90,9 +97,8 @@ exports.actualizarUsuario = async (req, res) => {
     }
 };
 
-//Elimnar  desactivar aprendiz
+// Eliminar (desactivar) aprendiz
 exports.eliminarUsuario = async (req, res) => {
-
     setTimeout(async () => {
         try {
             const { id } = req.params;

@@ -28,11 +28,11 @@ const getBitacoraById = async (req, res) => {
 // Crear una nueva bitácora
 const createBitacora = async (req, res) => {
     try {
-        const { id_usuario, fecha, archivo, codigo} = req.body;
+        const { id_usuario, fecha, codigo} = req.body;
         const nuevaBitacora = await Bitacoras.create({
             id_usuario,
             fecha,
-            archivo,
+            // archivo,
             codigo
         });
          //Notificacion

@@ -33,6 +33,10 @@ const Visita = Sequelize.define(
         isAfter: new Date().toISOString(),
       },
     },
+    estado: {
+      type: DataTypes.STRING,
+      defaultValue: "pendiente",
+    },
   },
   {
     tableName: 'visita',

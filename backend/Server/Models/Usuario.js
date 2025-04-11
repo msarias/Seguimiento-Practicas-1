@@ -58,6 +58,14 @@ const Usuario = Sequelize.define('Usuario', {
         type: DataTypes.STRING,
         allowNull: true
     },
+   /*  ficha: {
+        type: DataTypes.INTEGER.UNSIGNED,
+        allowNull: true,
+        validate: {
+            isInt: true,
+            notEmpty: false,
+        },
+    }, */
 }, {
     tableName: 'usuario',
     timestamps: false,

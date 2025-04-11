@@ -9,6 +9,8 @@ const Bitacora = require("./bitacoraRutas.js");
 const Empresa = require("./Empresa.js");
 const AuthRutas = require("./authRutas.js");
 const Notificaciones = require("./Notificacion.js");
+const Ficha = require("./Ficha.js")
+
 
 // indexRoutes.use('/aprendices', aprendicesRoutes);
 indexRoutes.use("/reportes", Reporte);
@@ -18,5 +20,6 @@ indexRoutes.use("/visitas", Visita);
 indexRoutes.use("/empresas", Empresa);
 indexRoutes.use("/auth",AuthRutas);
 indexRoutes.use("/notificacion",Notificaciones);
+indexRoutes.use("/fichas", Ficha);
 
 module.exports = indexRoutes;

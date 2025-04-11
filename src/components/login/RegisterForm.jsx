@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import axios from "axios";
 import Swal from "sweetalert2";
 
 const RegisterForm = () => {
@@ -8,16 +9,13 @@ const RegisterForm = () => {
     apellidos: "",
     id_empresa: "",
     identificacion: "",
+    ficha: "",
     correo: "",
-    contraseña: "",
-    rol: "aprendiz", // Valor por defecto pero se adapta al cambio de rol
+    rol: "aprendiz",
   });
 
-  const [ficha, setFicha] = useState("");  // Definir estado para 'ficha'
-  const [document, setDocument] = useState("");  // Definir estado para 'document'
-  const [password, setPassword] = useState("");  // Definir estado para 'password'
+  const [password, setPassword] = useState(""); // Contraseña por separado
   const [error, setError] = useState("");
-  const [success, setSuccess] = useState("");
 
   const handleChange = (e) => {
     setFormData({
@@ -27,63 +25,53 @@ const RegisterForm = () => {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    setError("");
-    setSuccess("");
+  e.preventDefault();
+  setError("");
 
-    // Validaciones básicas
-    if (!formData.identificacion.match(/^\d+$/)) {
-      setError("El número de documento solo debe contener números.");
-      return;
-    }
+  if (!formData.identificacion.match(/^\d+$/)) {
+    setError("El número de documento solo debe contener números.");
+    return;
+  }
 
-    if (formData.contraseña.length < 6) {
-      setError("La contraseña debe tener al menos 6 caracteres.");
-      return;
-    }
+  if (password.length < 6) {
+    setError("La contraseña debe tener al menos 6 caracteres.");
+    return;
+  }
 
-    try {
-      const response = await fetch("http://localhost:3000/api/usuarios", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...formData, ficha, document, password }),  // Asegúrate de enviar todos los campos
-      });
+  try {
+    await axios.post("http://localhost:3000/api/usuarios", {
+      ...formData,
+      contraseña: password,
+    });
 
-      const result = await response.json();
 
-      if (!response.ok) {
-        throw new Error(result.message || "Error al registrar usuario");
-      }
+    Swal.fire({
+      position: "center",
+      icon: "success",
+      title: "Usuario registrado con éxito",
+      showConfirmButton: false,
+      timer: 1500,
+    });
 
-      Swal.fire({
-        position: "center",
-        icon: "success",
-        title: "Usuario registrado con éxito",
-        showConfirmButton: false,
-        timer: 1500
-      });
-
-      setFormData({
-        nombres: "",
-        apellidos: "",
-        id_empresa: "",
-        identificacion: "",
-        correo: "",
-        contraseña: "",
-        rol: "aprendiz",
-      });
-      setFicha("");
-      setDocument("");
-      setPassword("");
-    } catch (err) {
-      setError(err.message);
-    }
-  };
+    setFormData({
+      nombres: "",
+      apellidos: "",
+      id_empresa: "",
+      identificacion: "",
+      ficha: "",
+      correo: "",
+      rol: "aprendiz",
+    });
+    setPassword("");
+  } catch (err) {
+    setError(err.response?.data?.message || "Error al registrar usuario");
+  }
+};
 
   return (
     <div className="form-container">
       <h2 className="register-title">Registro Usuarios</h2>
-      <form className="form" onSubmit={handleSubmit}>  {/* Cambié onStalledCapture por onSubmit */}
+      <form className="form" onSubmit={handleSubmit}>
         <label htmlFor="names-input" className="register-label">Nombres</label>
         <input
           type="text"
@@ -114,8 +102,9 @@ const RegisterForm = () => {
           type="text"
           id="code-input"
           className="register-input"
-          value={ficha}
-          onChange={(e) => setFicha(e.target.value)}
+          name="ficha"
+          value={formData.ficha}
+          onChange={handleChange}
           placeholder="Ingrese su número de ficha"
           required
         />
@@ -125,8 +114,9 @@ const RegisterForm = () => {
           type="text"
           id="document-input"
           className="register-input"
-          value={document}
-          onChange={(e) => setDocument(e.target.value)}
+          name="identificacion"
+          value={formData.identificacion}
+          onChange={handleChange}
           placeholder="Ingrese su documento"
           required
         />
@@ -136,8 +126,8 @@ const RegisterForm = () => {
           type="email"
           id="email-input"
           className="register-input"
-          value={formData.correo}
           name="correo"
+          value={formData.correo}
           onChange={handleChange}
           placeholder="Ingrese su correo electrónico"
           required

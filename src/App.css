@@ -136,11 +136,10 @@ body {
 /* Contenido General */
 .container {
   display: grid;
-  grid-template-columns: 250px 1fr;
+  grid-template-columns: 220px 1fr;
   grid-template-rows: 80px 1fr;
   width: 100%;
   height: 100vh;
-  gap: 10px;
 }
 
 .navbar {
@@ -148,7 +147,7 @@ body {
   justify-content: space-between;
   align-items: center;
   padding: 8px 16px;
-  border-bottom: 2px solid #ccc;
+  border-bottom: 3px solid #ccc;
   background-color: #f8f8f8;
   grid-column: 1/3;
   grid-row: 1/2;
@@ -162,18 +161,15 @@ body {
 }
 
 .navbar-logout {
-  background-color: #4caf50;
-  color: #ffffff;
-  padding: 8px 16px;
-  border: none;
-  border-radius: 0.5rem;
+  font-weight: 600;
+  height: 50px;
+  background-color: #f8f8f8;
+  color: rgb(0, 0, 0);
   cursor: pointer;
-  transition: background-color 0.2s ease;
+  border-radius: 10px;
+  padding: 15px;
 }
 
-.navbar-logout:hover {
-  background-color: #45a049;
-}
 
 .navbar-icon {
   width: 40px;
@@ -189,8 +185,6 @@ body {
 
 .sidebar {
   background-color: #f8f8f8;
-  padding: 20px 30px;
-  gap: 20px;
   display: flex;
   flex-direction: column;
   grid-column: 1/2;
@@ -199,19 +193,27 @@ body {
 
 .sidebar-button {
   width: 100%;
-  padding: 10px 20px;
-  background-color: #4caf50;
-  color: white;
+  display: flex;
+  align-items: center;
+  padding-left: 15px;
+  gap:30px;
+  font-size: small;
+  font-weight: 600;
+  height: 50px;
+  background-color: #f8f8f8;
+  color: rgb(0, 0, 0);
   border: none;
-  border-radius: 0.5rem;
   cursor: pointer;
   text-align: left;
-  transition: background-color 0.2s ease;
+  text-decoration: none;
 }
 
-.sidebar button:hover {
-  background-color: #45a049;
+.sidebar-text {
+  text-transform: uppercase;
+  text-underline-offset: none;
 }
+
+
 
 .content {
   display: flex;
@@ -258,7 +260,7 @@ body {
   }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 580px) {
   .login {
     padding: 1rem;
   }
@@ -310,6 +312,7 @@ body {
   border: none;
   border-radius: 5px;
   cursor: pointer;
+  grid-column-end: end;
 }
 
 .bitacora-list__button:hover {
@@ -361,7 +364,6 @@ body {
   background-color: #45a049;
 }
 /* VISITAS */
-
 .visits-section {
   background-color: #ffffff;
   padding: 20px;
@@ -401,12 +403,31 @@ body {
   border-radius: 5px;
 }
 .visit-list__button {
-  padding: 10px 20px;
-  background-color: #61bd66;
-  color: white;
+  padding: 3px 4px 2px;
+  align-items: center;
+  background-color: transparent;
   border: none;
   border-radius: 5px;
   cursor: pointer;
+}
+.visit-list__buttone{
+  font-weight: 600;
+  background-color: rgba(255, 255, 255, 0.69);
+  color: rgb(0, 0, 0);
+  cursor: pointer;
+  padding: 10px 16px;
+  border: none;
+  grid-column-end: end;
+  border-radius: 10px;
+}
+.visit-list__buttone:hover {
+  background-color: rgb(207, 207, 207);
+}
+.visit-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  grid-column-end: end;
 }
 .visit-row button:hover {
   background-color: #45a049;
@@ -465,14 +486,15 @@ body {
 }
 
 .report-list__item {
-  display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
-  align-items: center;
   background-color: #f0f0f0;
   padding: 24px;
   border-radius: 8px;
   margin-bottom: 10px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-auto-flow: column;
+  align-items: center;
 }
 
 .report-list__button {
@@ -482,6 +504,7 @@ body {
   border: none;
   border-radius: 5px;
   cursor: pointer;
+  grid-column-end: end;
 }
 
 .report-list__button:hover {
@@ -615,4 +638,27 @@ input:valid {
   width: 25px;
   height: 25px;
   pointer-events: none;
+}
+.estado {
+  display: inline-block;
+  margin-top: 5px;
+  padding: 4px 10px;
+  border-radius: 10px;
+  font-weight: bold;
+  font-size: 0.9rem;
+}
+
+.estado-pendiente {
+  border-color: orange;
+  background-color: #feedc7df;
+}
+
+.estado-aceptada {
+  border-color: green;
+  background-color: #cefce1;
+}
+
+.estado-rechazada {
+  border-color: red;
+  background-color: #ffe6e6;
 }
