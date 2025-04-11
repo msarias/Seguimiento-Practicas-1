@@ -20,23 +20,23 @@ const Fichas = () => {
     }, []);
 
     return (
-        <div className="flex min-h-screen bg-gray-100">
+        <div className="container">
             <Navbar />
-            <div className="flex-1">
-                <Sidebar />
-                <div className="p-6">
-                    <h1 className="text-3xl font-bold mb-6">Listado de Fichas</h1>
+            <Sidebar />
+            <div className="content">
+                <div className="">
+                    <h1 className="">Listado de Fichas</h1>
                     {fichas.length > 0 ? (
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <div className="">
                             {fichas.map((ficha) => (
-                                <div key={ficha.codigo} className="bg-white p-4 rounded-lg shadow-md hover:shadow-lg transition">
-                                    <p className="text-lg font-semibold text-blue-600">Ficha: {ficha.codigo}</p>
-                                    <p className="text-gray-700 mt-2">Programa: {ficha.nombre}</p>
+                                <div key={ficha.codigo} className="">
+                                    <p className="">Ficha: {ficha.codigo}</p>
+                                    <p className="">Programa: {ficha.nombre}</p>
                                 </div>
                             ))}
                         </div>
                     ) : (
-                        <p className="text-gray-500">No hay fichas registradas.</p>
+                        <p className="">No hay fichas registradas.</p>
                     )}
                 </div>
             </div>
