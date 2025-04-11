@@ -9,6 +9,7 @@ import Reportes from '../reportes/Reportes';
 import Fichas from '../ficha/fichas';
 import ForgotPassword from '../login/ForgotPassword';
 import ResetPassword from '../login/ResetPassword';
+import NotFound from './NotFound';
 
 function Routing() {
   return (
@@ -24,6 +25,7 @@ function Routing() {
         <Route path="/fichas" element={<Fichas />} />
         <Route path="/bitacoras" element={<Bitacoras />} />
         <Route path="/reportes" element={<Reportes />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </Router>
   );
