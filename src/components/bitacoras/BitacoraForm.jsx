@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import AddBitacoraButton from './AddBitacoraButton';
 
 const BitacoraForm = ({ onAddBitacora, onClose }) => {
   const [isFormVisible, setIsFormVisible] = useState(false);
@@ -62,7 +61,7 @@ const BitacoraForm = ({ onAddBitacora, onClose }) => {
 
   return (
     <form onSubmit={handleSubmit}>
-      <AddBitacoraButton toggleForm={toggleForm} />
+      <button className="add-bitacora" onClick={toggleForm}>Agregar Bitácora</button>
       {isFormVisible && (
         <section className="bitacora-form" id="bitacoraForm">
           <h2 className="bitacora-form__title">Agregar Bitácora</h2>
