@@ -25,7 +25,7 @@ const Navbar = () => {
           className="navbar-icon"
           draggable="false"
         />
-        <Link to={'/Inicio'}>
+        <Link to={'/Inicio'} draggable="false">
           <img
             src="../css/img/home.png"
             alt="Home"
