@@ -1,4 +1,5 @@
 const Visita = require('../Models/Visita');
+const Usuario = require('../Models/Usuario');
 
 exports.crearVisita = async (req, res) => {
   try {
@@ -25,13 +26,17 @@ exports.verVisitaPorId = async (req, res) => {
 
 exports.verVisitas = async (req, res) => {
   try {
-    const visitas = await Visita.findAll();
-    if (visitas.length === 0) {
-      return res.status(404).json({ message: 'No existen visitas' });
-    }
+    const visitas = await Visita.findAll({
+      include: {
+        model: Usuario,
+        attributes: ['nombres', 'apellidos'] // trae solo lo necesario
+      }
+    });
+
     res.status(200).json({ visitas });
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    console.error("Error al obtener visitas:", error);
+    res.status(500).json({ error: "Error al obtener visitas" });
   }
 };
 
@@ -79,14 +84,20 @@ exports.aceptarVisita = async (req, res) => {
 };
 
 exports.rechazarVisita = async (req, res) => {
+  const { id } = req.params;
+  const { motivo } = req.body;
+
   try {
-    const visita = await Visita.findByPk(req.params.id);
+    const visita = await Visita.findByPk(id);
     if (!visita) return res.status(404).json({ message: "Visita no encontrada" });
 
     visita.estado = "rechazada";
+    visita.motivo = motivo; // Guardar motivo del rechazo
     await visita.save();
-    res.json({ message: "Visita rechazada" });
-  } catch (err) {
-    res.status(500).json({ error: "Error al rechazar la visita" });
+
+    res.status(200).json({ message: "Visita rechazada con motivo" });
+  } catch (error) {
+    console.error("Error al rechazar visita:", error);
+    res.status(500).json({ message: "Error al rechazar visita" });
   }
 };
