@@ -1,7 +1,7 @@
-// Componente ReportForm
 import React, { useState, useEffect } from 'react';
 import NavBar from '../generales/NavBar';
 import Sidebar from '../generales/Sidebar';
+
 const ReportForm = ({ onAddReporte, onClose }) => {
   const [reporte, setReporte] = useState({
     id_usuario: '',
@@ -16,12 +16,7 @@ const ReportForm = ({ onAddReporte, onClose }) => {
   };
 
   const uploadReport = async (e) => {
-    if (
-      !reporte.id_usuario ||
-      !reporte.nombre ||
-      !reporte.motivo ||
-      !reporte.fecha
-    ) {
+    if (!reporte.id_usuario || !reporte.nombre || !reporte.motivo || !reporte.fecha) {
       alert('Por favor, completa todos los campos.');
       return;
     }
@@ -35,21 +30,14 @@ const ReportForm = ({ onAddReporte, onClose }) => {
         body: JSON.stringify(reporte),
       });
 
-      if (!response.ok) {
-        throw new Error('Error al subir el reporte.');
-      }
+      if (!response.ok) throw new Error('Error al subir el reporte.');
 
       const data = await response.json();
-
-      if (data.reportes) {
-        onAddReporte(data.reportes);
-        alert('¡Reporte subido exitosamente!');
-        onClose();
+      if (data.nuevoReporte) {
+        onAddReporte(data.nuevoReporte); // Recibe el nuevo reporte directamente
         setReporte({ id_usuario: '', nombre: '', motivo: '', fecha: '' });
-      }; /* else {
-        console.error('No se recibió correctamente la información.');
-      } */
-
+        onClose();
+      }
     } catch (error) {
       console.error('Error al subir el reporte:', error);
     }
@@ -57,78 +45,45 @@ const ReportForm = ({ onAddReporte, onClose }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    uploadReport(); // Llamamos a la función que realiza el POST
+    uploadReport();
   };
 
   return (
     <form className="report-form" onSubmit={handleSubmit}>
       <h2 className="report-form__title">Agregar Reporte</h2>
-      <input
-        type="number"
-        name="id_usuario"
-        placeholder="ID usuario"
-        className="report-form__input"
-        value={reporte.id_usuario}
-        onChange={handleChange}
-      />
-      <input
-        type="text"
-        name="nombre"
-        placeholder="Nombre del reporte"
-        className="report-form__input"
-        value={reporte.nombre}
-        onChange={handleChange}
-      />
-      <input
-        type="text"
-        name="motivo"
-        placeholder="Motivo del reporte"
-        className="report-form__input"
-        value={reporte.motivo}
-        onChange={handleChange}
-      />
-      <input
-        type="date"
-        name="fecha"
-        className="report-form__input"
-        value={reporte.fecha}
-        onChange={handleChange}
-      />
-      <button type="submit" className="report-form__button">
-        Subir Reporte
-      </button>
+      <input type="number" name="id_usuario" placeholder="ID usuario" className="report-form__input" value={reporte.id_usuario} onChange={handleChange} />
+      <input type="text" name="nombre" placeholder="Nombre del reporte" className="report-form__input" value={reporte.nombre} onChange={handleChange} />
+      <input type="text" name="motivo" placeholder="Motivo del reporte" className="report-form__input" value={reporte.motivo} onChange={handleChange} />
+      <input type="date" name="fecha" className="report-form__input" value={reporte.fecha} onChange={handleChange} />
+      <button type="submit" className="report-form__button">Subir Reporte</button>
     </form>
   );
 };
 
-// Componente Reportes
 const Reportes = () => {
   const [mostrarFormulario, setMostrarFormulario] = useState(false);
   const [reportes, setReportes] = useState([]);
   const [error, setError] = useState(null);
 
+  const obtenerReportes = async () => {
+    try {
+      const response = await fetch('http://localhost:3000/api/reportes/verReportes');
+      if (!response.ok) throw new Error('Error al obtener reportes');
+      const data = await response.json();
+      setReportes(data.reportes || []);
+    } catch (error) {
+      setError(error.message);
+    }
+  };
+
   useEffect(() => {
-    const obtenerReportes = async () => {
-      try {
-        const response = await fetch(
-          'http://localhost:3000/api/reportes/verReportes'
-        );
-        if (!response.ok && reportes.length > 0) {
-          setError('No se pudieron obtener los reportes.');
-        }
-        const data = await response.json();
-        setReportes(data.reportes || []);
-      } catch (error) {
-        setError(error.message);
-      }
-    };
     obtenerReportes();
-  });
+  }, []);
 
   const toggleForm = () => setMostrarFormulario(!mostrarFormulario);
 
   const agregarReporte = (nuevoReporte) => {
-    setReportes([...reportes, nuevoReporte]);
+    setReportes((prev) => [...prev, nuevoReporte]);
   };
 
   const deleteReport = async (e) => {
@@ -137,15 +92,8 @@ const Reportes = () => {
       const response = await fetch(`http://localhost:3000/api/reportes/${id}`, {
         method: 'DELETE',
       });
-
-      if (!response.ok) {
-        throw new Error('No se pudo eliminar el reporte.');
-      }
-
-      const data = await response.json();
-      console.log('Reporte eliminado:', data);
-      const updatedReports = reportes.filter((reporte) => reporte.id !== id);
-      setReportes(updatedReports);
+      if (!response.ok) throw new Error('No se pudo eliminar el reporte.');
+      setReportes((prev) => prev.filter((reporte) => reporte.id != id));
     } catch (error) {
       setError(error.message);
     }
@@ -158,14 +106,17 @@ const Reportes = () => {
       <div className="content">
         <h2 className="report-list__title">Reportes</h2>
         {error && <p className="error-message">{error}</p>}
-        {reportes.length > 0 ? (
+
+        {reportes.length === 0 ? (
+          <p>No existen reportes</p>
+        ) : (
           reportes.map((reporte, index) => (
             <div className="report-list__item" key={index}>
-              <p>
-                <strong>{`Reporte ${index + 1}`}</strong>
-              </p>
-              <p>{reporte.id_usuario}</p>
-              <p>{reporte.motivo}</p>
+              <p><strong>{`Reporte ${index + 1}`}</strong></p>
+              <p>ID Usuario: {reporte.id_usuario}</p>
+              <p>Nombre: {reporte.nombre}</p>
+              <p>Motivo: {reporte.motivo}</p>
+              <p>Fecha: {reporte.fecha}</p>
               <button
                 id={reporte.id}
                 onClick={deleteReport}
@@ -179,12 +130,12 @@ const Reportes = () => {
               </button>
             </div>
           ))
-        ) : (
-          <p>No hay reportes disponibles.</p>
         )}
+
         <button className="add-report" onClick={toggleForm}>
           {mostrarFormulario ? 'Cerrar Formulario' : 'Agregar Reporte'}
         </button>
+
         {mostrarFormulario && (
           <ReportForm onAddReporte={agregarReporte} onClose={toggleForm} />
         )}
