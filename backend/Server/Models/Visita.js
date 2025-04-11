@@ -1,5 +1,6 @@
 const { DataTypes } = require('sequelize');
 const Sequelize = require('../Config/db.js');
+const Usuario = require('./Usuario.js'); // Import correcto
 
 const Visita = Sequelize.define(
   'Visita',
@@ -12,30 +13,30 @@ const Visita = Sequelize.define(
     direccion: {
       type: DataTypes.STRING(100),
       allowNull: false,
-      validate: {
-        notEmpty: true,
-        len: [2, 100],
-      },
     },
     tipo: {
       type: DataTypes.STRING(25),
       allowNull: false,
-      validate: {
-        notEmpty: true,
-        isIn: [['Presencial', 'Telefónica', 'Virtual']],
-      },
     },
     fecha: {
       type: DataTypes.DATE,
       allowNull: false,
-      validate: {
-        isDate: true,
-        isAfter: new Date().toISOString(),
-      },
     },
     estado: {
       type: DataTypes.STRING,
       defaultValue: "pendiente",
+    },
+    motivo: {
+      type: DataTypes.STRING(120),
+      allowNull: true,
+    },
+    id_usuario: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      references: {
+        model: 'usuarios',
+        key: 'id',
+      },
     },
   },
   {
@@ -43,5 +44,8 @@ const Visita = Sequelize.define(
     timestamps: false,
   }
 );
+
+// Asegúrate de que Usuario esté bien definido antes de esta línea
+Visita.belongsTo(Usuario, { foreignKey: 'id_usuario' });
 
 module.exports = Visita;
