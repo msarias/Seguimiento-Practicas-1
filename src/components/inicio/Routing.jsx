@@ -1,28 +1,29 @@
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
-import Login from '../login/Login';
+import MainContent from '../bitacoras/MainContent';
 import Register from '../login/Register';
-import Bitacoras from '../bitacoras/MainContent';
-import Inicio from '../inicio/Inicio';
-import Usuarios from '../usuarios/Usuarios';
-import Visitas from '../visitas/Visitas';
-import Reportes from '../reportes/Reportes';
-import Fichas from '../ficha/fichas';
+import Login from '../login/Login';
 import ForgotPassword from '../login/ForgotPassword';
+import Usuarios from '../usuarios/Usuarios';
+import Inicio from './Inicio';
+import Visitas from '../visitas/Visitas';
+import Fichas from '../ficha/fichas';
+import Reportes from '../reportes/Reportes';
 import ResetPassword from '../login/ResetPassword';
 
-function Routing() {
+const Routing=() => {
   return (
     <Router>
       <Routes>
         <Route path="/" element={<Login />} />
         <Route path="/Register" element={<Register />} />
+        <Route path="/MainContent" element={<MainContent />} />
         <Route path="/Inicio" element={<Inicio />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/reset-password/:token" element={<ResetPassword />} />
         <Route path="/usuarios" element={<Usuarios />} />
         <Route path="/visitas" element={<Visitas />} />
         <Route path="/fichas" element={<Fichas />} />
-        <Route path="/bitacoras" element={<Bitacoras />} />
+        <Route path="/bitacoras" element={<MainContent />} />
         <Route path="/reportes" element={<Reportes />} />
       </Routes>
     </Router>
