@@ -32,17 +32,6 @@ function Visitas() {
     setVisitaEditando(null);
   };
 
-  const obtenerVisitas = async () => {
-    try {
-      const response = await fetch("http://localhost:3000/api/visitas/verVisitas");
-      if (!response.ok) throw new Error("No se pudieron obtener las visitas.");
-      const data = await response.json();
-      setVisitas(data.visitas || []);
-    } catch (error) {
-      console.error("Error al obtener visitas:", error.message);
-    }
-  };
-
   const handleAddOrUpdateVisita = async (e) => {
     e.preventDefault();
 
