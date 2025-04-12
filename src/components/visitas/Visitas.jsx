@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import NavBar from '../generales/NavBar';
-import Sidebar from '../generales/Sidebar';
+import React, { useState, useEffect } from "react";
+import NavBar from "../generales/NavBar";
+import Sidebar from "../generales/Sidebar";
 
 function Visitas() {
   const [showForm, setShowForm] = useState(false);
@@ -17,6 +17,15 @@ function Visitas() {
     obtenerVisitas();
   }, []);
 
+  const obtenerVisitas = async () => {
+    try {
+      const response = await axios.get("http://localhost:3000/api/visitas/verVisitas");
+      setVisitas(response.data.visitas || []);
+    } catch (error) {
+      console.error("Error al obtener visitas:", error.message);
+    }
+  };
+
   const toggleForm = () => {
     setShowForm(!showForm);
     setModoEdicion(false);
@@ -25,14 +34,12 @@ function Visitas() {
 
   const obtenerVisitas = async () => {
     try {
-      const response = await fetch(
-        'http://localhost:3000/api/visitas/verVisitas'
-      );
-      if (!response.ok) throw new Error('No se pudieron obtener las visitas.');
+      const response = await fetch("http://localhost:3000/api/visitas/verVisitas");
+      if (!response.ok) throw new Error("No se pudieron obtener las visitas.");
       const data = await response.json();
       setVisitas(data.visitas || []);
     } catch (error) {
-      console.error('Error al obtener visitas:', error.message);
+      console.error("Error al obtener visitas:", error.message);
     }
   };
 
@@ -48,27 +55,25 @@ function Visitas() {
     try {
       const url = modoEdicion
         ? `http://localhost:3000/api/visitas/${visitaEditando.id}`
-        : 'http://localhost:3000/api/visitas';
-      const method = modoEdicion ? 'PUT' : 'POST';
+        : "http://localhost:3000/api/visitas";
+      const method = modoEdicion ? "PUT" : "POST";
 
-      const response = await fetch(url, {
+      const response = await axios({
         method,
-        headers: { 'Content-Type': 'application/json' },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(nuevaVisita),
       });
 
       const data = await response.json();
-      if (!response.ok)
-        throw new Error(data.message || 'Error en la solicitud');
+      if (!response.ok) throw new Error(data.message || "Error en la solicitud");
 
       await obtenerVisitas();
-
       e.target.reset();
       setShowForm(false);
       setModoEdicion(false);
       setVisitaEditando(null);
     } catch (error) {
-      console.error('Error:', error.message);
+      console.error("Error:", error.message);
     }
   };
 
@@ -81,7 +86,7 @@ function Visitas() {
   const handleAceptar = async (id) => {
     try {
       await fetch(`http://localhost:3000/api/visitas/aceptar/${id}`, {
-        method: 'PUT',
+        method: "PUT",
       });
       await obtenerVisitas();
     } catch (error) {
@@ -96,8 +101,10 @@ function Visitas() {
 
   const confirmarRechazo = async () => {
     try {
-      await fetch(`http://localhost:3000/api/visitas/rechazar/${id}`, {
+      await fetch(`http://localhost:3000/api/visitas/rechazar/${visitaRechazar.id}`, {
         method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ motivo: motivoRechazo }),
       });
 
       setMostrarMotivoPopup(false);
@@ -120,12 +127,12 @@ function Visitas() {
           {visitas.length === 0 ? (
             <p>No hay visitas registradas</p>
           ) : (
-            visitas.map((visita, usuario) => (
+            visitas.map((visita) => (
               <div key={visita.id} className={`report-list__item estado-${visita.estado}`}>
                 <p><strong>Dirección:</strong> {visita.direccion}</p>
                 <p><strong>Tipo:</strong> {visita.tipo}</p>
                 <p><strong>Fecha:</strong> {visita.fecha.split("T")[0]}</p>
-                <p><strong>Estudiante:</strong> {usuario.nombre}</p>
+                <p><strong>Aprendiz:</strong> {usuario.nombre}</p>
 
                 {/* Mostrar estado si el usuario es aprendiz */}
                 {/* {rol === "aprendiz" && (
@@ -136,10 +143,7 @@ function Visitas() {
 
                 {/* Botón de editar solo para aprendices */}
                 {rol === "aprendiz" && (
-                  <button
-                    className="visit-list__buttone"
-                    onClick={() => handleEditar(visita)}
-                  >
+                  <button className="visit-list__buttone" onClick={() => handleEditar(visita)}>
                     Editar
                   </button>
                 )}
@@ -181,7 +185,7 @@ function Visitas() {
             <input
               type="text"
               name="direccion-visita"
-              placeholder="Dirección de la empresa"
+              placeholder="Dirección de la visita"
               className="visit-form__input"
               required
               defaultValue={modoEdicion ? visitaEditando.direccion : ''}

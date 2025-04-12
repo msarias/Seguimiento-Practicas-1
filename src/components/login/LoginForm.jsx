@@ -12,25 +12,26 @@ const LoginForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+  
     if (!typeAccount) return setError("Debe seleccionar un tipo de cuenta.");
     if (!/^\d+$/.test(document)) return setError("El documento debe ser numérico.");
     if (password.length < 6) return setError("La contraseña debe tener al menos 6 caracteres.");
-
+  
     setError("");
-
+  
     try {
       const res = await axios.post("http://localhost:3000/api/auth/login", {
         tipoCuenta: typeAccount,
         documento: document,
         password,
       });
-
-      const usuario = res.data.usuario;
-
-      localStorage.setItem("rol", usuario.rol); // Guardamos el rol en localStorage
-      localStorage.setItem("usuarioId", usuario.id); // También puedes guardar el ID si lo necesitas
-
+  
+      // Accedemos directamente a los datos necesarios
+      const { rol, id } = res.data.usuario;
+  
+      localStorage.setItem("rol", rol); // Guardamos el rol en localStorage
+      localStorage.setItem("usuarioId", id); // Guardamos el ID si lo necesitas
+  
       Swal.fire({
         position: "top",
         icon: "success",
@@ -38,7 +39,7 @@ const LoginForm = () => {
         showConfirmButton: false,
         timer: 1500,
       });
-
+  
       navigate("/Inicio");
     } catch (err) {
       const message = err.response?.data?.message || "Error al iniciar sesión";

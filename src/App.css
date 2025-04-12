@@ -190,6 +190,124 @@ body {
   object-fit: cover;
 }
 
+/* Estilos generales para el icono de la campana */
+.navbar-notifications svg {
+  font-size: 24px;
+  color: #333;
+  position: relative;
+}
+.notificacion-container {
+  position: relative;
+  display: inline-block;
+}
+
+.notificacion-badge {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  background: red;
+  color: white;
+  font-size: 10px;
+  font-weight: bold;
+  padding: 2px 5px;
+  border-radius: 50%;
+  min-width: 16px;
+  text-align: center;
+  line-height: 1;
+}
+
+.notification-count {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background-color: red;
+  color: white;
+  border-radius: 50%;
+  padding: 5px;
+  font-size: 12px;
+}
+
+/* Estilos del Popup */
+.notification-popup {
+  position: absolute;
+  top: 50px; /* Ajusta según sea necesario */
+  right: 0;
+  width: 300px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  padding: 20px;
+  z-index: 10;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+/* Animación de aparición */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.notification-popup {
+  position: absolute;
+  top: 70px;
+  right: 20px;
+  width: 400px;
+  max-height: 500px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
+  padding: 20px;
+  z-index: 1000;
+}
+
+.notification-item {
+  border-bottom: 1px solid #eaeaea;
+  padding: 10px 0;
+}
+
+.notification-item.leida {
+  opacity: 0.6;
+}
+
+.notification-item button {
+  margin-top: 5px;
+  background-color: #198754;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.notification-count {
+  background-color: red;
+  color: white;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 12px;
+  position: absolute;
+  top: 5px;
+  right: 0px;
+}
+
+.cerrar-popup {
+  margin-top: 15px;
+  background-color: #6c757d;
+  color: white;
+  padding: 6px 12px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+
+
 .sidebar {
   background-color: #f8f8f8;
   display: flex;
@@ -453,15 +571,6 @@ body {
   background-color: #feedc7df;
 }
 
-.estado-aceptada {
-  border-color: green;
-  background-color: #cefce1;
-}
-
-.estado-rechazada {
-  border-color: red;
-  background-color: #ffe6e6;
-}
 
 /* REPORTES */
 

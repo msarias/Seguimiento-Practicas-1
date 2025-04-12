@@ -54,23 +54,15 @@ const Usuario = Sequelize.define('Usuario', {
         type: DataTypes.STRING(70),
         allowNull: false,
     },
-    identificacion: {
-        type: DataTypes.STRING,
-        allowNull: true
+    rol: {
+      type: DataTypes.STRING(20),
+      allowNull: false,
     },
-   /*  ficha: {
-        type: DataTypes.INTEGER.UNSIGNED,
-        allowNull: true,
-        validate: {
-            isInt: true,
-            notEmpty: false,
-        },
-    }, */
-}, {
-    tableName: 'usuario',
+  },
+  {
+    tableName: 'usuarios',
     timestamps: false,
   }
 );
 
 module.exports = Usuario;
-
