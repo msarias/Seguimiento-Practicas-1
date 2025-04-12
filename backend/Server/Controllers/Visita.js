@@ -1,5 +1,4 @@
 const Visita = require('../Models/Visita');
-const Usuario = require('../Models/Usuario');
 
 exports.crearVisita = async (req, res) => {
   try {
@@ -26,12 +25,7 @@ exports.verVisitaPorId = async (req, res) => {
 
 exports.verVisitas = async (req, res) => {
   try {
-    const visitas = await Visita.findAll({
-      include: {
-        model: Usuario,
-        attributes: ['nombres', 'apellidos'] // trae solo lo necesario
-      }
-    });
+    const visitas = await Visita.findAll(); // ❌ Sin include
 
     res.status(200).json({ visitas });
   } catch (error) {
@@ -39,6 +33,7 @@ exports.verVisitas = async (req, res) => {
     res.status(500).json({ error: "Error al obtener visitas" });
   }
 };
+
 
 exports.actualizarVisita = async (req, res) => {
   try {

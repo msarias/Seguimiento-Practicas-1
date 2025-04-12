@@ -14,7 +14,7 @@ const Ficha = Sequelize.define('Ficha', {
   },
   programa: {
     type: DataTypes.STRING(100),
-    allowNull: false
+    allowNull: true,
   }
 }, {
   tableName: 'ficha',

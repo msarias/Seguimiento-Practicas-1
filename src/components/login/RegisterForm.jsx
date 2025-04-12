@@ -9,7 +9,7 @@ const RegisterForm = () => {
     apellidos: "",
     id_empresa: "",
     identificacion: "",
-    ficha: "",
+    ficha: null,
     correo: "",
     rol: "aprendiz",
   });
@@ -25,48 +25,52 @@ const RegisterForm = () => {
   };
 
   const handleSubmit = async (e) => {
-  e.preventDefault();
-  setError("");
+    e.preventDefault();
+    setError("");
 
-  if (!formData.identificacion.match(/^\d+$/)) {
-    setError("El número de documento solo debe contener números.");
-    return;
-  }
+    if (!formData.identificacion.match(/^\d+$/)) {
+      setError("El número de documento solo debe contener números.");
+      return;
+    }
 
-  if (password.length < 6) {
-    setError("La contraseña debe tener al menos 6 caracteres.");
-    return;
-  }
+    if (password.length < 6) {
+      setError("La contraseña debe tener al menos 6 caracteres.");
+      return;
+    }
 
-  try {
-    await axios.post("http://localhost:3000/api/usuarios", {
-      ...formData,
-      contraseña: password,
-    });
+    try {
+      // Registrar usuario en la base de datos
+      await axios.post("http://localhost:3000/api/usuarios", {
+        ...formData,
+        contraseña: password,
+      });
 
+      // Guardamos el nombre completo del usuario en localStorage
+      localStorage.setItem("nombreAprendiz", `${formData.nombres} ${formData.apellidos}`);
 
-    Swal.fire({
-      position: "center",
-      icon: "success",
-      title: "Usuario registrado con éxito",
-      showConfirmButton: false,
-      timer: 1500,
-    });
+      Swal.fire({
+        position: "center",
+        icon: "success",
+        title: "Usuario registrado con éxito",
+        showConfirmButton: false,
+        timer: 1500,
+      });
 
-    setFormData({
-      nombres: "",
-      apellidos: "",
-      id_empresa: "",
-      identificacion: "",
-      ficha: "",
-      correo: "",
-      rol: "aprendiz",
-    });
-    setPassword("");
-  } catch (err) {
-    setError(err.response?.data?.message || "Error al registrar usuario");
-  }
-};
+      // Limpiar los campos del formulario
+      setFormData({
+        nombres: "",
+        apellidos: "",
+        id_empresa: "",
+        identificacion: "",
+        ficha: "",
+        correo: "",
+        rol: "aprendiz",
+      });
+      setPassword("");
+    } catch (err) {
+      setError(err.response?.data?.message || "Error al registrar usuario");
+    }
+  };
 
   return (
     <div className="form-container">

@@ -1,6 +1,5 @@
 const { DataTypes } = require('sequelize');
 const Sequelize = require('../Config/db.js');
-const Usuario = require('./Usuario.js'); // Import correcto
 
 const Visita = Sequelize.define(
   'Visita',
@@ -30,14 +29,6 @@ const Visita = Sequelize.define(
       type: DataTypes.STRING(120),
       allowNull: true,
     },
-    id_usuario: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      references: {
-        model: 'usuarios',
-        key: 'id',
-      },
-    },
   },
   {
     tableName: 'visita',
@@ -45,7 +36,5 @@ const Visita = Sequelize.define(
   }
 );
 
-// Asegúrate de que Usuario esté bien definido antes de esta línea
-Visita.belongsTo(Usuario, { foreignKey: 'id_usuario' });
 
 module.exports = Visita;
