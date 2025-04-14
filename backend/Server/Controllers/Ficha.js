@@ -1,28 +1,24 @@
 const Ficha = require('../Models/Ficha');
 const Usuario = require('../Models/Usuario');
 
-// Obtener todas las fichas
-exports.obtenerFichas = async (req, res) => {
+const obtenerFichas = async (req, res) => {
   try {
-    const fichas = await Ficha.findAll();
+    const fichas = await Ficha.findAll({
+      include: [
+        {
+          model: Usuario,
+          as: 'aprendices',
+          attributes: ['id', 'nombres', 'apellidos'],
+          where: { rol: 'aprendiz' }, // Solo los aprendices
+          required: false,
+        },
+      ],
+    });
     res.json(fichas);
   } catch (error) {
-    res.status(500).json({ error: 'Error al obtener fichas' });
+    console.error('Error al obtener fichas:', error.message);
+    res.status(500).json({ error: 'Error al obtener las fichas' });
   }
 };
 
-// Obtener aprendices por código de ficha
-exports.obtenerAprendicesPorFicha = async (req, res) => {
-  const { codigo } = req.params;
-  try {
-    const aprendices = await Usuario.findAll({
-      where: {
-        ficha: codigo,
-        rol: 'aprendiz'
-      }
-    });
-    res.json(aprendices);
-  } catch (error) {
-    res.status(500).json({ error: 'Error al obtener aprendices' });
-  }
-};
+module.exports = { obtenerFichas };

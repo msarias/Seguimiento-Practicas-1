@@ -8,7 +8,7 @@ const Visita = require("./Visita.js");
 const Bitacora = require("./bitacoraRutas.js");
 const Empresa = require("./Empresa.js");
 const AuthRutas = require("./authRutas.js");
-const Ficha = require("./Ficha.js")
+const Ficha = require("./Ficha.js");
 
 // indexRoutes.use('/aprendices', aprendicesRoutes);
 indexRoutes.use("/reportes", Reporte);

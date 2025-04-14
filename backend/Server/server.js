@@ -3,50 +3,45 @@ const sequelize = require("./Config/db.js");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const dotenv = require("dotenv");
+
+// Cargar variables de entorno
+dotenv.config();
+
+// Importar rutas
 const indexRoutes = require("./Routes/index.routes.js");
-const authRoutes = require("./Routes/authRutas.js");
 
-require('dotenv').config();
+// Importar y ejecutar asociaciones entre modelos
+require('./Models/Asociaciones');
 
-console.log("EMAIL_USER:", process.env.EMAIL_USER); // Prueba si se carga correctamente
+// Probar variables de entorno (puedes quitar esto luego)
+console.log("EMAIL_USER:", process.env.EMAIL_USER);
 console.log("EMAIL_PASS:", process.env.EMAIL_PASS);
 
-//Sincronizar con la base de datos
+// Crear el servidor
+const app = express();
 
+// Conexión a la base de datos
 async function connectDB() {
   try {
-    await sequelize.sync({ force: false });
+    await sequelize.sync({ force: false }); // Cambiar a true si quieres reiniciar DB
     console.log("Base de datos sincronizada");
   } catch (error) {
     console.log("Error al sincronizar base de datos:", error.message);
   }
 }
-
 connectDB();
 
-
-//Crear el servidor
-dotenv.config();
-const app = express();
-app.use(cors());
-app.use(cors({ origin: "http://localhost:3001" }));
-//Habilitar body-parser
+// Middleware
+app.use(cors({ origin: "http://localhost:3001" })); // Cambiar si usas otro front
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
 
-//Agregar rutas
-//app.use('/routes',routes);
-app.use("/api", indexRoutes);
-// app.use("/",(req,res)=>{
-//   console.log("Hola");
-//   return res.status(200).json({message:"Hola"});
-// })
-//app.use("/api/auth", authRoutes);
+// Rutas
+app.use("/api", indexRoutes); // Acceso a /api/fichas, /api/usuarios, etc.
 
-//Puerto del servidor
-const port = 3000
-
+// Puerto del servidor
+const port = 3000;
 app.listen(port, () => {
-  console.log("Se realizo la conexion en el puerto", port);
+  console.log("Servidor conectado en el puerto", port);
 });

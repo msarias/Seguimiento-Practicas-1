@@ -46,7 +46,6 @@ const Usuario = Sequelize.define('Usuario', {
         allowNull: true,
         validate: {
             isInt: true,
-            notEmpty: false,
         },
         defaultValue: null,
     },
@@ -61,15 +60,14 @@ const Usuario = Sequelize.define('Usuario', {
     ficha: {
         type: DataTypes.INTEGER.UNSIGNED,
         allowNull: true,
-        validate: {
-            isInt: true,
-            notEmpty: false,
-        },
+        references: {
+            model: 'ficha', // Nombre de la tabla relacionada
+            key: 'id'
+        }
     },
 }, {
     tableName: 'usuario',
     timestamps: false,
-  }
-);
+});
 
 module.exports = Usuario;
