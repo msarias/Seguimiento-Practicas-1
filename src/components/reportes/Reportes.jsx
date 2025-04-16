@@ -1,13 +1,14 @@
-import React, { useState, useEffect } from 'react';
-// import axios from 'axios';
-import NavBar from '../generales/NavBar';
-import Sidebar from '../generales/Sidebar';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import NavBar from "../generales/NavBar";
+import Sidebar from "../generales/Sidebar";
+
 const ReportForm = ({ onAddReporte, onClose }) => {
   const [reporte, setReporte] = useState({
-    id_usuario: '',
-    nombre: '',
-    motivo: '',
-    fecha: '',
+    id_usuario: "",
+    nombre: "",
+    motivo: "",
+    fecha: "",
   });
 
   const handleChange = (e) => {
@@ -22,41 +23,33 @@ const ReportForm = ({ onAddReporte, onClose }) => {
       !reporte.motivo ||
       !reporte.fecha
     ) {
-      alert('Por favor, completa todos los campos.');
+      alert("Por favor, completa todos los campos.");
       return;
     }
 
     try {
-      const response = await fetch('http://localhost:3000/api/reportes/', {
-        method: 'POST',
+      const url = "http://localhost:3000/api/reportes";
+      const data = await axios.post(url, reporte, {
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify(reporte),
       });
-
-      if (!response.ok) {
-        throw new Error('Error al subir el reporte.');
-      }
-
-      const data = await response.json();
 
       if (data.reportes) {
         onAddReporte(data.reportes);
-        alert('¡Reporte subido exitosamente!');
+        alert("¡Reporte subido exitosamente!");
         onClose();
-        setReporte({ id_usuario: '', nombre: '', motivo: '', fecha: '' });
-      } /* else {
-        console.error('No se recibió correctamente la información.');
-      } */
+        setReporte({ id_usuario: "", nombre: "", motivo: "", fecha: "" });
+      }
     } catch (error) {
-      console.error('Error al subir el reporte:', error);
+      console.error("Error al subir el reporte:", error);
+      // alert("Error al subir el reporte.");
     }
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    uploadReport(); // Llamamos a la función que realiza el POST
+    uploadReport();
   };
 
   return (
@@ -108,18 +101,19 @@ const Reportes = () => {
   useEffect(() => {
     const obtenerReportes = async () => {
       try {
-        const response = await fetch(
-          'http://localhost:3000/api/reportes/verReportes'
-        );
-        if (!response.ok && reportes.length > 0) {
-          setError('No se pudieron obtener los reportes.');
+        const url = "http://localhost:3000/api/reportes/verReportes";
+        const data = await axios.get(url);
+        if (data.reportes && data.reportes.length > 0) {
+          setReportes(data.reportes);
+        } else {
+          setError("No hay reportes disponibles.");
         }
-        const data = await response.json();
-        setReportes(data.reportes || []);
       } catch (error) {
         setError(error.message);
+        console.error("Error al obtener reportes:", error);
       }
     };
+
     obtenerReportes();
   }, []);
 
@@ -132,20 +126,17 @@ const Reportes = () => {
   const deleteReport = async (e) => {
     const id = e.target.id;
     try {
-      const response = await fetch(`http://localhost:3000/api/reportes/${id}`, {
-        method: 'DELETE',
-      });
+      const url = `http://localhost:3000/api/reportes/${id}`;
+      const data = await axios.delete(url);
 
-      if (!response.ok) {
-        throw new Error('No se pudo eliminar el reporte.');
-      }
+      console.log("Reporte eliminado:", data);
 
-      const data = await response.json();
-      console.log('Reporte eliminado:', data);
       const updatedReports = reportes.filter((reporte) => reporte.id !== id);
       setReportes(updatedReports);
+      alert("¡Reporte eliminado exitosamente!");
     } catch (error) {
-      setError(error.response ? error.response.data : error.message);
+      console.error("Error al eliminar el reporte:", error);
+      alert("Ocurrió un error al intentar eliminar el reporte.");
     }
   };
 
@@ -182,7 +173,7 @@ const Reportes = () => {
         )}
 
         <button className="add-report report-form__button" onClick={toggleForm}>
-          {mostrarFormulario ? 'Cerrar Formulario' : 'Agregar Reporte'}
+          {mostrarFormulario ? "Cerrar Formulario" : "Agregar Reporte"}
         </button>
 
         {mostrarFormulario && (
