@@ -8,7 +8,7 @@ const obtenerFichas = async (req, res) => {
         {
           model: Usuario,
           as: 'aprendices',
-          attributes: ['id', 'nombres', 'apellidos'],
+          attributes: ['id', 'nombres', 'apellidos', 'identificacion', 'correo'],
           where: { rol: 'aprendiz' }, // Solo los aprendices
           required: false,
         },
