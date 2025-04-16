@@ -1,8 +1,8 @@
 -- MySQL dump 10.13  Distrib 8.0.38, for Win64 (x86_64)
 --
--- Host: localhost    Database: bd_project
+-- Host: localhost    Database: bd_proyecto
 -- ------------------------------------------------------
--- Server version	8.0.39
+-- Server version	8.0.38
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -28,7 +28,9 @@ CREATE TABLE `bitacora` (
   `fecha` datetime DEFAULT NULL,
   `archivo` varchar(45) DEFAULT NULL,
   `codigo` int unsigned DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `id_usuario` (`id_usuario`),
+  CONSTRAINT `bitacora_ibfk_1` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -39,33 +41,6 @@ CREATE TABLE `bitacora` (
 LOCK TABLES `bitacora` WRITE;
 /*!40000 ALTER TABLE `bitacora` DISABLE KEYS */;
 /*!40000 ALTER TABLE `bitacora` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `certificacion`
---
-
-DROP TABLE IF EXISTS `certificacion`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `certificacion` (
-  `id` int unsigned NOT NULL AUTO_INCREMENT,
-  `id_usuario` int DEFAULT NULL,
-  `nombre` varchar(25) DEFAULT NULL,
-  `fecha` datetime DEFAULT NULL,
-  `estado` varchar(25) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `certificacion`
---
-
-LOCK TABLES `certificacion` WRITE;
-/*!40000 ALTER TABLE `certificacion` DISABLE KEYS */;
-INSERT INTO `certificacion` VALUES (3,2,'Michael','2025-02-04 19:25:00','Desertado');
-/*!40000 ALTER TABLE `certificacion` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -81,7 +56,10 @@ CREATE TABLE `empresa` (
   `direccion` varchar(65) DEFAULT NULL,
   `encargado` varchar(45) DEFAULT NULL,
   `contacto` varchar(45) DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  `id_usuario` int unsigned DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id_usuario` (`id_usuario`),
+  CONSTRAINT `empresa_ibfk_1` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -105,7 +83,10 @@ CREATE TABLE `ficha` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
   `codigo` int DEFAULT NULL,
   `programa` varchar(75) DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  `id_usuario` int unsigned DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id_usuario` (`id_usuario`),
+  CONSTRAINT `ficha_ibfk_1` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -119,6 +100,33 @@ LOCK TABLES `ficha` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `notificacion`
+--
+
+DROP TABLE IF EXISTS `notificacion`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `notificacion` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `estado` varchar(20) DEFAULT NULL,
+  `mensaje` varchar(100) DEFAULT NULL,
+  `id_usuario` int unsigned DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id_usuario` (`id_usuario`),
+  CONSTRAINT `notificacion_ibfk_1` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `notificacion`
+--
+
+LOCK TABLES `notificacion` WRITE;
+/*!40000 ALTER TABLE `notificacion` DISABLE KEYS */;
+/*!40000 ALTER TABLE `notificacion` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `observacion`
 --
 
@@ -126,10 +134,12 @@ DROP TABLE IF EXISTS `observacion`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `observacion` (
-  `id` int NOT NULL AUTO_INCREMENT,
+  `id` int unsigned NOT NULL,
   `mensaje` varchar(150) DEFAULT NULL,
-  `id_usuario` int DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  `id_usuario` int unsigned DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id_usuario` (`id_usuario`),
+  CONSTRAINT `observacion_ibfk_1` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -151,10 +161,13 @@ DROP TABLE IF EXISTS `reporte`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `reporte` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
-  `id_usuario` int DEFAULT NULL,
+  `id_usuario` int unsigned DEFAULT NULL,
   `fecha` datetime DEFAULT NULL,
   `nombre` varchar(45) DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  `motivo` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id_usuario` (`id_usuario`),
+  CONSTRAINT `reporte_ibfk_1` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -164,7 +177,6 @@ CREATE TABLE `reporte` (
 
 LOCK TABLES `reporte` WRITE;
 /*!40000 ALTER TABLE `reporte` DISABLE KEYS */;
-INSERT INTO `reporte` VALUES (1,1,'2025-03-11 19:30:00','pruebareporte'),(2,1,'2025-03-11 19:30:00','pruebareporte2');
 /*!40000 ALTER TABLE `reporte` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -181,8 +193,7 @@ CREATE TABLE `usuario` (
   `apellidos` varchar(65) DEFAULT NULL,
   `correo` varchar(45) DEFAULT NULL,
   `rol` varchar(25) DEFAULT NULL,
-  `id_empresa` int unsigned DEFAULT NULL,
-  `contraseña` varchar(65) DEFAULT NULL,
+  `contrase?a` varchar(65) DEFAULT NULL,
   `identificacion` varchar(25) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -209,8 +220,11 @@ CREATE TABLE `visita` (
   `direccion` varchar(100) DEFAULT NULL,
   `tipo` varchar(25) DEFAULT NULL,
   `fecha` datetime(6) DEFAULT NULL,
+  `id_usuario` int unsigned DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `id_UNIQUE` (`id`)
+  UNIQUE KEY `id_UNIQUE` (`id`),
+  KEY `id_usuario` (`id_usuario`),
+  CONSTRAINT `visita_ibfk_1` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -232,4 +246,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-03-13  8:37:18
+-- Dump completed on 2025-04-14 16:50:15

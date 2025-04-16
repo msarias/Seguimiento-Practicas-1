@@ -41,14 +41,14 @@ const Usuario = Sequelize.define('Usuario', {
             isIn: [['aprendiz', 'instructor']]
         }
     },
-    id_empresa: {
-        type: DataTypes.INTEGER.UNSIGNED,
-        allowNull: true,
-        validate: {
-            isInt: true,
-        },
-        defaultValue: null,
-    },
+    // id_empresa: {
+    //     type: DataTypes.INTEGER.UNSIGNED,
+    //     allowNull: true,
+    //     validate: {
+    //         isInt: true,
+    //     },
+    //     defaultValue: null,
+    // },
     contraseña: {
         type: DataTypes.STRING(70),
         allowNull: false,

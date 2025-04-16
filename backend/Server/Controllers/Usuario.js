@@ -7,30 +7,29 @@ exports.crearUsuario = async (req, res) => {
     try {
         console.log("Datos recibidos:", req.body);
 
-        const { nombres, apellidos, correo, rol, id_empresa, contraseña, identificacion, ficha: codigoFicha, programa } = req.body;
+        const { nombres, apellidos, correo, rol, contraseña, identificacion, ficha: codigoFicha } = req.body;
 
-// Buscar ficha por código
-let fichaExistente = await Ficha.findOne({ where: { codigo: codigoFicha } });
+        // Buscar ficha por código
+        let fichaExistente = await Ficha.findOne({ where: { codigo: codigoFicha } });
 
-// Si no existe, crearla
-if (!fichaExistente) {
-  fichaExistente = await Ficha.create({
-    codigo: codigoFicha,
-    nombre: programa || 'Sin nombre'
-  });
-}
+        // Si no existe, crearla
+        if (!fichaExistente) {
+            fichaExistente = await Ficha.create({
+                codigo: codigoFicha,
+            });
+        }
 
-// Crear el usuario usando el ID de la ficha existente
-const nuevoUsuario = await Usuario.create({
-  nombres,
-  apellidos,
-  correo,
-  rol,
-  id_empresa,
-  contraseña: await bcrypt.hash(contraseña, 10),
-  identificacion,
-  ficha: fichaExistente.id // aquí sí va el id
-});
+        // Crear el usuario usando el ID de la ficha existente
+        const nuevoUsuario = await Usuario.create({
+            nombres,
+            apellidos,
+            correo,
+            rol,
+            id_empresa: null,
+            contraseña: await bcrypt.hash(contraseña, 10),
+            identificacion,
+            ficha: fichaExistente.id // aquí sí va el id
+        });
 
         res.status(201).json(nuevoUsuario);
     } catch (error) {
