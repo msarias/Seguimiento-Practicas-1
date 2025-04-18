@@ -74,7 +74,6 @@ const RegisterForm = () => {
 
   return (
     <div className="form-container">
-      <h2 className="register-title">Registro Usuarios</h2>
       <form className="form" onSubmit={handleSubmit}>
         <label htmlFor="names-input" className="register-label">Nombres</label>
         <input
