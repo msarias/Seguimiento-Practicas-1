@@ -36,5 +36,4 @@ const Visita = Sequelize.define(
   }
 );
 
-
 module.exports = Visita;
