@@ -131,7 +131,7 @@ function Visitas() {
             <p>No hay visitas registradas</p>
           ) : (
             visitas.map((visita) => (
-              <div key={visita.id} className={`report-list__item estado-${visita.estado}`}>
+              <div key={visita.id} className={`report-list__item estado${visita.estado}`}>
                 <p><strong>Dirección:</strong> {visita.direccion}</p>
                 <p><strong>Tipo:</strong> {visita.tipo}</p>
                 <p><strong>Fecha:</strong> {visita.fecha.split("T")[0]}</p>

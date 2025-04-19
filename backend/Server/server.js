@@ -5,7 +5,7 @@ const bodyParser = require("body-parser");
 const dotenv = require("dotenv");
 
 // Cargar variables de entorno
-dotenv.config();
+require("dotenv").config();
 
 // Importar rutas
 const indexRoutes = require("./Routes/index.routes.js");
