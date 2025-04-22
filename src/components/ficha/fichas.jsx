@@ -56,7 +56,7 @@ const Fichas = () => {
                       <div className="aprendices-contenedor">
                         {ficha.aprendices?.length > 0 ? (
                           ficha.aprendices.map((aprendiz) => (
-                            <div key={aprendiz.id} className="aprendiz-linea">
+                            <div key={aprendiz.id} className="report-list__item">
                               <div className="linea-flex">
                                 <strong>Nombre:</strong>
                                 <span>{aprendiz.nombres} {aprendiz.apellidos}</span>

@@ -1,16 +1,32 @@
 import React, { useState } from "react";
 import axios from "axios";
+import React, { useState, useEffect } from 'react';
+
 
 const BitacoraForm = ({ onAddBitacora, onClose }) => {
   const [isFormVisible, setIsFormVisible] = useState(false);
   const [bitacora, setBitacora] = useState({
+
     id_usuario: "",
     fecha: "",
     // archivo: '',
     codigo: "",
-  });
+    id_usuario: '',
+    fecha: '',
+    codigo: '',
 
-  const toggleForm = () => {
+  });
+  const [rol, setRol] = useState('');
+
+  useEffect(() => {
+    const rolGuardado = localStorage.getItem('rol');
+    if (rolGuardado) {
+      setRol(rolGuardado.toLowerCase());
+    }
+  }, []);
+
+  const toggleForm = (e) => {
+    e.preventDefault();
     setIsFormVisible(!isFormVisible);
   };
 
@@ -40,7 +56,10 @@ const BitacoraForm = ({ onAddBitacora, onClose }) => {
         setBitacora({ codigo: "", id_usuario: "", fecha: "" });
         onAddBitacora(bitacora);
       } else {
+
         console.error("Ocurrió un error");
+        console.log('Ocurrió un error');
+
       }
     } catch (error) {
       console.console.log(error.message);
@@ -54,6 +73,8 @@ const BitacoraForm = ({ onAddBitacora, onClose }) => {
       [name]: value,
     });
   };
+
+  if (rol !== 'aprendiz') return null; // 🔒 Oculta todo para otros roles
 
   return (
     <form onSubmit={handleSubmit}>
@@ -88,7 +109,6 @@ const BitacoraForm = ({ onAddBitacora, onClose }) => {
             name="archivo"
             className="bitacora-form__input"
             onChange={handleChange}
-            // required
           />
 
           <input

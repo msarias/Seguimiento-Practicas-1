@@ -1,26 +1,14 @@
-// require("dotenv").config();
-// const nodemailer = require("nodemailer");
+// Config/nodemailer.js
+const nodemailer = require('nodemailer');
+require('dotenv').config();  // Asegúrate de cargar las variables de entorno
 
-// console.log("EMAIL_USER:", process.env.EMAIL_USER);
-// console.log("EMAIL_PASS:", process.env.EMAIL_PASS);
+// Crear el transportador con la configuración de tu proveedor de correo
+const transporter = nodemailer.createTransport({
+  service: 'gmail',  // Si usas Gmail, puedes dejarlo así
+  auth: {
+    user: process.env.EMAIL_USER,  // Utilizamos la variable de entorno
+    pass: process.env.EMAIL_PASS,  // Utilizamos la variable de entorno
+  },
+});
 
-// const transporter = nodemailer.createTransport({
-//     service: "gmail",
-//     auth: {
-//         user: process.env.EMAIL_USER,  
-//         pass: process.env.EMAIL_PASS,
-//     },
-//     tls:{
-//         rejectUnauthorized :  false,
-//     }
-// });
-
-// transporter.verify((error, success) => {
-//     if (error) {
-//         console.error("Error en la configuración de Nodemailer:", error);
-//     } else {
-//         console.log("Servidor de correo listo para enviar mensajes.");
-//     }
-// });
-
-// module.exports = transporter; // Exporta solo el transporter sin enviar correos manualmente
+module.exports = transporter;
