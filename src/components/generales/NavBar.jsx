@@ -73,12 +73,6 @@ const Navbar = () => {
           )}
         </div>
 
-        <input
-          type="button"
-          value="Cerrar sesión"
-          className="navbar-logout"
-          onClick={handleCerrarSesion}
-        />
 
         <img
           src="../css/img/user.png"
@@ -94,6 +88,12 @@ const Navbar = () => {
             draggable="false"
           />
         </Link>
+        <input
+          type="button"lñ 
+          value="Cerrar sesión"
+          className="navbar-logout"
+          onClick={handleCerrarSesion}
+        />
       </div>
 
       {/* Popup de notificaciones */}

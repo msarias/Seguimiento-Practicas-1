@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-=======
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Navbar from '../generales/NavBar';
@@ -51,4 +49,4 @@ const Usuarios = () => {
 };
 
 export default Usuarios;
->>>>>>> msarias
+
