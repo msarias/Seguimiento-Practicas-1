@@ -1,6 +1,25 @@
-import { Link } from 'react-router-dom';
+import { Link, replace } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
 
 const Navbar = () => {
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    // localStorage.removeItem('token');
+    localStorage.removeItem('rol');
+    localStorage.removeItem('usuarioId');
+    navigate('/', {replace: true});
+    replace('/');
+    Swal.fire({
+      position: 'top',
+      icon: 'close',
+      title: 'Sesión cerrada',
+      showConfirmButton: false,
+      timer: 1200,
+    });
+  };
+
   return (
     <nav className="navbar">
       <img
@@ -14,10 +33,7 @@ const Navbar = () => {
           type="button"
           value="Cerrar sesión"
           className="navbar-logout"
-          onClick={() => {
-            localStorage.removeItem('token');
-            window.location.href = '/';
-          }}
+          onClick={handleLogout}
         />
         <img
           src="../css/img/user.png"
