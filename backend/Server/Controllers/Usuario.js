@@ -9,17 +9,24 @@ exports.crearUsuario = async (req, res) => {
 
         const { nombres, apellidos, correo, rol, contraseña, identificacion, ficha: codigoFicha } = req.body;
 
-        // Buscar ficha por código
-        let fichaExistente = await Ficha.findOne({ where: { codigo: codigoFicha } });
+        let fichaExistente = null;
 
-        // Si no existe, crearla
-        if (!fichaExistente) {
-            fichaExistente = await Ficha.create({
-                codigo: codigoFicha,
-            });
+        // Solo buscar o crear ficha si el rol NO es instructor
+        if (rol !== 'instructor') {
+            if (!codigoFicha) {
+                return res.status(400).json({ error: 'Código de ficha requerido para este rol' });
+            }
+
+            fichaExistente = await Ficha.findOne({ where: { codigo: codigoFicha } });
+
+            if (!fichaExistente) {
+                fichaExistente = await Ficha.create({
+                    codigo: codigoFicha,
+                });
+            }
         }
 
-        // Crear el usuario usando el ID de la ficha existente
+        // Crear el usuario (con o sin ficha)
         const nuevoUsuario = await Usuario.create({
             nombres,
             apellidos,
@@ -28,7 +35,7 @@ exports.crearUsuario = async (req, res) => {
             id_empresa: null,
             contraseña: await bcrypt.hash(contraseña, 10),
             identificacion,
-            ficha: fichaExistente.id // aquí sí va el id
+            ficha: fichaExistente ? fichaExistente.id : null
         });
 
         res.status(201).json(nuevoUsuario);
@@ -37,6 +44,7 @@ exports.crearUsuario = async (req, res) => {
         res.status(500).json({ error: "Error interno del servidor" });
     }
 };
+
 
 // Obtener todos los usuarios (sin importar su rol)
 exports.obtenerUsuarios = async (req, res) => {

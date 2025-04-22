@@ -79,6 +79,15 @@ const ReportForm = ({ onAddReporte, onClose }) => {
 const Reportes = () => {
   const [mostrarFormulario, setMostrarFormulario] = useState(false);
   const [reportes, setReportes] = useState([]);
+  const [rol, setRol] = useState('');
+
+  useEffect(() => {
+    const rolGuardado = localStorage.getItem('rol');
+    if (rolGuardado) {
+      setRol(rolGuardado.toLowerCase());
+    }
+    obtenerReportes();
+  }, []);
 
   const obtenerReportes = async () => {
     try {
@@ -88,10 +97,6 @@ const Reportes = () => {
       console.error('Error al obtener reportes:', error);
     }
   };
-
-  useEffect(() => {
-    obtenerReportes();
-  }, []);
 
   const toggleForm = () => setMostrarFormulario(!mostrarFormulario);
 
@@ -140,12 +145,16 @@ const Reportes = () => {
           ))
         )}
 
-        <button className="add-report" onClick={toggleForm}>
-          {mostrarFormulario ? 'Cerrar Formulario' : 'Agregar Reporte'}
-        </button>
+        {rol === 'instructor' && (
+          <>
+            <button className="add-report" onClick={toggleForm}>
+              {mostrarFormulario ? 'Cerrar Formulario' : 'Agregar Reporte'}
+            </button>
 
-        {mostrarFormulario && (
-          <ReportForm onAddReporte={agregarReporte} onClose={toggleForm} />
+            {mostrarFormulario && (
+              <ReportForm onAddReporte={agregarReporte} onClose={toggleForm} />
+            )}
+          </>
         )}
       </div>
     </div>
