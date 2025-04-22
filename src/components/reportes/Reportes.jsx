@@ -1,14 +1,21 @@
+<<<<<<< HEAD
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import NavBar from '../generales/NavBar';
 import Sidebar from '../generales/Sidebar';
+=======
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import NavBar from "../generales/NavBar";
+import Sidebar from "../generales/Sidebar";
+>>>>>>> msarias
 
 const ReportForm = ({ onAddReporte, onClose }) => {
   const [reporte, setReporte] = useState({
-    id_usuario: '',
-    nombre: '',
-    motivo: '',
-    fecha: '',
+    id_usuario: "",
+    nombre: "",
+    motivo: "",
+    fecha: "",
   });
 
   const handleChange = (e) => {
@@ -16,6 +23,7 @@ const ReportForm = ({ onAddReporte, onClose }) => {
     setReporte({ ...reporte, [name]: value });
   };
 
+<<<<<<< HEAD
   const uploadReport = async () => {
     const { id_usuario, nombre, motivo, fecha } = reporte;
     if (!id_usuario || !nombre || !motivo || !fecha) return;
@@ -26,9 +34,36 @@ const ReportForm = ({ onAddReporte, onClose }) => {
         onAddReporte(data.nuevoReporte);
         setReporte({ id_usuario: '', nombre: '', motivo: '', fecha: '' });
         onClose();
+=======
+  const uploadReport = async (e) => {
+    if (
+      !reporte.id_usuario ||
+      !reporte.nombre ||
+      !reporte.motivo ||
+      !reporte.fecha
+    ) {
+      alert("Por favor, completa todos los campos.");
+      return;
+    }
+
+    try {
+      const url = "http://localhost:3000/api/reportes";
+      const data = await axios.post(url, reporte, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (data.reportes) {
+        onAddReporte(data.reportes);
+        alert("¡Reporte subido exitosamente!");
+        onClose();
+        setReporte({ id_usuario: "", nombre: "", motivo: "", fecha: "" });
+>>>>>>> msarias
       }
     } catch (error) {
-      console.error('Error al subir el reporte:', error);
+      console.error("Error al subir el reporte:", error);
+      // alert("Error al subir el reporte.");
     }
   };
 
@@ -90,6 +125,24 @@ const Reportes = () => {
   };
 
   useEffect(() => {
+<<<<<<< HEAD
+=======
+    const obtenerReportes = async () => {
+      try {
+        const url = "http://localhost:3000/api/reportes/verReportes";
+        const data = await axios.get(url);
+        if (data.reportes && data.reportes.length > 0) {
+          setReportes(data.reportes);
+        } else {
+          setError("No hay reportes disponibles.");
+        }
+      } catch (error) {
+        setError(error.message);
+        console.error("Error al obtener reportes:", error);
+      }
+    };
+
+>>>>>>> msarias
     obtenerReportes();
   }, []);
 
@@ -102,10 +155,24 @@ const Reportes = () => {
   const deleteReport = async (e) => {
     const id = e.target.id;
     try {
+<<<<<<< HEAD
       await axios.delete(`http://localhost:3000/api/reportes/${id}`);
       setReportes((prev) => prev.filter((reporte) => reporte.id !== id));
     } catch (error) {
       console.error('Error al eliminar el reporte:', error);
+=======
+      const url = `http://localhost:3000/api/reportes/${id}`;
+      const data = await axios.delete(url);
+
+      console.log("Reporte eliminado:", data);
+
+      const updatedReports = reportes.filter((reporte) => reporte.id !== id);
+      setReportes(updatedReports);
+      alert("¡Reporte eliminado exitosamente!");
+    } catch (error) {
+      console.error("Error al eliminar el reporte:", error);
+      alert("Ocurrió un error al intentar eliminar el reporte.");
+>>>>>>> msarias
     }
   };
 
@@ -140,8 +207,13 @@ const Reportes = () => {
           ))
         )}
 
+<<<<<<< HEAD
         <button className="add-report" onClick={toggleForm}>
           {mostrarFormulario ? 'Cerrar Formulario' : 'Agregar Reporte'}
+=======
+        <button className="add-report report-form__button" onClick={toggleForm}>
+          {mostrarFormulario ? "Cerrar Formulario" : "Agregar Reporte"}
+>>>>>>> msarias
         </button>
 
         {mostrarFormulario && (

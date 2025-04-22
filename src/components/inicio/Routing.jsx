@@ -9,6 +9,8 @@ import Visitas from '../visitas/Visitas';
 import Fichas from '../ficha/fichas';
 import Reportes from '../reportes/Reportes';
 import ResetPassword from '../login/ResetPassword';
+import NotFound from './NotFound';
+import Content from '../generales/Content';
 
 const Routing=() => {
   return (
@@ -21,10 +23,12 @@ const Routing=() => {
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/reset-password/:token" element={<ResetPassword />} />
         <Route path="/usuarios" element={<Usuarios />} />
+        <Route path="/usuarios/id" element={<Content />} />
         <Route path="/visitas" element={<Visitas />} />
         <Route path="/fichas" element={<Fichas />} />
         <Route path="/bitacoras" element={<MainContent />} />
         <Route path="/reportes" element={<Reportes />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </Router>
   );

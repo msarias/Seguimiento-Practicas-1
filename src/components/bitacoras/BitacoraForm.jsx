@@ -1,12 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
+import axios from "axios";
 
 const BitacoraForm = ({ onAddBitacora, onClose }) => {
   const [isFormVisible, setIsFormVisible] = useState(false);
   const [bitacora, setBitacora] = useState({
-    id_usuario: '',
-    fecha: '',
+    id_usuario: "",
+    fecha: "",
     // archivo: '',
-    codigo: '',
+    codigo: "",
   });
 
   const toggleForm = () => {
@@ -19,35 +20,30 @@ const BitacoraForm = ({ onAddBitacora, onClose }) => {
 
   const subirBitacora = async () => {
     if (!bitacora.codigo || !bitacora.id_usuario || !bitacora.fecha) {
-      alert('Completa todos los campos.');
+      alert("Completa todos los campos.");
       return;
     }
 
     try {
-      const res = await fetch('http://localhost:3000/api/bitacoras/', {
-        method: 'POST',
+      const url = "http://localhost:3000/api/bitacoras";
+      const res = await axios.post(url, bitacora, {
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify(bitacora),
       });
 
-      if (!res.ok) {
-        throw new Error('Error al subir la bitácora.');
-      }
-
-      const data = await res.json();
+      const data = res.data;
 
       if (data.bitacora) {
-        alert('¡Bitácora subida exitosamente!');
+        alert("¡Bitácora subida exitosamente!");
         toggleForm();
-        setBitacora({ codigo: '', id_usuario: '', fecha: '' });
+        setBitacora({ codigo: "", id_usuario: "", fecha: "" });
         onAddBitacora(bitacora);
       } else {
-        console.log('Ocrrió un error');
+        console.error("Ocurrió un error");
       }
     } catch (error) {
-      console.error('Error al subir la bitácora:', error);
+      console.console.log(error.message);
     }
   };
 
@@ -61,7 +57,9 @@ const BitacoraForm = ({ onAddBitacora, onClose }) => {
 
   return (
     <form onSubmit={handleSubmit}>
-      <button className="add-bitacora" onClick={toggleForm}>Agregar Bitácora</button>
+      <button className="add-bitacora" onClick={toggleForm}>
+        Agregar Bitácora
+      </button>
       {isFormVisible && (
         <section className="bitacora-form" id="bitacoraForm">
           <h2 className="bitacora-form__title">Agregar Bitácora</h2>
