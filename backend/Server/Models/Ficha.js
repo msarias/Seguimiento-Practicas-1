@@ -12,10 +12,10 @@ const Ficha = Sequelize.define('Ficha', {
     allowNull: false,
     unique: true
   },
-  programa: {
+  /* programa: {
     type: DataTypes.STRING(100),
     allowNull: false
-  }
+  } */
 }, {
   tableName: 'ficha',
   timestamps: false

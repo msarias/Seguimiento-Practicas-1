@@ -10,6 +10,7 @@ import Fichas from '../ficha/fichas';
 import ForgotPassword from '../login/ForgotPassword';
 import ResetPassword from '../login/ResetPassword';
 import NotFound from './NotFound';
+import Content from '../generales/Content';
 
 function Routing() {
   return (
@@ -21,6 +22,7 @@ function Routing() {
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/reset-password/:token" element={<ResetPassword />} />
         <Route path="/usuarios" element={<Usuarios />} />
+        <Route path="/usuarios/id" element={<Content />} />
         <Route path="/visitas" element={<Visitas />} />
         <Route path="/fichas" element={<Fichas />} />
         <Route path="/bitacoras" element={<Bitacoras />} />

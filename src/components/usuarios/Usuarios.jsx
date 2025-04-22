@@ -32,15 +32,12 @@ const Usuarios = () => {
         <h1>Usuarios</h1>
         {error && <p className="error-message">{error}</p>}
         {usuarios.length > 0 ?  (
-          usuarios.map((user, index) => (
-            <div className="report-list__item" key={index}>
-              <p>
-                <strong>{`Usuario ${index + 1}`}</strong>
-              </p>
-              <p>{user.nombres + user.apellidos}</p>
-              <p>{user.correo}</p>
-              <p>{user.identificacion}</p>
-              <p>{user.rol}</p>
+          usuarios.map((user) => (
+            <div className="report-list__item" key={user.id}>
+              <p>{'Nombre: ' + user.nombres + ' ' + user.apellidos}</p>
+              <p>{'Correo: ' + user.correo}</p>
+              <p>{'Nro. Identificación: ' + user.identificacion}</p>
+              <p>{'Rol: ' + user.rol}</p>
             </div>
           ))
         ) : (

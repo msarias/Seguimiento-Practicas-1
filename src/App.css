@@ -221,8 +221,8 @@ body {
 .content {
   display: flex;
   flex-direction: column;
-  padding: 1rem;
-  gap: 1.2rem;
+  padding: 1.2rem;
+  row-gap: 1.8rem;
   grid-column: 2/3;
   grid-row: 2/3;
 }
@@ -237,6 +237,12 @@ body {
 .info-section {
   display: flex;
   align-items: center;
+}
+.info-section > div{
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin-left: 20px;
 }
 
 .info-section img {
@@ -472,10 +478,13 @@ body {
 
 .report-list__item {
   flex-wrap: wrap;
+  text-wrap: wrap;
+  justify-content: space-between;
   background-color: #f0f0f0;
+  text-align: center;
   padding: 24px;
+  column-gap: 20px;
   border-radius: 8px;
-  margin-bottom: 10px;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   grid-auto-flow: column;

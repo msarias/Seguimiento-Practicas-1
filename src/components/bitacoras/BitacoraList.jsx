@@ -27,7 +27,6 @@ const BitacoraList = () => {
       setError("Ocurrió un error:", error.message);
     }
   };
-};
 
 const deleteBitacora = async (e) => {
   const id = e.target.id;
@@ -78,5 +77,6 @@ return (
     <BitacoraForm />
   </section>
 );
+};
 
 export default BitacoraList;
