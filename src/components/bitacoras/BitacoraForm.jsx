@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import axios from "axios";
+import Swal from "sweetalert2";
 
 const BitacoraForm = ({ onAddBitacora, onClose }) => {
   const [isFormVisible, setIsFormVisible] = useState(false);
   const [bitacora, setBitacora] = useState({
     id_usuario: "",
-    fecha: "",
+    fecha: new Date().toISOString().slice(0, 10),
     // archivo: '',
     codigo: "",
   });
@@ -19,8 +20,15 @@ const BitacoraForm = ({ onAddBitacora, onClose }) => {
   };
 
   const subirBitacora = async () => {
-    if (!bitacora.codigo || !bitacora.id_usuario || !bitacora.fecha) {
-      alert("Completa todos los campos.");
+    if (!bitacora.fecha) {
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "Por favor, completa todos los campos.",
+        toast: true,
+        backdrop: true,
+      });
+      // alert("Completa todos los campos.");
       return;
     }
 
@@ -37,7 +45,7 @@ const BitacoraForm = ({ onAddBitacora, onClose }) => {
       if (data.bitacora) {
         alert("¡Bitácora subida exitosamente!");
         toggleForm();
-        setBitacora({ codigo: "", id_usuario: "", fecha: "" });
+        setBitacora({ fecha: "" });
         onAddBitacora(bitacora);
       } else {
         console.error("Ocurrió un error");
@@ -74,16 +82,6 @@ const BitacoraForm = ({ onAddBitacora, onClose }) => {
           />
 
           <input
-            type="text"
-            name="id_usuario"
-            className="bitacora-form__input"
-            placeholder="ID del usuario"
-            value={bitacora.id_usuario}
-            onChange={handleChange}
-            required
-          />
-
-          <input
             type="file"
             name="archivo"
             className="bitacora-form__input"
@@ -91,14 +89,6 @@ const BitacoraForm = ({ onAddBitacora, onClose }) => {
             // required
           />
 
-          <input
-            type="date"
-            name="fecha"
-            className="bitacora-form__input"
-            value={bitacora.fecha}
-            onChange={handleChange}
-            required
-          />
 
           <button
             type="submit"

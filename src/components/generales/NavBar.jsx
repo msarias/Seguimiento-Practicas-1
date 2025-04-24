@@ -9,11 +9,13 @@ const Navbar = () => {
     // localStorage.removeItem('token');
     localStorage.removeItem('rol');
     localStorage.removeItem('usuarioId');
-    navigate('/', {replace: true});
+
+    navigate('/', { replace: true });
     replace('/');
+
     Swal.fire({
-      position: 'top',
-      icon: 'close',
+      position: 'center',
+      icon: 'success',
       title: 'Sesión cerrada',
       showConfirmButton: false,
       timer: 1200,

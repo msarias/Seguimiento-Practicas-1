@@ -1,12 +1,12 @@
-import React, { useState } from "react";
-import axios from "axios";
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import Swal from 'sweetalert2';
 
 const ReportForm = ({ onAddReporte, onClose }) => {
   const [reporte, setReporte] = useState({
-    id_usuario: "",
-    nombre: "",
-    motivo: "",
-    fecha: "",
+    nombre: '',
+    motivo: '',
+    fecha: '',
   });
 
   const handleChange = (e) => {
@@ -14,36 +14,26 @@ const ReportForm = ({ onAddReporte, onClose }) => {
     setReporte({ ...reporte, [name]: value });
   };
 
-  const uploadReport = async (e) => {
-    if (
-      !reporte.id_usuario ||
-      !reporte.nombre ||
-      !reporte.motivo ||
-      !reporte.fecha
-    ) {
-      alert("Por favor, completa todos los campos.");
-      return;
-    }
-
-    try {
-      const url = "http://localhost:3000/api/reportes";
-      const response = await axios.post(url, reporte, {
-        headers: {
-          "Content-Type": "application/json",
-        },
+  const uploadReport = async () => {
+    const { nombre, motivo, fecha } = reporte;
+    if (!nombre || !motivo || !fecha)
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'Por favor, completa todos los campos.',
+        toast: true,
+        backdrop: true,
       });
 
-      if (response.data.reportes && response.data.reportes.length > 0) {
-        onAddReporte(response.data.reportes);
-        alert("¡Reporte subido exitosamente!");
+    try {
+      const { data } = await axios.post('http://localhost:3000/api/reportes/', reporte);
+      if (data.nuevoReporte) {
+        onAddReporte(data.nuevoReporte);
+        setReporte({ nombre: '', motivo: '', fecha: '' });
         onClose();
-        setReporte({ id_usuario: "", nombre: "", motivo: "", fecha: "" });
-      } else {
-        console.error("No se recibió correctamente la información.");
-        console.log(response.data);
       }
     } catch (error) {
-      console.error("Error al subir el reporte:", error.message);
+      console.error('Error al subir el reporte:', error);
     }
   };
 
@@ -55,14 +45,6 @@ const ReportForm = ({ onAddReporte, onClose }) => {
   return (
     <form className="report-form" onSubmit={handleSubmit}>
       <h2 className="report-form__title">Agregar Reporte</h2>
-      <input
-        type="number"
-        name="id_usuario"
-        placeholder="ID usuario"
-        className="report-form__input"
-        value={reporte.id_usuario}
-        onChange={handleChange}
-      />
       <input
         type="text"
         name="nombre"
@@ -86,9 +68,7 @@ const ReportForm = ({ onAddReporte, onClose }) => {
         value={reporte.fecha}
         onChange={handleChange}
       />
-      <button type="submit" className="report-form__button">
-        Subir Reporte
-      </button>
+      <button type="submit" className="report-form__button">Subir Reporte</button>
     </form>
   );
 };

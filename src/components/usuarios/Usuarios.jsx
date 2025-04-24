@@ -9,9 +9,8 @@ const Usuarios = () => {
 
   const obtenerUsuarios = async () => {
     try {
-      const response = await axios.get(
-        'http://localhost:3000/api/usuarios/listarUsuarios'
-      );
+      const url = 'http://localhost:3000/api/usuarios/listarUsuarios';
+      const response = await axios.get(url);
       const data = response.data;
       setUsuarios(data.usuarios || []);
     } catch (error) {
@@ -22,6 +21,7 @@ const Usuarios = () => {
 
   useEffect(() => {
     obtenerUsuarios();
+    console.log('Usuarios:', usuarios);
   }, []);
 
   return (
