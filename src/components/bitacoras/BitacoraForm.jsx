@@ -51,7 +51,7 @@ const BitacoraForm = ({ onAddBitacora, onClose }) => {
         console.error("Ocurrió un error");
       }
     } catch (error) {
-      console.console.log(error.message);
+      console.log(error.message);
     }
   };
 
@@ -88,7 +88,6 @@ const BitacoraForm = ({ onAddBitacora, onClose }) => {
             onChange={handleChange}
             // required
           />
-
 
           <button
             type="submit"

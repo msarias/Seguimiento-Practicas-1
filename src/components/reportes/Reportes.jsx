@@ -23,7 +23,7 @@ const Reportes = () => {
       const { data } = await axios.get(url);
       setReportes(data.reportes || []);
     } catch (error) {
-      console.error('Error al obtener reportes:', error);
+      console.error('Error al obtener reportes:', error.message);
     }
   };
 
@@ -40,7 +40,7 @@ const Reportes = () => {
       await axios.delete(url);
       setReportes((prev) => prev.filter((reporte) => reporte.id !== id));
     } catch (error) {
-      console.error('Error al eliminar el reporte:', error);
+      console.error('Error al eliminar el reporte:', error.message);
     }
   };
 

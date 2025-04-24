@@ -101,7 +101,7 @@ const LoginForm = () => {
 
           <div className="recovery-block">
             <Link to="/forgot-password">Olvidé mi contraseña</Link>
-            <Link to="/Register">Registrarme</Link>
+            <Link to="/registro">Registrarme</Link>
           </div>
 
           <button type="submit" className="login-button">

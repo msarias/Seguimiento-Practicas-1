@@ -14,10 +14,11 @@ const Navbar = () => {
     replace('/');
 
     Swal.fire({
-      position: 'center',
+      position: 'top',
       icon: 'success',
       title: 'Sesión cerrada',
       showConfirmButton: false,
+      toast: true,
       timer: 1200,
     });
   };
@@ -43,7 +44,7 @@ const Navbar = () => {
           className="navbar-icon"
           draggable="false"
         />
-        <Link to={'/Inicio'} draggable="false">
+        <Link to={'/inicio'} draggable="false">
           <img
             src="../css/img/home.png"
             alt="Home"

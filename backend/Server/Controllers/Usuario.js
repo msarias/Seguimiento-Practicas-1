@@ -9,6 +9,16 @@ exports.crearUsuario = async (req, res) => {
 
         const { nombres, apellidos, correo, rol, contraseña, identificacion, ficha: codigoFicha } = req.body;
 
+        const usuarioExistente = await Usuario.findOne({ where: { identificacion } });
+        if (usuarioExistente) {
+            return res.status(400).json({ message: 'Ya existe un usuario con ese documento.' });
+        }   //verificar si el usuario ya existe (número de identificación)
+        
+        const correoExistente = await Usuario.findOne({ where: { correo } });
+        if (correoExistente) {
+            return res.status(400).json({ message: 'Este correo ya se encuentra registrado' });
+        }   //Verificar si el usuario ya existe (correo electrónico)
+
         // Buscar ficha por código
         let fichaExistente = await Ficha.findOne({ where: { codigo: codigoFicha } });
 
@@ -33,7 +43,7 @@ exports.crearUsuario = async (req, res) => {
 
         res.status(201).json(nuevoUsuario);
     } catch (error) {
-        console.error("Error en el servidor:", error);
+        console.error("Error en el servidor:", error.message);
         res.status(500).json({ error: "Error interno del servidor" });
     }
 };
