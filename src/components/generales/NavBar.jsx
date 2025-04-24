@@ -1,24 +1,25 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const Navbar = () => {
   const [notificaciones, setNotificaciones] = useState([]);
   const [mostrarPopup, setMostrarPopup] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const cargarNotificaciones = () => {
       const notificacionesGuardadas = JSON.parse(localStorage.getItem("notificaciones")) || [];
       setNotificaciones(notificacionesGuardadas);
     };
-  
+
     cargarNotificaciones();
-  
+
     const handler = () => {
       cargarNotificaciones();
     };
-  
+
     window.addEventListener("notificacionesActualizadas", handler);
-  
+
     return () => {
       window.removeEventListener("notificacionesActualizadas", handler);
     };
@@ -27,8 +28,10 @@ const Navbar = () => {
   const handleCerrarSesion = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('rol');
+    localStorage.removeItem('usuarioId');
     localStorage.removeItem('notificaciones');
-    window.location.href = '/';
+
+    navigate("/login", { replace: true }); // Evita volver con el botón atrás
   };
 
   const handleNotificacionLeida = (id) => {
@@ -72,7 +75,6 @@ const Navbar = () => {
             </span>
           )}
         </div>
-
 
         <img
           src="../css/img/user.png"

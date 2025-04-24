@@ -1,4 +1,4 @@
-require("dotenv").config();
+require("dotenv").config({ path: "./.env" });
 const Usuario = require("../Models/Usuario.js");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
@@ -115,8 +115,17 @@ const login = async (req, res) => {
       return res.status(401).json({ message: "Contraseña incorrecta" });
     }
 
+    console.log("JWT_SECRET:", process.env.JWT_SECRET);
+
+    const token = jwt.sign(
+      { id: usuario.id, rol: usuario.rol }, // puedes agregar más info si necesitas
+      process.env.JWT_SECRET,
+      { expiresIn: "2h" }
+    );
+
     res.status(200).json({
       message: "Inicio de sesión exitoso",
+      token,
       usuario: {
         id: usuario.id,
         nombre: usuario.nombre,
