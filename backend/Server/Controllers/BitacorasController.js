@@ -3,14 +3,18 @@ const Bitacoras = require('../Models/Bitacora');
 
 // Obtener todas las bitácoras
 const getAllBitacoras = async (req, res) => {
+    const id_usuario = req.query.id_usuario;
+  
     try {
-        const bitacoras = await Bitacoras.findAll();
-        res.status(200).json(bitacoras);
+      const bitacoras = await Bitacoras.findAll({
+        where: { id_usuario }
+      });
+      res.json(bitacoras);
     } catch (error) {
-        console.error('Error en getAllBitacoras:', error); // 🔍 imprime el error real en consola
-        res.status(500).json({ error: error.message }); // muestra el mensaje exacto en la respuesta
+      console.error('Error en getAllBitacoras:', error);
+      res.status(500).json({ error: 'Error al obtener las bitácoras' });
     }
-};
+  };
 // Obtener una bitácora por ID
 const getBitacoraById = async (req, res) => {
     try {

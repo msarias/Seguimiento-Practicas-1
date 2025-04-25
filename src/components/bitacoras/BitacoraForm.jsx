@@ -12,8 +12,12 @@ const BitacoraForm = ({ onAddBitacora, onClose, bitacoras }) => {
 
   useEffect(() => {
     const rolGuardado = localStorage.getItem('rol');
-    if (rolGuardado) {
-      setRol(rolGuardado.toLowerCase());
+    const idGuardado = localStorage.getItem('id');
+    console.log('ID guardado:', idGuardado); // <-- Añadí esto
+  
+    if (rolGuardado) setRol(rolGuardado.toLowerCase());
+    if (idGuardado) {
+      setBitacora((prev) => ({ ...prev, id_usuario: idGuardado }));
     }
   }, []);
 
@@ -39,13 +43,12 @@ const BitacoraForm = ({ onAddBitacora, onClose, bitacoras }) => {
       alert('Ya has subido el máximo de 6 bitácoras.');
       return;
     }
+    const formData = new FormData();
+    formData.append('id_usuario', bitacora.id_usuario);
+    formData.append('fecha', bitacora.fecha);
+    formData.append('archivo', bitacora.archivo);
 
     try {
-      const formData = new FormData();
-      formData.append('id_usuario', bitacora.id_usuario);
-      formData.append('fecha', bitacora.fecha);
-      formData.append('archivo', bitacora.archivo);
-
       const res = await fetch('http://localhost:3000/api/bitacoras/', {
         method: 'POST',
         body: formData,
@@ -60,7 +63,8 @@ const BitacoraForm = ({ onAddBitacora, onClose, bitacoras }) => {
       if (data.bitacora) {
         alert('¡Bitácora subida exitosamente!');
         setIsFormVisible(false);
-        setBitacora({ id_usuario: '', fecha: '', archivo: null });
+        const idGuardado = localStorage.getItem('id');
+        setBitacora({ id_usuario: idGuardado || '', fecha: '', archivo: null });
         onAddBitacora(data.bitacora);
       } else {
         console.log('Ocurrió un error inesperado');
@@ -87,7 +91,7 @@ const BitacoraForm = ({ onAddBitacora, onClose, bitacoras }) => {
         <section className="bitacora-form" id="bitacoraForm">
           <h2 className="bitacora-form__title">Agregar Bitácora</h2>
 
-          <input
+          {/* <input
             type="text"
             name="id_usuario"
             className="bitacora-form__input"
@@ -95,7 +99,7 @@ const BitacoraForm = ({ onAddBitacora, onClose, bitacoras }) => {
             value={bitacora.id_usuario}
             onChange={handleChange}
             required
-          />
+          /> */}
 
           <input
             type="file"
