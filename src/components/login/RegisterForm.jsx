@@ -1,9 +1,27 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import Swal from "sweetalert2";
 
 const RegisterForm = () => {
+
+  const [fichas, setFichas] = useState([]);
+  
+  const getFichas = async () => {
+    try {
+      const url = "http://localhost:3000/api/fichas/";
+      const response = await axios.get(url);
+      const data = response.data;
+      setFichas(data || []);
+    } catch (error) {
+      console.log(error.message);
+    }
+  }
+
+  useEffect(() => {
+    getFichas();
+  }, [fichas]);
+
   const [formData, setFormData] = useState({
     nombres: "",
     apellidos: "",
@@ -73,7 +91,6 @@ const RegisterForm = () => {
     
   } catch (err) {
     const message = err.response?.data?.message || "Error al registrar usuario";
-
     console.log(err.response);
     
     Swal.fire({
@@ -87,6 +104,7 @@ const RegisterForm = () => {
   }
 };
 
+
   return (
     <div className="form-container">
       <h2 className="register-title">Registro Usuarios</h2>
@@ -98,19 +116,22 @@ const RegisterForm = () => {
           className="register-input"
           name="nombres"
           value={formData.nombres}
-          onChange={handleChange}
+          onChange={(e) => {
+            console.log(e.target.value);
+            console.log(e.target.validity);
+          }}
           placeholder="Ingrese sus nombres"
-          required
+          // required
           minLength={3}
           maxLength={45}
-          pattern="[^A-Za-z\s]+$"
+          pattern="[A-Za-z\s]+"
           onInvalid={(e) => {
             if(e.target.validity.valueMissing) {
               e.target.setCustomValidity("Este campo es obligatorio.");
             }
-            else if(e.target.validity.patternMismatch) {
+            /* else if(e.target.validity.patternMismatch) {
               e.target.setCustomValidity("El nombre solo debe contener letras y espacios.");
-            } else if(e.target.validity.tooShort) {
+            }  */else if(e.target.validity.tooShort) {
               e.target.setCustomValidity("El nombre debe tener al menos 3 caracteres.");
             } else if(e.target.validity.tooLong) {
               e.target.setCustomValidity("El nombre no puede exceder los 45 caracteres.");
@@ -133,7 +154,22 @@ const RegisterForm = () => {
 
         <label htmlFor="code-input" className="register-label">Número de ficha</label>
         {/* HACER EL GET */}
-        <input
+
+        <select className="register-input">
+          {fichas.length > 0 ? (
+            (fichas.map((ficha) => (
+              <option key={ficha.id} value={ficha.codigo}>
+                {ficha.codigo}
+              </option>
+            )))
+          ):
+          (
+            <option value="">No hay fichas disponibles</option>
+          )}
+        </select>
+
+
+        {/* <input
           type="text"
           id="code-input"
           className="register-input"
@@ -142,7 +178,7 @@ const RegisterForm = () => {
           onChange={handleChange}
           placeholder="Ingrese su número de ficha"
           required
-        />
+        /> */}
 
         <label htmlFor="document-input" className="register-label">Número de documento</label>
         <input
