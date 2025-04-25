@@ -1,17 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import axios from "axios";
-import Swal from "sweetalert2";
 
-const BitacoraForm = ({ onAddBitacora, onClose }) => {
+const BitacoraForm = ({ onAddBitacora, onClose, bitacoras }) => {
   const [isFormVisible, setIsFormVisible] = useState(false);
   const [bitacora, setBitacora] = useState({
-
-    id_usuario: "",
-    fecha: new Date().toISOString().slice(0, 10),
-    // archivo: '',
-    codigo: "",
+    id_usuario: '',
+    fecha: '',
+    archivo: null,
   });
   const [rol, setRol] = useState('');
+  const today = new Date().toISOString().split('T')[0];
 
   useEffect(() => {
     const rolGuardado = localStorage.getItem('rol');
@@ -25,71 +22,77 @@ const BitacoraForm = ({ onAddBitacora, onClose }) => {
     setIsFormVisible(!isFormVisible);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-  };
 
-  const subirBitacora = async () => {
-    if (!bitacora.fecha) {
-      Swal.fire({
-        icon: "error",
-        title: "Error",
-        text: "Por favor, completa todos los campos.",
-        toast: true,
-        backdrop: true,
-      });
-      // alert("Completa todos los campos.");
+    if (!bitacora.id_usuario || !bitacora.fecha || !bitacora.archivo) {
+      alert('Completa todos los campos.');
+      return;
+    }
+
+    if (bitacora.fecha !== today) {
+      alert('Solo puedes subir la bitácora con la fecha actual.');
+      return;
+    }
+
+    if (bitacoras.length >= 6) {
+      alert('Ya has subido el máximo de 6 bitácoras.');
       return;
     }
 
     try {
-      const url = "http://localhost:3000/api/bitacoras";
-      const res = await axios.post(url, bitacora, {
-        headers: {
-          "Content-Type": "application/json",
-        },
+      const formData = new FormData();
+      formData.append('id_usuario', bitacora.id_usuario);
+      formData.append('fecha', bitacora.fecha);
+      formData.append('archivo', bitacora.archivo);
+
+      const res = await fetch('http://localhost:3000/api/bitacoras/', {
+        method: 'POST',
+        body: formData,
       });
 
-      const data = res.data;
+      if (!res.ok) {
+        throw new Error('Error al subir la bitácora.');
+      }
+
+      const data = await res.json();
 
       if (data.bitacora) {
-        alert("¡Bitácora subida exitosamente!");
-        toggleForm();
-        setBitacora({ fecha: "" });
-        onAddBitacora(bitacora);
+        alert('¡Bitácora subida exitosamente!');
+        setIsFormVisible(false);
+        setBitacora({ id_usuario: '', fecha: '', archivo: null });
+        onAddBitacora(data.bitacora);
       } else {
-
-        console.error("Ocurrió un error");
-        console.log('Ocurrió un error');
-
+        console.log('Ocurrió un error inesperado');
       }
     } catch (error) {
-      console.log(error.message);
+      console.error('Error al subir la bitácora:', error);
     }
-  };
+};
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
+    const { name, value, files } = e.target;
     setBitacora({
       ...bitacora,
-      [name]: value,
+      [name]: name === 'archivo' ? files[0] : value,
     });
   };
 
+  if (rol !== 'aprendiz') return null;
+
   return (
     <form onSubmit={handleSubmit}>
-      <button className="add-bitacora" onClick={toggleForm}>
-        Agregar Bitácora
-      </button>
+      <button className="add-bitacora" onClick={toggleForm}>Agregar Bitácora</button>
       {isFormVisible && (
         <section className="bitacora-form" id="bitacoraForm">
           <h2 className="bitacora-form__title">Agregar Bitácora</h2>
+
           <input
             type="text"
-            name="codigo"
+            name="id_usuario"
             className="bitacora-form__input"
-            placeholder="Número de la bitácora"
-            value={bitacora.codigo}
+            placeholder="ID del usuario"
+            value={bitacora.id_usuario}
             onChange={handleChange}
             required
           />
@@ -99,14 +102,25 @@ const BitacoraForm = ({ onAddBitacora, onClose }) => {
             name="archivo"
             className="bitacora-form__input"
             onChange={handleChange}
+            required
+          />
+
+          <input
+            type="date"
+            name="fecha"
+            className="bitacora-form__input"
+            value={bitacora.fecha}
+            onChange={handleChange}
+            max={today}
+            required
           />
 
           <button
             type="submit"
             className="bitacora-form__button"
-            onClick={subirBitacora}
+            disabled={bitacoras.length >= 6} // Deshabilitar el botón si ya se subieron 6 bitácoras
           >
-            Subir Bitácora
+            {bitacoras.length >= 6 ? 'Has alcanzado el límite de 6 bitácoras' : 'Subir Bitácora'}
           </button>
         </section>
       )}

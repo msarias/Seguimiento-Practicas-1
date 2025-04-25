@@ -12,22 +12,13 @@ const LoginForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+
     if (!typeAccount) return setError("Debe seleccionar un tipo de cuenta.");
     if (!/^\d+$/.test(document)) return setError("El documento debe ser numérico.");
     if (password.length < 6) return setError("La contraseña debe tener al menos 6 caracteres.");
-  
+
     setError("");
   
-
-    if (!typeAccount) return setError('Debe seleccionar un tipo de cuenta.');
-    if (!/^\d+$/.test(document))
-      return setError('El documento debe ser numérico.');
-    if (password.length < 6)
-      return setError('La contraseña debe tener al menos 6 caracteres.');
-
-    setError('');
-
     try {
       const url = 'http://localhost:3000/api/auth/login';
       const res = await axios.post(url, {
@@ -42,12 +33,6 @@ const LoginForm = () => {
       localStorage.setItem("rol", rol); // Guardamos el rol en localStorage
       localStorage.setItem("usuarioId", id); // Guardamos el ID si lo necesitas
   
-
-      const usuario = res.data.usuario;
-
-      localStorage.setItem('rol', usuario.rol);
-      localStorage.setItem('usuarioId', usuario.id);
-
       Swal.fire({
         position: 'top',
         icon: 'success',
@@ -56,7 +41,7 @@ const LoginForm = () => {
         timer: 1200,
         toast: true,
       });
-  
+
       navigate("/Inicio");
 
       navigate('/Inicio');
@@ -120,9 +105,8 @@ const LoginForm = () => {
             <Link to="/registro">Registrarme</Link>
           </div>
 
-          <button type="submit" className="login-button">
-            Iniciar Sesión
-          </button>
+          <button type="submit" className="login-button">Iniciar Sesión</button>
+
         </form>
       </div>
     </div>

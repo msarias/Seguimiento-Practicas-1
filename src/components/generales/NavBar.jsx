@@ -1,31 +1,37 @@
 import { Link, replace } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import Swal from 'sweetalert2';
+import { Link } from 'react-router-dom';
 
 const Navbar = () => {
   const [mostrarPopup, setMostrarPopup] = useState(false);
   const [notificaciones, setNotificaciones] = useState([]);
+  const [mostrarPopup, setMostrarPopup] = useState(false);
 
   useEffect(() => {
     const cargarNotificaciones = () => {
       const notificacionesGuardadas = JSON.parse(localStorage.getItem("notificaciones")) || [];
       setNotificaciones(notificacionesGuardadas);
     };
-  
+
     cargarNotificaciones();
-  
+
     const handler = () => {
       cargarNotificaciones();
     };
-  
+
     window.addEventListener("notificacionesActualizadas", handler);
-  
+
     return () => {
       window.removeEventListener("notificacionesActualizadas", handler);
     };
   }, []);
 
+  const handleCerrarSesion = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('rol');
+    localStorage.removeItem('notificaciones');
+    window.location.href = '/';
+  };
 
   const handleNotificacionLeida = (id) => {
     const nuevas = notificaciones.map((n) =>
@@ -89,12 +95,7 @@ const Navbar = () => {
           )}
         </div>
 
-        <input
-          type="button"
-          value="Cerrar sesión"
-          className="navbar-logout"
-          onClick={handleLogout}
-        />
+
         <img
           src="../css/img/user.png"
           alt="Usuario"

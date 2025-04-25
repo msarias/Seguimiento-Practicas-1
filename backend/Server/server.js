@@ -3,19 +3,16 @@ const sequelize = require("./Config/db.js");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const dotenv = require("dotenv");
+const path = require("path");
 
 // Cargar variables de entorno
-require("dotenv").config();
+dotenv.config(); // Puedes usar directamente dotenv.config() sin require("dotenv").config()
 
 // Importar rutas
 const indexRoutes = require("./Routes/index.routes.js");
 
 // Importar y ejecutar asociaciones entre modelos
 require('./Models/Asociaciones');
-
-// Probar variables de entorno (puedes quitar esto luego)
-console.log("EMAIL_USER:", process.env.EMAIL_USER);
-console.log("EMAIL_PASS:", process.env.EMAIL_PASS);
 
 // Crear el servidor
 const app = express();
@@ -36,6 +33,9 @@ app.use(cors({ origin: "http://localhost:3001" })); // Cambiar si usas otro fron
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
+
+// Servir archivos estáticos desde la carpeta "uploads"
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // Rutas
 app.use("/api", indexRoutes); // Acceso a /api/fichas, /api/usuarios, etc.
