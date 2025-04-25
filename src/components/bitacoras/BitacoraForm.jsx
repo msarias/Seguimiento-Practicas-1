@@ -68,7 +68,7 @@ const BitacoraForm = ({ onAddBitacora, onClose, bitacoras }) => {
     } catch (error) {
       console.error('Error al subir la bitácora:', error);
     }
-};
+  };
 
   const handleChange = (e) => {
     const { name, value, files } = e.target;
