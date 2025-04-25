@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
 
-const BitacoraForm = ({ onAddBitacora, onClose }) => {
+const BitacoraForm = ({ onAddBitacora, onClose, bitacoras }) => {
   const [isFormVisible, setIsFormVisible] = useState(false);
   const [bitacora, setBitacora] = useState({
     id_usuario: '',
     fecha: '',
-    codigo: '',
+    archivo: null,
   });
   const [rol, setRol] = useState('');
+  const today = new Date().toISOString().split('T')[0];
 
   useEffect(() => {
     const rolGuardado = localStorage.getItem('rol');
@@ -21,23 +22,33 @@ const BitacoraForm = ({ onAddBitacora, onClose }) => {
     setIsFormVisible(!isFormVisible);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-  };
 
-  const subirBitacora = async () => {
-    if (!bitacora.codigo || !bitacora.id_usuario || !bitacora.fecha) {
+    if (!bitacora.id_usuario || !bitacora.fecha || !bitacora.archivo) {
       alert('Completa todos los campos.');
       return;
     }
 
+    if (bitacora.fecha !== today) {
+      alert('Solo puedes subir la bitácora con la fecha actual.');
+      return;
+    }
+
+    if (bitacoras.length >= 6) {
+      alert('Ya has subido el máximo de 6 bitácoras.');
+      return;
+    }
+
     try {
+      const formData = new FormData();
+      formData.append('id_usuario', bitacora.id_usuario);
+      formData.append('fecha', bitacora.fecha);
+      formData.append('archivo', bitacora.archivo);
+
       const res = await fetch('http://localhost:3000/api/bitacoras/', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(bitacora),
+        body: formData,
       });
 
       if (!res.ok) {
@@ -48,26 +59,26 @@ const BitacoraForm = ({ onAddBitacora, onClose }) => {
 
       if (data.bitacora) {
         alert('¡Bitácora subida exitosamente!');
-        toggleForm();
-        setBitacora({ codigo: '', id_usuario: '', fecha: '' });
-        onAddBitacora(bitacora);
+        setIsFormVisible(false);
+        setBitacora({ id_usuario: '', fecha: '', archivo: null });
+        onAddBitacora(data.bitacora);
       } else {
-        console.log('Ocurrió un error');
+        console.log('Ocurrió un error inesperado');
       }
     } catch (error) {
       console.error('Error al subir la bitácora:', error);
     }
-  };
+};
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
+    const { name, value, files } = e.target;
     setBitacora({
       ...bitacora,
-      [name]: value,
+      [name]: name === 'archivo' ? files[0] : value,
     });
   };
 
-  if (rol !== 'aprendiz') return null; // 🔒 Oculta todo para otros roles
+  if (rol !== 'aprendiz') return null;
 
   return (
     <form onSubmit={handleSubmit}>
@@ -75,15 +86,6 @@ const BitacoraForm = ({ onAddBitacora, onClose }) => {
       {isFormVisible && (
         <section className="bitacora-form" id="bitacoraForm">
           <h2 className="bitacora-form__title">Agregar Bitácora</h2>
-          <input
-            type="text"
-            name="codigo"
-            className="bitacora-form__input"
-            placeholder="Número de la bitácora"
-            value={bitacora.codigo}
-            onChange={handleChange}
-            required
-          />
 
           <input
             type="text"
@@ -100,6 +102,7 @@ const BitacoraForm = ({ onAddBitacora, onClose }) => {
             name="archivo"
             className="bitacora-form__input"
             onChange={handleChange}
+            required
           />
 
           <input
@@ -108,15 +111,16 @@ const BitacoraForm = ({ onAddBitacora, onClose }) => {
             className="bitacora-form__input"
             value={bitacora.fecha}
             onChange={handleChange}
+            max={today}
             required
           />
 
           <button
             type="submit"
             className="bitacora-form__button"
-            onClick={subirBitacora}
+            disabled={bitacoras.length >= 6} // Deshabilitar el botón si ya se subieron 6 bitácoras
           >
-            Subir Bitácora
+            {bitacoras.length >= 6 ? 'Has alcanzado el límite de 6 bitácoras' : 'Subir Bitácora'}
           </button>
         </section>
       )}
