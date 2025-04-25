@@ -1,14 +1,14 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import NavBar from '../generales/NavBar';
-import Sidebar from '../generales/Sidebar';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import NavBar from "../generales/NavBar";
+import Sidebar from "../generales/Sidebar";
 
 const ReportForm = ({ onAddReporte, onClose }) => {
   const [reporte, setReporte] = useState({
-    id_usuario: '',
-    nombre: '',
-    motivo: '',
-    fecha: '',
+    id_usuario: "",
+    nombre: "",
+    motivo: "",
+    fecha: "",
   });
 
   const handleChange = (e) => {
@@ -16,19 +16,34 @@ const ReportForm = ({ onAddReporte, onClose }) => {
     setReporte({ ...reporte, [name]: value });
   };
 
-  const uploadReport = async () => {
-    const { id_usuario, nombre, motivo, fecha } = reporte;
-    if (!id_usuario || !nombre || !motivo || !fecha) return;
+  const uploadReport = async (e) => {
+    if (
+      !reporte.id_usuario ||
+      !reporte.nombre ||
+      !reporte.motivo ||
+      !reporte.fecha
+    ) {
+      alert("Por favor, completa todos los campos.");
+      return;
+    }
 
     try {
-      const { data } = await axios.post('http://localhost:3000/api/reportes/', reporte);
-      if (data.nuevoReporte) {
-        onAddReporte(data.nuevoReporte);
-        setReporte({ id_usuario: '', nombre: '', motivo: '', fecha: '' });
+      const url = "http://localhost:3000/api/reportes";
+      const data = await axios.post(url, reporte, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (data.reportes) {
+        onAddReporte(data.reportes);
+        alert("¡Reporte subido exitosamente!");
         onClose();
+        setReporte({ id_usuario: "", nombre: "", motivo: "", fecha: "" });
       }
     } catch (error) {
-      console.error('Error al subir el reporte:', error);
+      console.error("Error al subir el reporte:", error);
+      // alert("Error al subir el reporte.");
     }
   };
 
@@ -71,7 +86,9 @@ const ReportForm = ({ onAddReporte, onClose }) => {
         value={reporte.fecha}
         onChange={handleChange}
       />
-      <button type="submit" className="report-form__button">Subir Reporte</button>
+      <button type="submit" className="report-form__button">
+        Subir Reporte
+      </button>
     </form>
   );
 };
@@ -89,15 +106,6 @@ const Reportes = () => {
     obtenerReportes();
   }, []);
 
-  const obtenerReportes = async () => {
-    try {
-      const { data } = await axios.get('http://localhost:3000/api/reportes/verReportes');
-      setReportes(data.reportes || []);
-    } catch (error) {
-      console.error('Error al obtener reportes:', error);
-    }
-  };
-
   const toggleForm = () => setMostrarFormulario(!mostrarFormulario);
 
   const agregarReporte = (nuevoReporte) => {
@@ -107,10 +115,17 @@ const Reportes = () => {
   const deleteReport = async (e) => {
     const id = e.target.id;
     try {
-      await axios.delete(`http://localhost:3000/api/reportes/${id}`);
-      setReportes((prev) => prev.filter((reporte) => reporte.id !== id));
+      const url = `http://localhost:3000/api/reportes/${id}`;
+      const data = await axios.delete(url);
+
+      console.log("Reporte eliminado:", data);
+
+      const updatedReports = reportes.filter((reporte) => reporte.id !== id);
+      setReportes(updatedReports);
+      alert("¡Reporte eliminado exitosamente!");
     } catch (error) {
-      console.error('Error al eliminar el reporte:', error);
+      console.error("Error al eliminar el reporte:", error);
+      alert("Ocurrió un error al intentar eliminar el reporte.");
     }
   };
 
@@ -120,13 +135,14 @@ const Reportes = () => {
       <Sidebar />
       <div className="content">
         <h2 className="report-list__title">Reportes</h2>
+        {error && <p className="error-message">{error}</p>}
 
         {reportes.length === 0 ? (
           <p>No existen reportes</p>
         ) : (
           reportes.map((reporte, index) => (
             <div className="report-list__item" key={index}>
-              <p>ID Usuario: {reporte.id_usuario}</p>
+              <p>ID Aprendiz: {reporte.id_usuario}</p>
               <p>Nombre: {reporte.nombre}</p>
               <p>Motivo: {reporte.motivo}</p>
               <p>Fecha: {reporte.fecha}</p>

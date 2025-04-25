@@ -15,7 +15,6 @@ const RegisterForm = () => {
   });
 
   const [password, setPassword] = useState(""); // Contraseña por separado
-  const [error, setError] = useState("");
 
   const handleChange = (e) => {
     setFormData({
@@ -71,6 +70,68 @@ const RegisterForm = () => {
       setError(err.response?.data?.message || "Error al registrar usuario");
     }
   };
+  e.preventDefault();
+
+/*   if (!formData.identificacion.match(/^\d+$/)) {
+    Swal.fire({
+      icon: "error",
+      title: "Error",
+      text: "El número de documento solo debe contener números.",
+      toast: true,
+    });
+    return;
+  }
+
+  if (password.length < 6) {
+    Swal.fire({
+      icon: "error",
+      title: "Error",
+      text: "La contraseña debe tener al menos 6 caracteres.",
+      toast: true,
+    });
+    return;
+  }
+     */
+  try {
+    await axios.post("http://localhost:3000/api/usuarios", {
+      ...formData,
+      contraseña: password,
+    });
+
+    Swal.fire({
+      position: "center",
+      icon: "success",
+      title: "Usuario registrado con éxito",
+      showConfirmButton: false,
+      timer: 1200,
+    });
+
+    setFormData({
+      nombres: "",
+      apellidos: "",
+      id_empresa: "",
+      identificacion: "",
+      ficha: "",
+      correo: "",
+      rol: "aprendiz",
+    });
+    setPassword("");
+    
+  } catch (err) {
+    const message = err.response?.data?.message || "Error al registrar usuario";
+
+    console.log(err.response);
+    
+    Swal.fire({
+      icon: "error",
+      title: "Error",
+      text: message,
+      toast: true,
+      position: "center",
+    },
+    )
+  }
+};
 
   return (
     <div className="form-container">
@@ -85,7 +146,22 @@ const RegisterForm = () => {
           onChange={handleChange}
           placeholder="Ingrese sus nombres"
           required
-          minLength="3"
+          minLength={3}
+          maxLength={45}
+          pattern="[^A-Za-z\s]+$"
+          onInvalid={(e) => {
+            if(e.target.validity.valueMissing) {
+              e.target.setCustomValidity("Este campo es obligatorio.");
+            }
+            else if(e.target.validity.patternMismatch) {
+              e.target.setCustomValidity("El nombre solo debe contener letras y espacios.");
+            } else if(e.target.validity.tooShort) {
+              e.target.setCustomValidity("El nombre debe tener al menos 3 caracteres.");
+            } else if(e.target.validity.tooLong) {
+              e.target.setCustomValidity("El nombre no puede exceder los 45 caracteres.");
+            }
+          }}
+          onInput={(e) => e.target.setCustomValidity("")}
         />
 
         <label htmlFor="lastnames-input" className="register-label">Apellidos</label>
@@ -101,6 +177,7 @@ const RegisterForm = () => {
         />
 
         <label htmlFor="code-input" className="register-label">Número de ficha</label>
+        {/* HACER EL GET */}
         <input
           type="text"
           id="code-input"
@@ -146,8 +223,6 @@ const RegisterForm = () => {
           placeholder="Ingrese su contraseña"
           required
         />
-
-        {error && <p className="error-message">{error}</p>}
 
         <div className="log-in">
           <button type="submit" className="register-button">Registrarse</button>

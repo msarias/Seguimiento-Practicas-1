@@ -1,9 +1,11 @@
+import { Link, replace } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
 
 const Navbar = () => {
-  const [notificaciones, setNotificaciones] = useState([]);
   const [mostrarPopup, setMostrarPopup] = useState(false);
+  const [notificaciones, setNotificaciones] = useState([]);
 
   useEffect(() => {
     const cargarNotificaciones = () => {
@@ -24,12 +26,6 @@ const Navbar = () => {
     };
   }, []);
 
-  const handleCerrarSesion = () => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('rol');
-    localStorage.removeItem('notificaciones');
-    window.location.href = '/';
-  };
 
   const handleNotificacionLeida = (id) => {
     const nuevas = notificaciones.map((n) =>
@@ -42,6 +38,26 @@ const Navbar = () => {
   const notificacionesPendientes = notificaciones.filter(
     (n) => n.estado === 'pendiente'
   );
+
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    // localStorage.removeItem('token');
+    localStorage.removeItem('rol');
+    localStorage.removeItem('usuarioId');
+
+    navigate('/', { replace: true });
+    replace('/');
+
+    Swal.fire({
+      position: 'top',
+      icon: 'success',
+      title: 'Sesión cerrada',
+      showConfirmButton: false,
+      toast: true,
+      timer: 1200,
+    });
+  };
 
   return (
     <nav className="navbar">
@@ -73,14 +89,19 @@ const Navbar = () => {
           )}
         </div>
 
-
+        <input
+          type="button"
+          value="Cerrar sesión"
+          className="navbar-logout"
+          onClick={handleLogout}
+        />
         <img
           src="../css/img/user.png"
           alt="Usuario"
           className="navbar-icon"
           draggable="false"
         />
-        <Link to={'/Inicio'} draggable="false">
+        <Link to={'/inicio'} draggable="false">
           <img
             src="../css/img/home.png"
             alt="Home"

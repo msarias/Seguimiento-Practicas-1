@@ -17,9 +17,10 @@ const Routing=() => {
     <Router>
       <Routes>
         <Route path="/" element={<Login />} />
-        <Route path="/Register" element={<Register />} />
+        <Route path="/registro" element={<Register />} />
         <Route path="/MainContent" element={<MainContent />} />
-        <Route path="/Inicio" element={<Inicio />} />
+        <Route path="/inicio" element={<Inicio />} />
+        <Route path="/registro" element={<Register />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/reset-password/:token" element={<ResetPassword />} />
         <Route path="/usuarios" element={<Usuarios />} />
