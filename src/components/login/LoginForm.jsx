@@ -12,26 +12,28 @@ const LoginForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+
     if (!typeAccount) return setError("Debe seleccionar un tipo de cuenta.");
     if (!/^\d+$/.test(document)) return setError("El documento debe ser numérico.");
     if (password.length < 6) return setError("La contraseña debe tener al menos 6 caracteres.");
-  
+
     setError("");
-  
+
     try {
       const res = await axios.post("http://localhost:3000/api/auth/login", {
         tipoCuenta: typeAccount,
         documento: document,
         password,
       });
-  
-      // Accedemos directamente a los datos necesarios
-      const { rol, id } = res.data.usuario;
-  
-      localStorage.setItem("rol", rol); // Guardamos el rol en localStorage
-      localStorage.setItem("usuarioId", id); // Guardamos el ID si lo necesitas
-  
+
+      const { token, usuario } = res.data;
+      const { rol, id } = usuario;
+
+      // Guardar token y datos del usuario en localStorage
+      localStorage.setItem("token", token);
+      localStorage.setItem("rol", rol);
+      localStorage.setItem("usuarioId", id);
+
       Swal.fire({
         position: "top",
         icon: "success",
@@ -39,7 +41,7 @@ const LoginForm = () => {
         showConfirmButton: false,
         timer: 1500,
       });
-  
+
       navigate("/Inicio");
     } catch (err) {
       const message = err.response?.data?.message || "Error al iniciar sesión";
@@ -88,14 +90,13 @@ const LoginForm = () => {
           />
 
           {error && <p className="error-message">{error}</p>}
-          
+
           <div className="recovery-block">
             <Link to="/forgot-password">Olvidé mi contraseña</Link>
             <Link to="/Register">Registrarme</Link>
           </div>
 
           <button type="submit" className="login-button">Iniciar Sesión</button>
-
         </form>
       </div>
     </div>
