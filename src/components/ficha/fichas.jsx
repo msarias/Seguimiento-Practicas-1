@@ -36,7 +36,7 @@ const Fichas = () => {
     e.preventDefault();
 
     if (!formData.codigo || !formData.programa) {
-      //   console.error("Por favor, complete todos los campos.");
+      //console.error("Por favor, complete todos los campos.");
       Swal.fire({
         icon: "error",
         title: "Campos incompletos",
@@ -65,7 +65,7 @@ const Fichas = () => {
           {fichas.length > 0 ? (
             <div className="">
               {fichas.map((ficha) => (
-                <div key={ficha.codigo} className="">
+                <div key={ficha.codigo} className="report-list__item">
                   <p className="">Ficha: {ficha.codigo}</p>
                   <p className="">Programa: {ficha.nombre}</p>
                 </div>
@@ -75,33 +75,36 @@ const Fichas = () => {
             <p className="">No hay fichas registradas.</p>
           )}
         </div>
-        <div className="form-fichas.container">
-          <h2 className="">Crear Nueva Ficha</h2>
-          <form onSubmit={subirFicha} className="form-fichas">
-            <div className="form-group">
-              <label htmlFor="codigo">Código de Ficha:</label>
-              <input
-                type="text"
-                id="codigo"
-                name="codigo"
-                value={formData.codigo}
-                onChange={handleChange}
-                className=""
-                required
-              />
-            </div>
-            <div className="form-group">
-              <label htmlFor="programa">Nombre del Programa:</label>
-              <input
-                type="text"
-                id="programa"
-                name="programa"
-                value={formData.programa}
-                onChange={handleChange}
-                className=""
-                required
-              />
-            </div>
+        <div className="form-container">
+          <h2 className="register-title">Crear Nueva Ficha</h2>
+          <form onSubmit={subirFicha} className="form">
+            <label htmlFor="codigo" className="register-label">
+              Código de Ficha:
+            </label>
+            <input
+              type="text"
+              className="register-input"
+              id="codigo"
+              name="codigo"
+              placeholder="Ingrese el código de la ficha"
+              pattern="[0-9]*"
+              value={formData.codigo}
+              onChange={handleChange}
+              required
+            />
+            <label htmlFor="programa" className="register-label">
+              Nombre del Programa:
+            </label>
+            <input
+              type="text"
+              className="register-input"
+              id="programa"
+              name="programa"
+              plaaceholder="Ingrese el nombre del programa"
+              value={formData.programa}
+              onChange={handleChange}
+              required
+            />
             <button type="submit" className="register-button">
               Crear Ficha
             </button>
