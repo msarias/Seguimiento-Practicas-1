@@ -1,93 +1,115 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import Navbar from '../generales/NavBar';
-import Sidebar from '../generales/Sidebar';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import Navbar from "../generales/NavBar";
+import Sidebar from "../generales/Sidebar";
+import Swal from "sweetalert2";
 
 const Fichas = () => {
+  const [formData, setFormData] = useState({
+    codigo: "",
+    programa: "",
+  });
+
   const [fichas, setFichas] = useState([]);
-  const [fichaActiva, setFichaActiva] = useState(null);
 
-  useEffect(() => {
-    const obtenerFichas = async () => {
-      try {
-        const response = await axios.get('http://localhost:3000/api/fichas');
-        setFichas(response.data);
-      } catch (error) {
-        console.error('Error al obtener las fichas:', error);
-      }
-    };
-
-    obtenerFichas();
-  }, []);
-
-  const toggleFicha = (id) => {
-    setFichaActiva(id);
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
   };
 
-  const volver = () => {
-    setFichaActiva(null);
+  const obtenerFichas = async () => {
+    try {
+      const url = "http://localhost:3000/api/fichas";
+      const response = await axios.get(url);
+      const data = response.data;
+      setFichas(data.fichas);
+    } catch (error) {
+      console.error("Error al obtener las fichas:", error.message);
+    }
+  };
+
+  obtenerFichas();
+
+  const subirFicha = async (e) => {
+    e.preventDefault();
+
+    if (!formData.codigo || !formData.programa) {
+      //console.error("Por favor, complete todos los campos.");
+      Swal.fire({
+        icon: "error",
+        title: "Campos incompletos",
+        text: "Por favor, complete todos los campos.",
+        toast: true,
+      });
+      return;
+    }
+
+    try {
+      const url = "http://localhost:3000/api/fichas";
+      await axios.post(url, formData);
+      obtenerFichas();
+    } catch (error) {
+      console.error("Error al crear la ficha:", error.message);
+    }
   };
 
   return (
     <div className="container">
       <Navbar />
       <Sidebar />
-      <div className="content p-4">
-        <h1 className="titulo-fichas">Fichas</h1>
-        {fichas.length > 0 ? (
-          <div className="ficha-grid">
-            {fichas.map((ficha) => {
-              const activa = fichaActiva === ficha.id;
-              if (fichaActiva !== null && !activa) return null;
-
-              return (
-                <div
-                  key={ficha.id}
-                  className={`ficha-card-wrapper ${activa ? 'activa' : ''}`}
-                >
-                  <div
-                    className={`ficha-card ${activa ? 'expandida' : ''}`}
-                    onClick={() => !activa && toggleFicha(ficha.id)}
-                  >
-                    <div className="ficha-header">Ficha</div>
-                    <div className="ficha-codigo">{ficha.codigo}</div>
-
-                    {activa && (
-                      <div className="aprendices-contenedor">
-                        {ficha.aprendices?.length > 0 ? (
-                          ficha.aprendices.map((aprendiz) => (
-                            <div key={aprendiz.id} className="report-list__item">
-                              <div className="linea-flex">
-                                <strong>Nombre:</strong>
-                                <span>{aprendiz.nombres} {aprendiz.apellidos}</span>
-                              </div>
-                              <div className="linea-flex">
-                                <strong>Identificación:</strong>
-                                <span>{aprendiz.identificacion}</span>
-                              </div>
-                              <div className="linea-flex">
-                                <strong>Correo:</strong>
-                                <span>{aprendiz.correo}</span>
-                              </div>
-                            </div>
-                          ))
-                        ) : (
-                          <div className="aprendiz-linea">Sin aprendices</div>
-                        )}
-
-                        <button className="btn-volver" onClick={volver}>
-                          Volver
-                        </button>
-                      </div>
-                    )}
-                  </div>
+      <div className="content">
+        <div className="">
+          <h1 className="">Listado de Fichas</h1>
+          {fichas.length > 0 ? (
+            <div className="">
+              {fichas.map((ficha) => (
+                <div key={ficha.codigo} className="report-list__item">
+                  <p className="">Ficha: {ficha.codigo}</p>
+                  <p className="">Programa: {ficha.nombre}</p>
                 </div>
-              );
-            })}
-          </div>
-        ) : (
-          <p className="mensaje-vacio">No hay fichas registradas.</p>
-        )}
+              ))}
+            </div>
+          ) : (
+            <p className="">No hay fichas registradas.</p>
+          )}
+        </div>
+        <div className="form-container">
+          <h2 className="register-title">Crear Nueva Ficha</h2>
+          <form onSubmit={subirFicha} className="form">
+            <label htmlFor="codigo" className="register-label">
+              Código de Ficha:
+            </label>
+            <input
+              type="text"
+              className="register-input"
+              id="codigo"
+              name="codigo"
+              placeholder="Ingrese el código de la ficha"
+              pattern="[0-9]*"
+              value={formData.codigo}
+              onChange={handleChange}
+              required
+            />
+            <label htmlFor="programa" className="register-label">
+              Nombre del Programa:
+            </label>
+            <input
+              type="text"
+              className="register-input"
+              id="programa"
+              name="programa"
+              plaaceholder="Ingrese el nombre del programa"
+              value={formData.programa}
+              onChange={handleChange}
+              required
+            />
+            <button type="submit" className="register-button">
+              Crear Ficha
+            </button>
+          </form>
+        </div>
       </div>
     </div>
   );
