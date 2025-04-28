@@ -117,3 +117,34 @@ exports.eliminarUsuario = async (req, res) => {
         }
     }, 4000);
 };
+exports.obtenerAprendices = async (req, res) => {
+    try {
+      const aprendices = await Usuario.findAll({
+        where: { rol: 'aprendiz' }, // Asegúrate de que el campo 'rol' existe
+        attributes: ['id', 'nombre', 'correo'] // Ajusta según lo que necesitas
+      });
+  
+      res.status(200).json(aprendices);
+    } catch (error) {
+      console.error('Error al obtener aprendices:', error);
+      res.status(500).json({ message: 'Error del servidor al obtener aprendices' });
+    }
+  };
+exports.asignarAprendiz = async (req, res) => {
+    const { id_aprendiz, id_instructor } = req.body;
+
+    try {
+        const aprendiz = await Usuario.findByPk(id_aprendiz);
+        if (!aprendiz || aprendiz.rol !== "aprendiz") {
+            return res.status(404).json({ error: "Aprendiz no encontrado." });
+        }
+
+        aprendiz.id_instructor = id_instructor;
+        await aprendiz.save();
+
+        res.json({ message: "Aprendiz asignado correctamente al instructor." });
+    } catch (error) {
+        console.error("Error al asignar aprendiz:", error);
+        res.status(500).json({ error: "Error interno al asignar aprendiz." });
+    }
+};
