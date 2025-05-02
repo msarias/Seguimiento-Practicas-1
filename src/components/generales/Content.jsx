@@ -1,35 +1,22 @@
-import React, { useState, useEffect } from "react";
 import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 
 const Content = () => {
-  const [isExpanded, setIsExpanded] = useState(false);
-  const [usuario, setUsuario] = useState(null);
-  const [empresa, setEmpresa] = useState({
-    nombre: "",
-    direccion: "",
-    encargado: "",
-    contacto: "",
-  });
+  const { id } = useParams(); // Si el id viene de la URL
+  const [usuario, setUsuario] = useState(null); // Guardamos la información del usuario
+  const [loading, setLoading] = useState(true); // Estado de carga
+  const [error, setError] = useState(null); // Estado para errores
 
-  const toggleExpand = () => {
-    setIsExpanded(!isExpanded);
-  };
+  // En lugar de 'id' en useParams, intenta obtenerlo de localStorage
+  const userId = id || localStorage.getItem("usuarioId");
 
-  const handleEmpresaChange = (e) => {
-    const { name, value } = e.target;
-    setEmpresa((prev) => ({ ...prev, [name]: value }));
-  };
-
-  const handleEmpresaSubmit = async (e) => {
-    e.preventDefault();
+  const obtenerUsuario = async () => {
     try {
-      // Crear la empresa
-      const res = await axios.post("/api/empresas", empresa);
-      const empresaId = res.data.id;
-
-      // Asignar la empresa al usuario
-      await axios.put(`/api/usuarios/${usuario.id}/asignar-empresa`, {
-        empresaId,
+      const response = await axios.get(`http://localhost:3000/api/usuarios/${userId}`, {
+        headers: {
+          "Content-Type": "application/json",
+        },
       });
       setUsuario(response.data);
       setLoading(false);
@@ -69,46 +56,9 @@ const Content = () => {
       </section>
       <section className="pending-info-section">
         <h3>Información pendiente del aprendiz</h3>
-        <p>Aquí va la información sobre las tareas o actividades pendientes del aprendiz.</p>
-      </section>
-
-      <section className="empresa-form-section">
-        <h3>Registrar Empresa</h3>
-        <form onSubmit={handleEmpresaSubmit}>
-          <input
-            type="text"
-            name="nombre"
-            placeholder="Nombre de la empresa"
-            value={empresa.nombre}
-            onChange={handleEmpresaChange}
-            required
-          />
-          <input
-            type="text"
-            name="direccion"
-            placeholder="Dirección"
-            value={empresa.direccion}
-            onChange={handleEmpresaChange}
-            required
-          />
-          <input
-            type="text"
-            name="encargado"
-            placeholder="Encargado"
-            value={empresa.encargado}
-            onChange={handleEmpresaChange}
-            required
-          />
-          <input
-            type="text"
-            name="contacto"
-            placeholder="Contacto"
-            value={empresa.contacto}
-            onChange={handleEmpresaChange}
-            required
-          />
-          <button type="submit">Guardar Empresa</button>
-        </form>
+        <p>
+          Aquí va la información sobre las tareas o actividades pendientes del aprendiz.
+        </p>
       </section>
     </div>
   );

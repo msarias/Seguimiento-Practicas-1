@@ -3,18 +3,14 @@ const Bitacoras = require('../Models/Bitacora');
 
 // Obtener todas las bitácoras
 const getAllBitacoras = async (req, res) => {
-    const id_usuario = req.query.id_usuario;
-  
     try {
-      const bitacoras = await Bitacoras.findAll({
-        where: { id_usuario }
-      });
-      res.json(bitacoras);
+        const bitacoras = await Bitacoras.findAll();
+        res.status(200).json(bitacoras);
     } catch (error) {
-      console.error('Error en getAllBitacoras:', error);
-      res.status(500).json({ error: 'Error al obtener las bitácoras' });
+        console.error('Error en getAllBitacoras:', error); // 🔍 imprime el error real en consola
+        res.status(500).json({ error: error.message }); // muestra el mensaje exacto en la respuesta
     }
-  };
+};
 // Obtener una bitácora por ID
 const getBitacoraById = async (req, res) => {
     try {
@@ -31,38 +27,25 @@ const getBitacoraById = async (req, res) => {
 
 const createBitacora = async (req, res) => {
     try {
-      const { id_usuario, fecha } = req.body;
-      const archivo = req.file?.filename;
-  
-      if (!id_usuario || !fecha || !archivo) {
-        return res.status(400).json({ error: 'Faltan campos obligatorios' });
-      }
-  
-      // Buscar el aprendiz y su instructor
-      const aprendiz = await Usuario.findByPk(id_usuario, {
-        include: { model: Usuario, as: 'instructor' }
-      });
-  
-      if (!aprendiz) {
-        return res.status(404).json({ error: 'Aprendiz no encontrado' });
-      }
-  
-      const id_instructor = aprendiz.instructor?.id;
-  
-      // Crear la bitácora incluyendo el id del instructor
-      const nuevaBitacora = await Bitacoras.create({
-        id_usuario,
-        fecha,
-        archivo,
-        id_instructor,
-      });
-  
-      res.status(201).json({ bitacora: nuevaBitacora });
+        const { id_usuario, fecha } = req.body;
+        const archivo = req.file?.filename;
+
+        if (!id_usuario || !fecha || !archivo) {
+            return res.status(400).json({ error: 'Faltan campos obligatorios' });
+        }
+
+        const nuevaBitacora = await Bitacoras.create({
+            id_usuario,
+            fecha,
+            archivo,
+        });
+
+        res.status(201).json({ bitacora: nuevaBitacora });
     } catch (error) {
-      console.error('Error al crear la bitácora:', error);
-      res.status(500).json({ error: 'Error interno del servidor al crear la bitácora' });
+        console.error('Error al crear la bitácora:', error);
+        res.status(500).json({ error: 'Error interno del servidor al crear la bitácora' });
     }
-  };
+};
 
 // Actualizar una bitácora
 const updateBitacora = async (req, res) => {

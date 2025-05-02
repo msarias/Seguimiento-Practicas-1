@@ -35,7 +35,8 @@ const LoginForm = () => {
       localStorage.setItem("usuarioId", id);
 
       // También para bitacoras
-      localStorage.setItem('id', id);
+      // Ejemplo al hacer login
+      localStorage.setItem("id_usuario", usuario.id);
       localStorage.setItem('rol', rol);
 
       Swal.fire({

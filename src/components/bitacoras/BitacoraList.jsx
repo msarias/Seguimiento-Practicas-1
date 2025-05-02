@@ -19,7 +19,6 @@ const BitacoraList = () => {
   }, []);
 
   const obtenerBitacoras = async () => {
-    const id_usuario = localStorage.getItem('id');
     try {
       const res = await fetch('http://localhost:3000/api/bitacoras/verBitacoras');
       const data = await res.json();
@@ -70,6 +69,16 @@ const BitacoraList = () => {
     }
   };
 
+  // Función para renderizar el enlace del archivo
+  const renderArchivo = (archivo) => {
+    const fileUrl = `http://localhost:3000/uploads/${archivo}`;
+    return (
+      <a href={fileUrl} target="_blank" rel="noopener noreferrer">
+        Ver archivo
+      </a>
+    );
+  };
+
   return (
     <section className="bitacora-list">
       <h2 className="bitacora-list__title">Bitácoras</h2>
@@ -79,14 +88,7 @@ const BitacoraList = () => {
           <div className={`report-list__item estado${b.estado}`} key={b.id}>
             <p><strong>Bitácora {index + 1}</strong></p>
             {b.archivo ? (
-              <a
-                href={`http://localhost:3000/${b.archivo}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="archivo-link"
-              >
-                Ver archivo
-              </a>
+              renderArchivo(b.archivo)  // Usamos la función para mostrar el enlace al archivo
             ) : (
               <p>Sin archivo</p>
             )}
