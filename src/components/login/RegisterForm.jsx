@@ -2,13 +2,14 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import Swal from "sweetalert2";
+import { API_URL } from "../../api/globalVars";
 
 const RegisterForm = () => {
   const [fichas, setFichas] = useState([]);
 
   const getFichas = async () => {
     try {
-      const url = "http://localhost:3000/api/fichas/";
+      const url = `${API_URL}/api/fichas`;
       const response = await axios.get(url);
       const data = response.data;
       setFichas(data || []);
@@ -63,7 +64,7 @@ const RegisterForm = () => {
   }
      */
     try {
-      await axios.post("http://localhost:3000/api/usuarios", {
+      await axios.post(`${API_URL}/api/usuarios`, {
         ...formData,
         contraseña: password,
       });

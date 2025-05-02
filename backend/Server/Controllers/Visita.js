@@ -22,7 +22,7 @@ exports.crearVisita = async (req, res) => {
   }
 };
 
-exports.verVisitaPorId = async (req, res) => {
+/* exports.verVisitaPorId = async (req, res) => {
   try {
     const { id } = req.params;
     const visita = await Visita.findByPk(id);
@@ -40,7 +40,7 @@ exports.verVisitaPorId = async (req, res) => {
       }
     });
   }
-};
+}; */
 
 exports.verVisitas = async (req, res) => {
   try {

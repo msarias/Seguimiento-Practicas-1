@@ -3,6 +3,7 @@ import axios from "axios";
 import Navbar from "../generales/NavBar";
 import Sidebar from "../generales/Sidebar";
 import Swal from "sweetalert2";
+import { API_URL } from "../../api/globalVars";
 
 const Fichas = () => {
   const [formData, setFormData] = useState({
@@ -21,7 +22,7 @@ const Fichas = () => {
 
   const obtenerFichas = async () => {
     try {
-      const url = "http://localhost:3000/api/fichas";
+      const url = `${API_URL}/api/fichas`;
       const response = await axios.get(url);
       const data = response.data;
       setFichas(data.fichas);
@@ -36,7 +37,6 @@ const Fichas = () => {
     e.preventDefault();
 
     if (!formData.codigo || !formData.programa) {
-      //console.error("Por favor, complete todos los campos.");
       Swal.fire({
         icon: "error",
         title: "Campos incompletos",
@@ -47,13 +47,25 @@ const Fichas = () => {
     }
 
     try {
-      const url = "http://localhost:3000/api/fichas";
+      const url = `${API_URL}/api/fichas`;
       await axios.post(url, formData);
       obtenerFichas();
     } catch (error) {
       console.error("Error al crear la ficha:", error.message);
     }
   };
+
+  const eliminarFicha = async (e) => {
+    const id = e.target.id;
+    const url = `${API_URL}/api/fichas/${id}`;
+    try {
+      await axios.delete(url);
+      obtenerFichas();
+    } catch (error) {
+      console.error("Error al eliminar la ficha:", error.message);
+    }
+  }
+
 
   return (
     <div className="container">
@@ -68,6 +80,8 @@ const Fichas = () => {
                 <div key={ficha.codigo} className="report-list__item">
                   <p className="">Ficha: {ficha.codigo}</p>
                   <p className="">Programa: {ficha.nombre}</p>
+                  <p className="">Estado: {ficha.estado}</p>
+                  <button onClick={eliminarFicha}></button>
                 </div>
               ))}
             </div>

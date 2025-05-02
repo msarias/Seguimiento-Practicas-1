@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Navbar from '../generales/NavBar';
 import Sidebar from '../generales/Sidebar';
+import { API_URL } from '../../api/globalVars';
 
 const Usuarios = () => {
   const [usuarios, setUsuarios] = useState([]);
@@ -9,7 +10,7 @@ const Usuarios = () => {
 
   const obtenerUsuarios = async () => {
     try {
-      const url = 'http://localhost:3000/api/usuarios/listarUsuarios';
+      const url = `${API_URL}/usuarios/listarUsuarios`;
       const response = await axios.get(url);
       const data = response.data;
       setUsuarios(data.usuarios || []);

@@ -1,97 +1,9 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
-import NavBar from "../generales/NavBar";
-import Sidebar from "../generales/Sidebar";
-
-const ReportForm = ({ onAddReporte, onClose }) => {
-  const [reporte, setReporte] = useState({
-    id_usuario: "",
-    nombre: "",
-    motivo: "",
-    fecha: "",
-  });
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setReporte({ ...reporte, [name]: value });
-  };
-
-  const uploadReport = async (e) => {
-    if (
-      !reporte.id_usuario ||
-      !reporte.nombre ||
-      !reporte.motivo ||
-      !reporte.fecha
-    ) {
-      alert("Por favor, completa todos los campos.");
-      return;
-    }
-
-    try {
-      const url = "http://localhost:3000/api/reportes";
-      const data = await axios.post(url, reporte, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-
-      if (data.reportes) {
-        onAddReporte(data.reportes);
-        alert("¡Reporte subido exitosamente!");
-        onClose();
-        setReporte({ id_usuario: "", nombre: "", motivo: "", fecha: "" });
-      }
-    } catch (error) {
-      console.error("Error al subir el reporte:", error);
-      // alert("Error al subir el reporte.");
-    }
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    uploadReport();
-  };
-
-  return (
-    <form className="report-form" onSubmit={handleSubmit}>
-      <h2 className="report-form__title">Agregar Reporte</h2>
-      <input
-        type="number"
-        name="id_usuario"
-        placeholder="ID usuario"
-        className="report-form__input"
-        value={reporte.id_usuario}
-        onChange={handleChange}
-      />
-      <input
-        type="text"
-        name="nombre"
-        placeholder="Nombre del reporte"
-        className="report-form__input"
-        value={reporte.nombre}
-        onChange={handleChange}
-      />
-      <input
-        type="text"
-        name="motivo"
-        placeholder="Motivo del reporte"
-        className="report-form__input"
-        value={reporte.motivo}
-        onChange={handleChange}
-      />
-      <input
-        type="date"
-        name="fecha"
-        className="report-form__input"
-        value={reporte.fecha}
-        onChange={handleChange}
-      />
-      <button type="submit" className="report-form__button">
-        Subir Reporte
-      </button>
-    </form>
-  );
-};
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import NavBar from '../generales/NavBar';
+import Sidebar from '../generales/Sidebar';
+import ReportForm from './ReportForm';
+import { API_URL } from '../../api/globalVars';
 
 const Reportes = () => {
   const [mostrarFormulario, setMostrarFormulario] = useState(false);
@@ -106,6 +18,16 @@ const Reportes = () => {
     obtenerReportes();
   }, []);
 
+  const obtenerReportes = async () => {
+    try {
+      const url = `${API_URL}/api/reportes/listarReportes`;
+      const { data } = await axios.get(url);
+      setReportes(data.reportes || []);
+    } catch (error) {
+      console.error('Error al obtener reportes:', error.message);
+    }
+  };
+
   const toggleForm = () => setMostrarFormulario(!mostrarFormulario);
 
   const agregarReporte = (nuevoReporte) => {
@@ -114,6 +36,7 @@ const Reportes = () => {
 
   const deleteReport = async (e) => {
     const id = e.target.id;
+    const url = `${API_URL}/api/reportes/${id}`;
     try {
       const url = `http://localhost:3000/api/reportes/${id}`;
       const data = await axios.delete(url);
