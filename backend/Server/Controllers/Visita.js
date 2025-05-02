@@ -3,12 +3,19 @@ const Visita = require('../Models/Visita');
 exports.crearVisita = async (req, res) => {
   try {
     const { direccion, tipo, fecha } = req.body;
+
+    if (!direccion || !tipo || !fecha) {
+      return res.status(400).json({ message: 'Todos los campos son obligatorios.' });
+    }
+
     const nuevaVisita = await Visita.create({ direccion, tipo, fecha });
     res.status(201).json({ nuevaVisita });
+
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 };
+
 
 /* exports.verVisitaPorId = async (req, res) => {
   try {
