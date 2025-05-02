@@ -1,26 +1,35 @@
-// Content.js
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { useParams } from "react-router-dom";
-import AsignarAprendiz from '../usuarios/AsignarAprendiz'; // Importamos el componente AsignarAprendiz
 
 const Content = () => {
-  const { id } = useParams(); // Si el id viene de la URL
-  const [usuario, setUsuario] = useState(null); // Guardamos la información del usuario
-  const [loading, setLoading] = useState(true); // Estado de carga
-  const [error, setError] = useState(null); // Estado para errores
-  const [mostrarAsignar, setMostrarAsignar] = useState(false); // Estado para mostrar el formulario de asignación
+  const [isExpanded, setIsExpanded] = useState(false);
+  const [usuario, setUsuario] = useState(null);
+  const [empresa, setEmpresa] = useState({
+    nombre: "",
+    direccion: "",
+    encargado: "",
+    contacto: "",
+  });
 
-  // En lugar de 'id' en useParams, intenta obtenerlo de localStorage
-  const userId = id || localStorage.getItem("usuarioId");
+  const toggleExpand = () => {
+    setIsExpanded(!isExpanded);
+  };
 
-  // Función para obtener los datos del usuario
-  const obtenerUsuario = async () => {
+  const handleEmpresaChange = (e) => {
+    const { name, value } = e.target;
+    setEmpresa((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleEmpresaSubmit = async (e) => {
+    e.preventDefault();
     try {
-      const response = await axios.get(`http://localhost:3000/api/usuarios/${userId}`, {
-        headers: {
-          "Content-Type": "application/json",
-        },
+      // Crear la empresa
+      const res = await axios.post("/api/empresas", empresa);
+      const empresaId = res.data.id;
+
+      // Asignar la empresa al usuario
+      await axios.put(`/api/usuarios/${usuario.id}/asignar-empresa`, {
+        empresaId,
       });
       setUsuario(response.data);
       setLoading(false);
@@ -60,18 +69,47 @@ const Content = () => {
       </section>
       <section className="pending-info-section">
         <h3>Información pendiente del aprendiz</h3>
-        <p>
-          Aquí va la información sobre las tareas o actividades pendientes del aprendiz.
-        </p>
+        <p>Aquí va la información sobre las tareas o actividades pendientes del aprendiz.</p>
       </section>
 
-      {/* Botón para mostrar/ocultar el formulario de asignación */}
-      <button onClick={() => setMostrarAsignar(!mostrarAsignar)}>
-        {mostrarAsignar ? 'Cancelar Asignación' : 'Asignar Aprendiz'}
-      </button>
-
-      {/* Renderizamos el componente AsignarAprendiz solo cuando 'mostrarAsignar' es true */}
-      {mostrarAsignar && <AsignarAprendiz />}
+      <section className="empresa-form-section">
+        <h3>Registrar Empresa</h3>
+        <form onSubmit={handleEmpresaSubmit}>
+          <input
+            type="text"
+            name="nombre"
+            placeholder="Nombre de la empresa"
+            value={empresa.nombre}
+            onChange={handleEmpresaChange}
+            required
+          />
+          <input
+            type="text"
+            name="direccion"
+            placeholder="Dirección"
+            value={empresa.direccion}
+            onChange={handleEmpresaChange}
+            required
+          />
+          <input
+            type="text"
+            name="encargado"
+            placeholder="Encargado"
+            value={empresa.encargado}
+            onChange={handleEmpresaChange}
+            required
+          />
+          <input
+            type="text"
+            name="contacto"
+            placeholder="Contacto"
+            value={empresa.contacto}
+            onChange={handleEmpresaChange}
+            required
+          />
+          <button type="submit">Guardar Empresa</button>
+        </form>
+      </section>
     </div>
   );
 };

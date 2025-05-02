@@ -90,12 +90,6 @@ const Navbar = () => {
             draggable="false"
           />
         </Link>
-        <input
-          type="button"
-          value="Cerrar sesión"
-          className="navbar-logout"
-          onClick={handleCerrarSesion}
-        />
       </div>
 
       {/* Popup de notificaciones */}

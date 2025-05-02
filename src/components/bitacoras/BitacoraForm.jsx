@@ -1,11 +1,28 @@
+import React, { useState } from "react";
+import axios from "axios";
 import React, { useState, useEffect } from 'react';
 
+<<<<<<< HEAD
+
+const BitacoraForm = ({ onAddBitacora, onClose }) => {
+=======
 const BitacoraForm = ({ onAddBitacora, onClose, bitacoras }) => {
+>>>>>>> yefferson
   const [isFormVisible, setIsFormVisible] = useState(false);
   const [bitacora, setBitacora] = useState({
+
+    id_usuario: "",
+    fecha: "",
+    // archivo: '',
+    codigo: "",
     id_usuario: '',
     fecha: '',
+<<<<<<< HEAD
+    codigo: '',
+
+=======
     archivo: null,
+>>>>>>> yefferson
   });
   const [rol, setRol] = useState('');
   const today = new Date().toISOString().split('T')[0];
@@ -29,8 +46,14 @@ const BitacoraForm = ({ onAddBitacora, onClose, bitacoras }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+<<<<<<< HEAD
+  const subirBitacora = async () => {
+    if (!bitacora.codigo || !bitacora.id_usuario || !bitacora.fecha) {
+      alert("Completa todos los campos.");
+=======
     if (!bitacora.id_usuario || !bitacora.fecha || !bitacora.archivo) {
       alert('Completa todos los campos.');
+>>>>>>> yefferson
       return;
     }
 
@@ -43,24 +66,34 @@ const BitacoraForm = ({ onAddBitacora, onClose, bitacoras }) => {
       alert('Ya has subido el máximo de 6 bitácoras.');
       return;
     }
-    const formData = new FormData();
-    formData.append('id_usuario', bitacora.id_usuario);
-    formData.append('fecha', bitacora.fecha);
-    formData.append('archivo', bitacora.archivo);
+
+    try {
+      const formData = new FormData();
+      formData.append('id_usuario', bitacora.id_usuario);
+      formData.append('fecha', bitacora.fecha);
+      formData.append('archivo', bitacora.archivo);
 
     try {
       const res = await fetch('http://localhost:3000/api/bitacoras/', {
         method: 'POST',
         body: formData,
+>>>>>>> yefferson
       });
 
-      if (!res.ok) {
-        throw new Error('Error al subir la bitácora.');
-      }
-
-      const data = await res.json();
+      const data = res.data;
 
       if (data.bitacora) {
+<<<<<<< HEAD
+        alert("¡Bitácora subida exitosamente!");
+        toggleForm();
+        setBitacora({ codigo: "", id_usuario: "", fecha: "" });
+        onAddBitacora(bitacora);
+      } else {
+
+        console.error("Ocurrió un error");
+        console.log('Ocurrió un error');
+
+=======
         alert('¡Bitácora subida exitosamente!');
         setIsFormVisible(false);
         const idGuardado = localStorage.getItem('id');
@@ -68,9 +101,10 @@ const BitacoraForm = ({ onAddBitacora, onClose, bitacoras }) => {
         onAddBitacora(data.bitacora);
       } else {
         console.log('Ocurrió un error inesperado');
+>>>>>>> yefferson
       }
     } catch (error) {
-      console.error('Error al subir la bitácora:', error);
+      console.console.log(error.message);
     }
   };
 
@@ -86,7 +120,9 @@ const BitacoraForm = ({ onAddBitacora, onClose, bitacoras }) => {
 
   return (
     <form onSubmit={handleSubmit}>
-      <button className="add-bitacora" onClick={toggleForm}>Agregar Bitácora</button>
+      <button className="add-bitacora" onClick={toggleForm}>
+        Agregar Bitácora
+      </button>
       {isFormVisible && (
         <section className="bitacora-form" id="bitacoraForm">
           <h2 className="bitacora-form__title">Agregar Bitácora</h2>

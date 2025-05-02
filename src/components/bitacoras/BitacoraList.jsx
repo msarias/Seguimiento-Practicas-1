@@ -21,7 +21,7 @@ const BitacoraList = () => {
   const obtenerBitacoras = async () => {
     const id_usuario = localStorage.getItem('id');
     try {
-      const res = await fetch(`http://localhost:3000/api/bitacoras/verBitacoras?id_usuario=${id_usuario}`);
+      const res = await fetch('http://localhost:3000/api/bitacoras/verBitacoras');
       const data = await res.json();
       if (!res.ok) {
         setError('No se pudieron obtener las bitácoras');
