@@ -10,7 +10,7 @@ exports.crearVisita = async (req, res) => {
   }
 };
 
-exports.verVisitaPorId = async (req, res) => {
+/* exports.verVisitaPorId = async (req, res) => {
   try {
     const { id } = req.params;
     const visita = await Visita.findByPk(id);
@@ -21,7 +21,7 @@ exports.verVisitaPorId = async (req, res) => {
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
-};
+}; */
 
 exports.verVisitas = async (req, res) => {
   try {

@@ -27,6 +27,38 @@ exports.obtenerFichas = async (req, res) => {
   }
 };
 
+// Actualizar una ficha por ID
+exports.actualizarFicha = async (req, res) => {
+  const { id } = req.params;
+  const { codigo, programa } = req.body;
+  try {
+    const ficha = await Ficha.findByPk(id);
+    if (!ficha) {
+      return res.status(404).json({ message: 'Ficha no encontrada' });
+    }
+    await ficha.update({ codigo, programa });
+    res.json(ficha);
+  } catch (error) {
+    res.status(500).json({ error: 'Error al actualizar la ficha' });
+  }
+};
+
+// Eliminar una ficha por ID
+exports.eliminarFicha = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const ficha = await Ficha.findByPk(id);
+    if (!ficha) {
+      return res.status(404).json({ message: 'Ficha no encontrada' });
+    }
+    await ficha.destroy();
+    res.json({ message: 'Ficha eliminada' });
+  } catch (error) {
+    res.status(500).json({ error: 'Error al eliminar la ficha' });
+  }
+};
+
+
 // Obtener aprendices por código de ficha
 exports.obtenerAprendicesPorFicha = async (req, res) => {
   const { codigo } = req.params;

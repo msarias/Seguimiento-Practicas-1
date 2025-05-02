@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import NavBar from '../generales/NavBar';
 import Sidebar from '../generales/Sidebar';
+import {API_URL} from '../../api/globalVars';
 
 function Visitas() {
   const [showForm, setShowForm] = useState(false);
@@ -26,8 +27,7 @@ function Visitas() {
   const obtenerVisitas = async () => {
     try {
       const response = await fetch(
-        'http://localhost:3000/api/visitas/verVisitas'
-      );
+        `${API_URL}/api/visitas/verVisitas`);
       if (!response.ok) throw new Error('No se pudieron obtener las visitas.');
       const data = await response.json();
       setVisitas(data.visitas || []);
@@ -47,8 +47,8 @@ function Visitas() {
 
     try {
       const url = modoEdicion
-        ? `http://localhost:3000/api/visitas/${visitaEditando.id}`
-        : 'http://localhost:3000/api/visitas';
+        ? `${API_URL}/api/visitas/${visitaEditando.id}`
+        : `${API_URL}/api/visitas`;
       const method = modoEdicion ? 'PUT' : 'POST';
 
       const response = await fetch(url, {
@@ -80,7 +80,7 @@ function Visitas() {
 
   const handleAceptar = async (id) => {
     try {
-      await fetch(`http://localhost:3000/api/visitas/aceptar/${id}`, {
+      await fetch(`${API_URL}/api/visitas/aceptar/${id}`, {
         method: 'PUT',
       });
       await obtenerVisitas();
@@ -91,7 +91,7 @@ function Visitas() {
 
   const handleRechazar = async (id) => {
     try {
-      await fetch(`http://localhost:3000/api/visitas/rechazar/${id}`, {
+      await fetch(`${API_URL}/api/visitas/rechazar/${id}`, {
         method: 'PUT',
       });
       await obtenerVisitas();

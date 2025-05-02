@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Swal from 'sweetalert2';
+import { API_URL } from '../../api/globalVars';
 
 const ReportForm = ({ onAddReporte, onClose }) => {
   const [reporte, setReporte] = useState({
@@ -26,7 +27,8 @@ const ReportForm = ({ onAddReporte, onClose }) => {
       });
 
     try {
-      const { data } = await axios.post('http://localhost:3000/api/reportes/', reporte);
+      const url = `${API_URL}/api/reportes`;
+      const { data } = await axios.post(url, reporte);
       if (data.nuevoReporte) {
         onAddReporte(data.nuevoReporte);
         setReporte({ nombre: '', motivo: '', fecha: '' });

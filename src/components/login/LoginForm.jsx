@@ -2,6 +2,7 @@ import axios from 'axios';
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
+import { API_URL } from '../../api/globalVars';
 
 const LoginForm = () => {
   const [typeAccount, setTypeAccount] = useState('');
@@ -22,7 +23,7 @@ const LoginForm = () => {
     setError('');
 
     try {
-      const url = 'http://localhost:3000/api/auth/login';
+      const url = `${API_URL}/api/auth/login`;
       const res = await axios.post(url, {
         tipoCuenta: typeAccount,
         documento: document,

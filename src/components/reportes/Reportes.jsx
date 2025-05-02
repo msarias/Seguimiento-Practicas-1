@@ -3,6 +3,7 @@ import axios from 'axios';
 import NavBar from '../generales/NavBar';
 import Sidebar from '../generales/Sidebar';
 import ReportForm from './ReportForm';
+import { API_URL } from '../../api/globalVars';
 
 const Reportes = () => {
   const [mostrarFormulario, setMostrarFormulario] = useState(false);
@@ -19,7 +20,7 @@ const Reportes = () => {
 
   const obtenerReportes = async () => {
     try {
-      const url = 'http://localhost:3000/api/reportes/listarReportes';
+      const url = `${API_URL}/api/reportes/listarReportes`;
       const { data } = await axios.get(url);
       setReportes(data.reportes || []);
     } catch (error) {
@@ -35,7 +36,7 @@ const Reportes = () => {
 
   const deleteReport = async (e) => {
     const id = e.target.id;
-    const url =(`http://localhost:3000/api/reportes/${id}`);
+    const url = `${API_URL}/api/reportes/${id}`;
     try {
       await axios.delete(url);
       setReportes((prev) => prev.filter((reporte) => reporte.id !== id));
