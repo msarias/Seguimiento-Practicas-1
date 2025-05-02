@@ -36,11 +36,9 @@ const Reportes = () => {
 
   const deleteReport = async (e) => {
     const id = e.target.id;
-    const url = `${API_URL}/api/reportes/${id}`;
     try {
-      const url = `http://localhost:3000/api/reportes/${id}`;
+      const url = `${API_URL}/api/reportes/${id}`;
       const data = await axios.delete(url);
-
       console.log("Reporte eliminado:", data);
 
       const updatedReports = reportes.filter((reporte) => reporte.id !== id);
