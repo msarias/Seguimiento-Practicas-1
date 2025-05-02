@@ -5,7 +5,6 @@ import { Link } from 'react-router-dom';
 const Navbar = () => {
   const [mostrarPopup, setMostrarPopup] = useState(false);
   const [notificaciones, setNotificaciones] = useState([]);
-  const [mostrarPopup, setMostrarPopup] = useState(false);
 
   useEffect(() => {
     const cargarNotificaciones = () => {
