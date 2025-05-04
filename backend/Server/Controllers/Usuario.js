@@ -35,7 +35,7 @@ exports.crearUsuario = async (req, res) => {
             apellidos,
             correo,
             rol,
-            id_empresa: null,
+            // id_empresa: null,
             contraseña: await bcrypt.hash(contraseña, 10),
             identificacion,
             ficha: fichaExistente.id // aquí sí va el id

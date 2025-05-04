@@ -43,7 +43,7 @@ const Usuario = Sequelize.define(
         isIn: [['aprendiz', 'instructor']],
       },
     },
-    id_empresa: {
+    /* id_empresa: {
       type: DataTypes.INTEGER.UNSIGNED,
       allowNull: true,
       validate: {
@@ -51,7 +51,7 @@ const Usuario = Sequelize.define(
         notEmpty: false,
       },
       defaultValue: null,
-    },
+    }, */
     contraseña: {
       type: DataTypes.STRING(70),
       allowNull: false,
@@ -60,14 +60,14 @@ const Usuario = Sequelize.define(
       type: DataTypes.STRING,
       allowNull: true,
     },
-    ficha: {
+    /* ficha: {
       type: DataTypes.INTEGER.UNSIGNED,
       allowNull: true,
       validate: {
         isInt: true,
         notEmpty: false,
       },
-    },
+    }, */
   },
   {
     tableName: 'usuario',

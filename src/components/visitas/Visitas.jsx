@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import NavBar from "../generales/NavBar";
 import Sidebar from "../generales/Sidebar";
-import {API_URL} from "../../utils/constants";
+import { API_URL } from "../../api/globalVars";
 
 function Visitas() {
   const [showForm, setShowForm] = useState(false);
@@ -60,10 +60,6 @@ function Visitas() {
         headers: { "Content-Type": "application/json" },
         data: nuevaVisita,
       });
-
-      /* if (response.status !== 200 && response.status !== 201) {
-        throw new Error(response.data.message || "Error en la solicitud");
-      } */
 
       await obtenerVisitas();
       e.target.reset();
@@ -128,7 +124,6 @@ function Visitas() {
       <Sidebar />
       <div className="visits-section">
         <h2 className="visit-list__title">Visitas</h2>
-
         <div className="visit-list">
           {visitas.length === 0 ? (
             <p>No hay visitas registradas</p>

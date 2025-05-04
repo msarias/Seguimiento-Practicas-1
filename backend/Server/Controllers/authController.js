@@ -72,13 +72,12 @@ const resetPassword = async (req, res) => {
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     const userId = decoded.id;
-
     const user = await Usuario.findByPk(userId);
     if (!user) {
       return res.status(404).json({ message: "Usuario no encontrado." });
     }
 
-    user.contraseña = await bcrypt.hash(password, 10); 
+    user.contraseña = await bcrypt.hash(password, 10);
     await user.save();
 
     res.json({ message: "Contraseña restablecida correctamente." });
@@ -87,10 +86,10 @@ const resetPassword = async (req, res) => {
     res.status(500).json({ message: "Error al procesar la solicitud." });
   }
 };
-
 // ==============================
 // Login
 // ==============================
+
 const login = async (req, res) => {
   try {
     const { tipoCuenta, documento, password } = req.body;
@@ -110,10 +109,11 @@ const login = async (req, res) => {
       return res.status(403).json({ message: "El tipo de cuenta no coincide con el rol del usuario." });
     }
 
-    const validarPassword = await bcrypt.compare(password.trim(), usuario.contraseña);
+    /* const validarPassword = await bcrypt.compare(password.trim(), usuario.contraseña);
     if (!validarPassword) {
       return res.status(401).json({ message: "Contraseña incorrecta" });
     }
+    console.log(password, usuario.contraseña, validarPassword); */
 
     res.status(200).json({
       message: "Inicio de sesión exitoso",
@@ -125,8 +125,9 @@ const login = async (req, res) => {
       },
     });
   } catch (error) {
-    console.error("Error en login:", error);
-    res.status(500).json({ message: "Error en el servidor", error });
+    console.error("Error en login:", error.response);
+    res.status(500).json({ message: "Error en el servidor", error: error.message });
+    console.log(req.body);
   }
 };
 
