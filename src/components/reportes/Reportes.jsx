@@ -56,7 +56,6 @@ const Reportes = () => {
       <Sidebar />
       <div className="content">
         <h2 className="report-list__title">Reportes</h2>
-        {error && <p className="error-message">{error}</p>}
 
         {reportes.length === 0 ? (
           <p>No existen reportes</p>
