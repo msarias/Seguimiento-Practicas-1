@@ -6,21 +6,25 @@ const BitacoraList = () => {
   const [bitacoras, setBitacoras] = useState([]);
   const [error, setError] = useState('');
   const [rol, setRol] = useState('');
+  const [idUsuario, setIdUsuario] = useState('');
   const [mostrarMotivoPopup, setMostrarMotivoPopup] = useState(false);
   const [motivoRechazo, setMotivoRechazo] = useState('');
   const [bitacoraRechazar, setBitacoraRechazar] = useState(null);
 
   useEffect(() => {
     const rolGuardado = localStorage.getItem('rol');
+    const idGuardado = localStorage.getItem('usuarioId');  // Tomamos el id del usuario logueado
     if (rolGuardado) {
       setRol(rolGuardado.toLowerCase());
+    }
+    if (idGuardado) {
+      setIdUsuario(idGuardado);
     }
     obtenerBitacoras();
   }, []);
 
   const obtenerBitacoras = async () => {
     try {
-
       const res = await fetch('http://localhost:3000/api/bitacoras/verBitacoras');
       const data = await res.json();
       if (!res.ok) {
@@ -70,23 +74,30 @@ const BitacoraList = () => {
     }
   };
 
+  const renderArchivo = (archivo) => {
+    const fileUrl = `http://localhost:3000/uploads/${archivo}`;
+    return (
+      <a href={fileUrl} target="_blank" rel="noopener noreferrer">
+        Ver archivo
+      </a>
+    );
+  };
+
+  // Filtrado: solo mostrar las propias bitácoras si es aprendiz
+  const bitacorasFiltradas = rol === 'aprendiz'
+    ? bitacoras.filter((b) => b.id_usuario === Number(idUsuario))
+    : bitacoras;
+
   return (
     <section className="bitacora-list">
       <h2 className="bitacora-list__title">Bitácoras</h2>
       {error && <p className="error-message">{error}</p>}
-      {bitacoras.length > 0 ? (
-        bitacoras.map((b, index) => (
+      {bitacorasFiltradas.length > 0 ? (
+        bitacorasFiltradas.map((b, index) => (
           <div className={`report-list__item estado${b.estado}`} key={b.id}>
             <p><strong>Bitácora {index + 1}</strong></p>
             {b.archivo ? (
-              <a
-                href={`http://localhost:3000/${b.archivo}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="archivo-link"
-              >
-                Ver archivo
-              </a>
+              renderArchivo(b.archivo)
             ) : (
               <p>Sin archivo</p>
             )}
@@ -103,7 +114,9 @@ const BitacoraList = () => {
       ) : (
         <p>No hay bitácoras</p>
       )}
-      {rol === 'aprendiz' && <BitacoraForm bitacoras={bitacoras} onAddBitacora={obtenerBitacoras} />}
+      {rol === 'aprendiz' && (
+        <BitacoraForm bitacoras={bitacorasFiltradas} onAddBitacora={obtenerBitacoras} />
+      )}
 
       {mostrarMotivoPopup && (
         <div className="popup-overlay">
