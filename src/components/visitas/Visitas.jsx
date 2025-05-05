@@ -25,6 +25,7 @@ function Visitas() {
 
   const obtenerVisitas = async () => {
     try {
+
       const url = `${API_URL}/visitas/verVisitas`;
       const response = await axios.get(url);
       setVisitas(response.data.visitas || []);

@@ -22,7 +22,6 @@ const Usuarios = () => {
 
   useEffect(() => {
     obtenerUsuarios();
-    console.log('Usuarios:', usuarios);
   }, []);
 
   return (
