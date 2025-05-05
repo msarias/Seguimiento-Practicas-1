@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import NavBar from "../generales/NavBar";
 import Sidebar from "../generales/Sidebar";
+import { API_URL } from "../../api/globalVars";
 
 function Visitas() {
   const [showForm, setShowForm] = useState(false);
@@ -24,7 +25,9 @@ function Visitas() {
 
   const obtenerVisitas = async () => {
     try {
-      const response = await axios.get("http://localhost:3000/api/visitas/verVisitas");
+
+      const url = `${API_URL}/visitas/verVisitas`;
+      const response = await axios.get(url);
       setVisitas(response.data.visitas || []);
     } catch (error) {
       console.error("Error al obtener visitas:", error.message);
@@ -48,8 +51,8 @@ function Visitas() {
 
     try {
       const url = modoEdicion
-        ? `http://localhost:3000/api/visitas/${visitaEditando.id}`
-        : "http://localhost:3000/api/visitas";
+        ? `${API_URL}/api/visitas/${visitaEditando.id}`
+        : `${API_URL}/api/visitas`;
       const method = modoEdicion ? "put" : "post";
 
       const response = await axios({
@@ -58,10 +61,6 @@ function Visitas() {
         headers: { "Content-Type": "application/json" },
         data: nuevaVisita,
       });
-
-      if (response.status !== 200 && response.status !== 201) {
-        throw new Error(response.data.message || "Error en la solicitud");
-      }
 
       await obtenerVisitas();
       e.target.reset();
@@ -81,7 +80,8 @@ function Visitas() {
 
   const handleAceptar = async (id) => {
     try {
-      await axios.put(`http://localhost:3000/api/visitas/aceptar/${id}`);
+      const url = `${API_URL}/api/visitas/aceptar/${id}`;
+      await axios.put(url);
       await obtenerVisitas();
     } catch (error) {
       console.error("Error al aceptar visita:", error);
@@ -95,8 +95,8 @@ function Visitas() {
 
   const confirmarRechazo = async () => {
     try {
-      await axios.put(
-        `http://localhost:3000/api/visitas/rechazar/${visitaRechazar.id}`,
+      const url = `${API_URL}/api/visitas/rechazar/${visitaRechazar.id}`;
+      await axios.put(url,
         { motivo: motivoRechazo },
         { headers: { "Content-Type": "application/json" } }
       );
@@ -125,7 +125,6 @@ function Visitas() {
       <Sidebar />
       <div className="visits-section">
         <h2 className="visit-list__title">Visitas</h2>
-
         <div className="visit-list">
           {visitas.length === 0 ? (
             <p>No hay visitas registradas</p>
