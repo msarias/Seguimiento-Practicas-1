@@ -14,19 +14,28 @@ function Visitas() {
   const [mostrarMotivoPopup, setMostrarMotivoPopup] = useState(false);
   const [motivoRechazo, setMotivoRechazo] = useState("");
   const [visitaRechazar, setVisitaRechazar] = useState(null);
+  const [visita, setVisita] = useState({
+      usuarioId: '',
+      direccion: '',
+      tipo: '',
+      fecha: '',
+    });
 
   useEffect(() => {
     const rolGuardado = localStorage.getItem("rol");
+    const idGuardado = localStorage.getItem("usuarioId")
     if (rolGuardado) {
       setRol(rolGuardado.toLowerCase());
+    }
+    if (idGuardado) {
+      setVisita((prev) => ({ ...prev, id_usuario: idGuardado }));
     }
     obtenerVisitas();
   }, []);
 
   const obtenerVisitas = async () => {
     try {
-
-      const url = `${API_URL}/visitas/verVisitas`;
+      const url = `${API_URL}/api/visitas/verVisitas`;
       const response = await axios.get(url);
       setVisitas(response.data.visitas || []);
     } catch (error) {
@@ -48,6 +57,12 @@ function Visitas() {
       tipo: e.target["tipo-visita"].value,
       direccion: e.target["direccion-visita"].value,
     };
+
+    if (!visita.id_usuario || visita.direccion || visita.tipo || visita.fecha) {
+      alert('Completa todos los campos.');
+      return;
+    }
+
 
     try {
       const url = modoEdicion
