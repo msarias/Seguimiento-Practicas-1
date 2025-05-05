@@ -1,7 +1,6 @@
 const Ficha = require('../Models/Ficha');
 const Usuario = require('../Models/Usuario');
 
-
 exports.crearFicha = async (req, res) => {
   const { codigo, programa } = req.body;
   const fichaExistente = await Ficha.findOne({ where: { codigo } });

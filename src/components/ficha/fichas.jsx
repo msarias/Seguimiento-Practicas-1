@@ -1,11 +1,13 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 import Navbar from "../generales/NavBar";
 import Sidebar from "../generales/Sidebar";
-import Swal from "sweetalert2";
 import { API_URL } from "../../api/globalVars";
 
 const Fichas = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     codigo: "",
     programa: "",
@@ -25,13 +27,15 @@ const Fichas = () => {
       const url = `${API_URL}/api/fichas`;
       const response = await axios.get(url);
       const data = response.data;
-      setFichas(data.fichas);
+      setFichas(data);
     } catch (error) {
       console.error("Error al obtener las fichas:", error.message);
     }
   };
 
-  obtenerFichas();
+  useEffect(() => {
+    obtenerFichas();
+  }, [])
 
   const subirFicha = async (e) => {
     e.preventDefault();
@@ -49,9 +53,28 @@ const Fichas = () => {
     try {
       const url = `${API_URL}/api/fichas`;
       await axios.post(url, formData);
+
+      Swal.fire({
+        icon: "success",
+        timer: 1200,
+        text: "Ficha creada exitosamente.",
+        toast: true,
+        position: "bottom-left",
+        showConfirmButton: false,
+      })
+
       obtenerFichas();
     } catch (error) {
       console.error("Error al crear la ficha:", error.message);
+      Swal.fire({
+        icon: "error",
+        title: "Error al crear ficha",
+        text: error.response?.data?.message || 'Error creando la ficha',
+        toast: true,
+        position: "bottom-left",
+        timer: 1200,
+        showConfirmButton: false,
+      })
     }
   };
 
@@ -66,7 +89,6 @@ const Fichas = () => {
     }
   }
 
-
   return (
     <div className="container">
       <Navbar />
@@ -74,14 +96,14 @@ const Fichas = () => {
       <div className="content">
         <div className="">
           <h1 className="">Listado de Fichas</h1>
-          {fichas.length > 0 ? (
+          {fichas?.length > 0 ? (
             <div className="">
               {fichas.map((ficha) => (
                 <div key={ficha.codigo} className="report-list__item">
+                  <b>{ficha.id}</b>
                   <p className="">Ficha: {ficha.codigo}</p>
-                  <p className="">Programa: {ficha.nombre}</p>
-                  <p className="">Estado: {ficha.estado}</p>
-                  <button onClick={eliminarFicha}></button>
+                  <p className="">Programa: {ficha.programa}</p>
+                  <button id={ficha.id} onClick={eliminarFicha}>X</button>
                 </div>
               ))}
             </div>

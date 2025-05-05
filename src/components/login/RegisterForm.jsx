@@ -114,32 +114,14 @@ const RegisterForm = () => {
           className="register-input"
           name="nombres"
           value={formData.nombres}
-          onChange={(e) => {
-            console.log(e.target.value);
-            console.log(e.target.validity);
+          onChange={(e)=>{
+            setFormData({...formData, nombres: e.target.value})
           }}
           placeholder="Ingrese sus nombres"
           // required
           minLength={3}
           maxLength={45}
           pattern="[A-Za-z\s]+"
-          onInvalid={(e) => {
-            if (e.target.validity.valueMissing) {
-              e.target.setCustomValidity("Este campo es obligatorio.");
-            } else if (e.target.validity.tooShort) {
-            /* else if(e.target.validity.patternMismatch) {
-              e.target.setCustomValidity("El nombre solo debe contener letras y espacios.");
-            }  */
-              e.target.setCustomValidity(
-                "El nombre debe tener al menos 3 caracteres."
-              );
-            } else if (e.target.validity.tooLong) {
-              e.target.setCustomValidity(
-                "El nombre no puede exceder los 45 caracteres."
-              );
-            }
-          }}
-          onInput={(e) => e.target.setCustomValidity("")}
         />
 
         <label htmlFor="lastnames-input" className="register-label">
