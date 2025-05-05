@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import Navbar from "../generales/NavBar";
 import Sidebar from "../generales/Sidebar";
 import { API_URL } from "../../api/globalVars";
 
 const Fichas = () => {
-  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     codigo: "",
     programa: "",
