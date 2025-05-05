@@ -50,9 +50,9 @@ const Navbar = () => {
     // localStorage.removeItem('token');
     localStorage.removeItem('rol');
     localStorage.removeItem('usuarioId');
+    localStorage.removeItem('usuario');
 
     navigate('/', { replace: true });
-    replace('/');
 
     Swal.fire({
       position: 'top',

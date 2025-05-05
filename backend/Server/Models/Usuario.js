@@ -34,21 +34,22 @@ const Usuario = Sequelize.define('Usuario', {
         }
     },
     rol: {
-        type: DataTypes.STRING(25),
-        allowNull: false,
-        validate: {
-            notEmpty: true,
-            isIn: [['aprendiz', 'instructor']]
-        }
+      type: DataTypes.STRING(25),
+      allowNull: false,
+      validate: {
+        notEmpty: true,
+        isIn: [['aprendiz', 'instructor']],
+      },
     },
-    // id_empresa: {
-    //     type: DataTypes.INTEGER.UNSIGNED,
-    //     allowNull: true,
-    //     validate: {
-    //         isInt: true,
-    //     },
-    //     defaultValue: null,
-    // },
+    id_empresa: {
+      type: DataTypes.INTEGER.UNSIGNED,
+      allowNull: true,
+      validate: {
+        isInt: true,
+        notEmpty: false,
+      },
+      defaultValue: null,
+    },
     contraseña: {
         type: DataTypes.STRING(70),
         allowNull: false,
@@ -58,14 +59,15 @@ const Usuario = Sequelize.define('Usuario', {
         allowNull: true
     },
     ficha: {
-        type: DataTypes.INTEGER.UNSIGNED,
-        allowNull: true,
-        references: {
-            model: 'ficha', // Nombre de la tabla relacionada
-            key: 'id'
-        }
+      type: DataTypes.INTEGER.UNSIGNED,
+      allowNull: true,
+      validate: {
+        isInt: true,
+        notEmpty: false,
+      },
     },
-}, {
+  },
+  {
     tableName: 'usuario',
     timestamps: false,
 });

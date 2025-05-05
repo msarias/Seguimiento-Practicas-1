@@ -4,14 +4,13 @@ exports.crearVisita = async (req, res) => {
   try {
     const { direccion, tipo, fecha } = req.body;
 
-    // Validación de campos
     if (!direccion || !tipo || !fecha) {
-      return res.status(400).json({ error: 'Faltan campos obligatorios' });
+      return res.status(400).json({ message: 'Todos los campos son obligatorios.' });
     }
 
-    // Crear la visita
     const nuevaVisita = await Visita.create({ direccion, tipo, fecha });
     res.status(201).json({ nuevaVisita });
+
   } catch (error) {
     res.status(500).json({
       error: {
@@ -21,6 +20,7 @@ exports.crearVisita = async (req, res) => {
     });
   }
 };
+
 
 /* exports.verVisitaPorId = async (req, res) => {
   try {

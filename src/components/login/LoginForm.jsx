@@ -1,53 +1,66 @@
-import axios from 'axios';
-import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import Swal from 'sweetalert2';
-import { API_URL } from '../../api/globalVars';
+import axios from "axios";
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
+import { API_URL } from "../../api/globalVars";
 
 const LoginForm = () => {
-  const [typeAccount, setTypeAccount] = useState('');
-  const [document, setDocument] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
+  const [typeAccount, setTypeAccount] = useState("");
+  const [document, setDocument] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (!typeAccount) return setError("Debe seleccionar un tipo de cuenta.");
-    if (!/^\d+$/.test(document)) return setError("El documento debe ser numérico.");
-    if (password.length < 6) return setError("La contraseña debe tener al menos 6 caracteres.");
+    if (!/^\d+$/.test(document))
+      return setError("El documento debe ser numérico.");
+    if (password.length < 6)
+      return setError("La contraseña debe tener al menos 6 caracteres.");
+
+    setError("");
 
     setError("");
   
     try {
+      // const url = `${API_URL}/api/auth/login`;
       const url = `${API_URL}/api/auth/login`;
       const res = await axios.post(url, {
         tipoCuenta: typeAccount,
         documento: document,
         password,
       });
-  
-      // Accedemos directamente a los datos necesarios
-      const { rol, id } = res.data.usuario;
-  
-      localStorage.setItem("rol", rol); // Guardamos el rol en localStorage
-      localStorage.setItem("usuarioId", id); // Guardamos el ID si lo necesitas
-  
+
+      const usuario = res.data.usuario;
+
+      localStorage.setItem("rol", usuario.rol);
+      localStorage.setItem("usuarioId", usuario.id);
+
+      localStorage.setItem(
+        "usuario",
+        JSON.stringify({
+          tipoCuenta: typeAccount,
+          documento: document,
+          password,
+        })
+      );
+      console.log({ tipoCuenta: typeAccount, documento: document, password });
+
       Swal.fire({
-        position: 'top',
-        icon: 'success',
-        title: 'Inicio exitoso',
+        position: "top",
+        icon: "success",
+        title: "Inicio exitoso",
         showConfirmButton: false,
         timer: 1200,
         toast: true,
       });
 
       navigate("/Inicio");
-
-      navigate('/Inicio');
     } catch (err) {
-      const message = err.response?.data?.message || 'Error al iniciar sesión';
+      console.error("error login", err.response);
+      const message = err.response?.data?.message || "Error al iniciar sesión";
       setError(message);
     }
   };
@@ -83,8 +96,8 @@ const LoginForm = () => {
             placeholder="Ingrese su documento"
             value={document}
             onChange={(e) => setDocument(e.target.value)}
-            autoComplete='off'
-            autoSave='off'
+            autoComplete="off"
+            autoSave="off"
             required
           />
 
@@ -95,7 +108,7 @@ const LoginForm = () => {
             placeholder="Ingrese su contraseña"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            autoSave='on'
+            autoSave="on"
             required
           />
 
