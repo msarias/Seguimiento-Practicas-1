@@ -1,10 +1,11 @@
-import { Link, replace } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
 
 const Navbar = () => {
-  const [mostrarPopup, setMostrarPopup] = useState(false);
   const [notificaciones, setNotificaciones] = useState([]);
+  const [mostrarPopup, setMostrarPopup] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const cargarNotificaciones = () => {
@@ -25,11 +26,21 @@ const Navbar = () => {
     };
   }, []);
 
-  const handleCerrarSesion = () => {
-    localStorage.removeItem('token');
+  const handleLogout = () => {
     localStorage.removeItem('rol');
+    localStorage.removeItem('usuarioId');
     localStorage.removeItem('notificaciones');
-    window.location.href = '/';
+
+    navigate('/', { replace: true });
+
+    Swal.fire({
+      position: 'top',
+      icon: 'success',
+      title: 'Sesión cerrada',
+      showConfirmButton: false,
+      toast: true,
+      timer: 1200,
+    });
   };
 
   const handleNotificacionLeida = (id) => {
@@ -44,26 +55,6 @@ const Navbar = () => {
     (n) => n.estado === 'pendiente'
   );
 
-  const navigate = useNavigate();
-
-  const handleLogout = () => {
-    // localStorage.removeItem('token');
-    localStorage.removeItem('rol');
-    localStorage.removeItem('usuarioId');
-
-    navigate('/', { replace: true });
-    replace('/');
-
-    Swal.fire({
-      position: 'top',
-      icon: 'success',
-      title: 'Sesión cerrada',
-      showConfirmButton: false,
-      toast: true,
-      timer: 1200,
-    });
-  };
-
   return (
     <nav className="navbar">
       <img
@@ -73,6 +64,8 @@ const Navbar = () => {
         draggable="false"
       />
       <div className="navbar-items">
+
+        {/* Botón de notificaciones */}
         <div className="navbar-notifications" onClick={() => setMostrarPopup(!mostrarPopup)}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -94,13 +87,23 @@ const Navbar = () => {
           )}
         </div>
 
+        {/* Botón de cerrar sesión */}
+        <input
+          type="button"
+          value="Cerrar sesión"
+          className="navbar-logout"
+          onClick={handleLogout}
+        />
 
+        {/* Icono de usuario */}
         <img
           src="../css/img/user.png"
           alt="Usuario"
           className="navbar-icon"
           draggable="false"
         />
+
+        {/* Icono de inicio */}
         <Link to={'/inicio'} draggable="false">
           <img
             src="../css/img/home.png"

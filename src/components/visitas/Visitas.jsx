@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import NavBar from '../generales/NavBar';
-import Sidebar from '../generales/Sidebar';
-import {API_URL} from '../../api/globalVars';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import NavBar from "../generales/NavBar";
+import Sidebar from "../generales/Sidebar";
 
 function Visitas() {
   const [showForm, setShowForm] = useState(false);
@@ -22,23 +22,19 @@ function Visitas() {
     obtenerVisitas();
   }, []);
 
+  const obtenerVisitas = async () => {
+    try {
+      const response = await axios.get("http://localhost:3000/api/visitas/verVisitas");
+      setVisitas(response.data.visitas || []);
+    } catch (error) {
+      console.error("Error al obtener visitas:", error.message);
+    }
+  };
 
   const toggleForm = () => {
     setShowForm(!showForm);
     setModoEdicion(false);
     setVisitaEditando(null);
-  };
-
-  const obtenerVisitas = async () => {
-    try {
-      const response = await fetch(
-        `${API_URL}/api/visitas/verVisitas`);
-      if (!response.ok) throw new Error('No se pudieron obtener las visitas.');
-      const data = await response.json();
-      setVisitas(data.visitas || []);
-    } catch (error) {
-      console.error('Error al obtener visitas:', error.message);
-    }
   };
 
   const handleAddOrUpdateVisita = async (e) => {
@@ -52,9 +48,9 @@ function Visitas() {
 
     try {
       const url = modoEdicion
-        ? `${API_URL}/api/visitas/${visitaEditando.id}`
-        : `${API_URL}/api/visitas`;
-      const method = modoEdicion ? 'PUT' : 'POST';
+        ? `http://localhost:3000/api/visitas/${visitaEditando.id}`
+        : "http://localhost:3000/api/visitas";
+      const method = modoEdicion ? "put" : "post";
 
       const response = await axios({
         method,
@@ -85,9 +81,7 @@ function Visitas() {
 
   const handleAceptar = async (id) => {
     try {
-      await fetch(`${API_URL}/api/visitas/aceptar/${id}`, {
-        method: 'PUT',
-      });
+      await axios.put(`http://localhost:3000/api/visitas/aceptar/${id}`);
       await obtenerVisitas();
     } catch (error) {
       console.error("Error al aceptar visita:", error);
@@ -101,9 +95,24 @@ function Visitas() {
 
   const confirmarRechazo = async () => {
     try {
-      await fetch(`${API_URL}/api/visitas/rechazar/${id}`, {
-        method: 'PUT',
-      });
+      await axios.put(
+        `http://localhost:3000/api/visitas/rechazar/${visitaRechazar.id}`,
+        { motivo: motivoRechazo },
+        { headers: { "Content-Type": "application/json" } }
+      );
+
+      // Guardar notificación en localStorage
+      const notificaciones = JSON.parse(localStorage.getItem("notificaciones")) || [];
+      const nuevaNotificacion = {
+        id: Date.now(),
+        mensaje: `Tu visita del ${visitaRechazar.fecha.split("T")[0]} fue rechazada. Motivo: ${motivoRechazo}`,
+        estado: "pendiente",
+      };
+      localStorage.setItem("notificaciones", JSON.stringify([...notificaciones, nuevaNotificacion]));
+
+      setMostrarMotivoPopup(false);
+      setMotivoRechazo("");
+      setVisitaRechazar(null);
       await obtenerVisitas();
     } catch (error) {
       console.error("Error al rechazar visita:", error);
