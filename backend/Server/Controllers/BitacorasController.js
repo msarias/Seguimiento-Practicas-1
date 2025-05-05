@@ -2,15 +2,35 @@ const Bitacoras = require('../Models/Bitacora');
 
 
 // Obtener todas las bitácoras
+// Obtener todas las bitácoras (o filtrar por aprendiz)
+// Obtener todas las bitácoras (o filtrar por aprendiz, según rol)
 const getAllBitacoras = async (req, res) => {
     try {
-        const bitacoras = await Bitacoras.findAll();
+        const { rol, userId, aprendizId } = req.query; // 🟢 recibimos rol y userId desde el frontend
+
+        let whereClause = {};
+
+        if (rol === 'aprendiz') {
+            // 🔒 Un aprendiz solo puede ver sus propias bitácoras
+            whereClause.id_usuario = userId;
+        } else if (rol === 'instructor') {
+            // 🔓 Un instructor puede filtrar por aprendiz si se envía aprendizId
+            if (aprendizId) {
+                whereClause.id_usuario = aprendizId;
+            }
+            // Si no se envía aprendizId, ve todas
+        }
+
+        const bitacoras = await Bitacoras.findAll({ where: whereClause });
         res.status(200).json(bitacoras);
+
     } catch (error) {
-        console.error('Error en getAllBitacoras:', error); // 🔍 imprime el error real en consola
-        res.status(500).json({ error: error.message }); // muestra el mensaje exacto en la respuesta
+        console.error('Error en getAllBitacoras:', error);
+        res.status(500).json({ error: error.message });
     }
 };
+
+
 // Obtener una bitácora por ID
 const getBitacoraById = async (req, res) => {
     try {

@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 
-const BitacoraForm = ({ onAddBitacora, onClose, bitacoras }) => {
+const BitacoraForm = ({ onAddBitacora, bitacoras }) => {
   const [isFormVisible, setIsFormVisible] = useState(false);
   const [bitacora, setBitacora] = useState({
-    id_usuario: '',
+    usuarioId: '',
     fecha: '',
     archivo: null,
   });
@@ -12,8 +12,12 @@ const BitacoraForm = ({ onAddBitacora, onClose, bitacoras }) => {
 
   useEffect(() => {
     const rolGuardado = localStorage.getItem('rol');
+    const idGuardado = localStorage.getItem('usuarioId'); // Aquí capturamos el id desde localStorage
     if (rolGuardado) {
       setRol(rolGuardado.toLowerCase());
+    }
+    if (idGuardado) {
+      setBitacora((prev) => ({ ...prev, id_usuario: idGuardado }));
     }
   }, []);
 
@@ -60,15 +64,15 @@ const BitacoraForm = ({ onAddBitacora, onClose, bitacoras }) => {
       if (data.bitacora) {
         alert('¡Bitácora subida exitosamente!');
         setIsFormVisible(false);
-        setBitacora({ id_usuario: '', fecha: '', archivo: null });
-        onAddBitacora(data.bitacora);
+        setBitacora({ id_usuario: bitacora.id_usuario, fecha: '', archivo: null });
+        onAddBitacora();
       } else {
         console.log('Ocurrió un error inesperado');
       }
     } catch (error) {
       console.error('Error al subir la bitácora:', error);
     }
-};
+  };
 
   const handleChange = (e) => {
     const { name, value, files } = e.target;
@@ -86,16 +90,6 @@ const BitacoraForm = ({ onAddBitacora, onClose, bitacoras }) => {
       {isFormVisible && (
         <section className="bitacora-form" id="bitacoraForm">
           <h2 className="bitacora-form__title">Agregar Bitácora</h2>
-
-          <input
-            type="text"
-            name="id_usuario"
-            className="bitacora-form__input"
-            placeholder="ID del usuario"
-            value={bitacora.id_usuario}
-            onChange={handleChange}
-            required
-          />
 
           <input
             type="file"
@@ -118,7 +112,7 @@ const BitacoraForm = ({ onAddBitacora, onClose, bitacoras }) => {
           <button
             type="submit"
             className="bitacora-form__button"
-            disabled={bitacoras.length >= 6} // Deshabilitar el botón si ya se subieron 6 bitácoras
+            disabled={bitacoras.length >= 6}
           >
             {bitacoras.length >= 6 ? 'Has alcanzado el límite de 6 bitácoras' : 'Subir Bitácora'}
           </button>
