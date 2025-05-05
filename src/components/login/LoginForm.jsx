@@ -22,10 +22,7 @@ const LoginForm = () => {
 
     setError("");
 
-    setError("");
-  
     try {
-      // const url = `${API_URL}/api/auth/login`;
       const url = `${API_URL}/api/auth/login`;
       const res = await axios.post(url, {
         tipoCuenta: typeAccount,
@@ -34,10 +31,9 @@ const LoginForm = () => {
       });
 
       const usuario = res.data.usuario;
-
+      
       localStorage.setItem("rol", usuario.rol);
       localStorage.setItem("usuarioId", usuario.id);
-
       localStorage.setItem(
         "usuario",
         JSON.stringify({
@@ -46,7 +42,6 @@ const LoginForm = () => {
           password,
         })
       );
-      console.log({ tipoCuenta: typeAccount, documento: document, password });
 
       Swal.fire({
         position: "top",
