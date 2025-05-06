@@ -29,6 +29,10 @@ const Visita = Sequelize.define(
       type: DataTypes.STRING(120),
       allowNull: true,
     },
+    aprendiz_id: {  // 👈🏼 este es el nuevo campo que debes agregar
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
   },
   {
     tableName: 'visita',

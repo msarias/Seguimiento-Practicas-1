@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
+import axios from 'axios';
 
 const Navbar = () => {
   const [notificaciones, setNotificaciones] = useState([]);
@@ -8,9 +9,20 @@ const Navbar = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const cargarNotificaciones = () => {
-      const notificacionesGuardadas = JSON.parse(localStorage.getItem("notificaciones")) || [];
-      setNotificaciones(notificacionesGuardadas);
+    const cargarNotificaciones = async () => {
+      const usuarioId = localStorage.getItem("usuarioId");
+      if (usuarioId) {
+        try {
+          const response = await axios.get(`http://localhost:3000/notificaciones/usuario/${usuarioId}`);
+          setNotificaciones(response.data);
+          localStorage.setItem("notificaciones", JSON.stringify(response.data));
+        } catch (error) {
+          console.error("Error al cargar notificaciones:", error);
+        }
+      } else {
+        const notificacionesGuardadas = JSON.parse(localStorage.getItem("notificaciones")) || [];
+        setNotificaciones(notificacionesGuardadas);
+      }
     };
 
     cargarNotificaciones();
@@ -43,12 +55,22 @@ const Navbar = () => {
     });
   };
 
-  const handleNotificacionLeida = (id) => {
+  // ✅ Marcar la notificación como leída usando Axios
+  const handleNotificacionLeida = async (id) => {
     const nuevas = notificaciones.map((n) =>
       n.id === id ? { ...n, estado: 'leida' } : n
     );
     setNotificaciones(nuevas);
     localStorage.setItem('notificaciones', JSON.stringify(nuevas));
+
+    try {
+      await axios.patch(`http://localhost:3000/notificaciones/${id}`, { estado: 'leida' });
+
+      // Dispara evento para que otras partes actualicen
+      window.dispatchEvent(new Event("notificacionesActualizadas"));
+    } catch (error) {
+      console.error("Error al marcar notificación como leída:", error);
+    }
   };
 
   const notificacionesPendientes = notificaciones.filter(

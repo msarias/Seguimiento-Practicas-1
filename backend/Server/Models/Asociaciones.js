@@ -1,7 +1,8 @@
 const Usuario = require('./Usuario'); // Importa Usuario
 const Ficha = require('./Ficha'); // Importa Ficha
+const Notificacion = require('./Notificacion'); // Importa Notificacion
 
-// Aquí se definen las asociaciones entre los modeloso
+// Asociación Ficha -> Usuarios
 Ficha.hasMany(Usuario, {
     foreignKey: 'ficha',
     as: 'aprendices',
@@ -10,5 +11,15 @@ Ficha.hasMany(Usuario, {
 Usuario.belongsTo(Ficha, {
     foreignKey: 'ficha',
     as: 'datosFicha',
+});
 
+// Asociación Usuario -> Notificaciones
+Usuario.hasMany(Notificacion, {
+    foreignKey: 'id_usuario',
+    as: 'notificaciones',
+});
+
+Notificacion.belongsTo(Usuario, {
+    foreignKey: 'id_usuario',
+    as: 'usuario',
 });

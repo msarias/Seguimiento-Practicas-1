@@ -2,13 +2,20 @@ const Visita = require('../Models/Visita');
 
 exports.crearVisita = async (req, res) => {
   try {
-    const { direccion, tipo, fecha } = req.body;
+    const { direccion, tipo, fecha, aprendiz_id } = req.body;
 
-    if (!direccion || !tipo || !fecha) {
+    if (!direccion || !tipo || !fecha || !aprendiz_id) {
       return res.status(400).json({ message: 'Todos los campos son obligatorios.' });
     }
 
-    const nuevaVisita = await Visita.create({ direccion, tipo, fecha });
+    const nuevaVisita = await Visita.create({ 
+      direccion, 
+      tipo, 
+      fecha, 
+      estado: 'pendiente', // Por defecto al crearla
+      aprendiz_id  // 👈🏽 Aquí se guarda el id del aprendiz dueño de la visita
+    });
+
     res.status(201).json({ nuevaVisita });
 
   } catch (error) {

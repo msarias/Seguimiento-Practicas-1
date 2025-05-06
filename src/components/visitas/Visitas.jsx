@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 import NavBar from "../generales/NavBar";
 import Sidebar from "../generales/Sidebar";
@@ -10,38 +10,43 @@ function Visitas() {
   const [visitas, setVisitas] = useState([]);
   const [visitaEditando, setVisitaEditando] = useState(null);
   const [rol, setRol] = useState("");
+  const [usuarioId, setUsuarioId] = useState("");
 
   const [mostrarMotivoPopup, setMostrarMotivoPopup] = useState(false);
   const [motivoRechazo, setMotivoRechazo] = useState("");
   const [visitaRechazar, setVisitaRechazar] = useState(null);
-  const [visita, setVisita] = useState({
-      usuarioId: '',
-      direccion: '',
-      tipo: '',
-      fecha: '',
-    });
 
   useEffect(() => {
     const rolGuardado = localStorage.getItem("rol");
-    const idGuardado = localStorage.getItem("usuarioId")
-    if (rolGuardado) {
-      setRol(rolGuardado.toLowerCase());
-    }
-    if (idGuardado) {
-      setVisita((prev) => ({ ...prev, id_usuario: idGuardado }));
-    }
-    obtenerVisitas();
+    const idGuardado = localStorage.getItem("usuarioId");
+    if (rolGuardado) setRol(rolGuardado.toLowerCase());
+    if (idGuardado) setUsuarioId(Number(idGuardado));
   }, []);
 
-  const obtenerVisitas = async () => {
+  // ✅ Con useCallback ya no da warning
+  const obtenerVisitas = useCallback(async () => {
     try {
       const url = `${API_URL}/api/visitas/verVisitas`;
       const response = await axios.get(url);
-      setVisitas(response.data.visitas || []);
+      let todasLasVisitas = response.data.visitas || [];
+
+      if (rol === "aprendiz") {
+        todasLasVisitas = todasLasVisitas.filter(
+          (v) => v.aprendiz_id === Number(usuarioId)
+        );
+      }
+
+      setVisitas(todasLasVisitas);
     } catch (error) {
       console.error("Error al obtener visitas:", error.message);
     }
-  };
+  }, [rol, usuarioId]);
+
+  useEffect(() => {
+    if (rol && usuarioId) {
+      obtenerVisitas();
+    }
+  }, [rol, usuarioId, obtenerVisitas]);
 
   const toggleForm = () => {
     setShowForm(!showForm);
@@ -52,17 +57,19 @@ function Visitas() {
   const handleAddOrUpdateVisita = async (e) => {
     e.preventDefault();
 
+    const usuarioId = localStorage.getItem("usuarioId");
+
     const nuevaVisita = {
-      fecha: e.target["dia"].value,
-      tipo: e.target["tipo-visita"].value,
       direccion: e.target["direccion-visita"].value,
+      tipo: e.target["tipo-visita"].value,
+      fecha: e.target["dia"].value,
+      aprendiz_id: usuarioId, // 👈🏽 correcto
     };
 
-    if (!visita.id_usuario || visita.direccion || visita.tipo || visita.fecha) {
-      alert('Completa todos los campos.');
+    if (!nuevaVisita.direccion || !nuevaVisita.tipo || !nuevaVisita.fecha) {
+      alert("Completa todos los campos.");
       return;
     }
-
 
     try {
       const url = modoEdicion
@@ -70,7 +77,7 @@ function Visitas() {
         : `${API_URL}/api/visitas`;
       const method = modoEdicion ? "put" : "post";
 
-      const response = await axios({
+      await axios({
         method,
         url,
         headers: { "Content-Type": "application/json" },
@@ -111,19 +118,23 @@ function Visitas() {
   const confirmarRechazo = async () => {
     try {
       const url = `${API_URL}/api/visitas/rechazar/${visitaRechazar.id}`;
-      await axios.put(url,
+      await axios.put(
+        url,
         { motivo: motivoRechazo },
         { headers: { "Content-Type": "application/json" } }
       );
 
-      // Guardar notificación en localStorage
-      const notificaciones = JSON.parse(localStorage.getItem("notificaciones")) || [];
+      const notificaciones =
+        JSON.parse(localStorage.getItem("notificaciones")) || [];
       const nuevaNotificacion = {
         id: Date.now(),
         mensaje: `Tu visita del ${visitaRechazar.fecha.split("T")[0]} fue rechazada. Motivo: ${motivoRechazo}`,
         estado: "pendiente",
       };
-      localStorage.setItem("notificaciones", JSON.stringify([...notificaciones, nuevaNotificacion]));
+      localStorage.setItem(
+        "notificaciones",
+        JSON.stringify([...notificaciones, nuevaNotificacion])
+      );
 
       setMostrarMotivoPopup(false);
       setMotivoRechazo("");
@@ -145,13 +156,25 @@ function Visitas() {
             <p>No hay visitas registradas</p>
           ) : (
             visitas.map((visita) => (
-              <div key={visita.id} className={`report-list__item estado${visita.estado}`}>
-                <p><strong>Dirección:</strong> {visita.direccion}</p>
-                <p><strong>Tipo:</strong> {visita.tipo}</p>
-                <p><strong>Fecha:</strong> {visita.fecha.split("T")[0]}</p>
+              <div
+                key={visita.id}
+                className={`report-list__item estado${visita.estado}`}
+              >
+                <p>
+                  <strong>Dirección:</strong> {visita.direccion}
+                </p>
+                <p>
+                  <strong>Tipo:</strong> {visita.tipo}
+                </p>
+                <p>
+                  <strong>Fecha:</strong> {visita.fecha.split("T")[0]}
+                </p>
 
                 {rol === "aprendiz" && (
-                  <button className="visit-list__buttone" onClick={() => handleEditar(visita)}>
+                  <button
+                    className="visit-list__buttone"
+                    onClick={() => handleEditar(visita)}
+                  >
                     Editar
                   </button>
                 )}
@@ -201,6 +224,7 @@ function Visitas() {
               required
               defaultValue={modoEdicion ? visitaEditando.tipo : ""}
             >
+              <option value="">Selecciona tipo</option>
               <option value="Presencial">Presencial</option>
               <option value="Virtual">Virtual</option>
             </select>
@@ -227,8 +251,15 @@ function Visitas() {
                 className="popup-textarea"
               />
               <div className="popup-buttons">
-                <button onClick={confirmarRechazo} className="popup-confirm">Confirmar</button>
-                <button onClick={() => setMostrarMotivoPopup(false)} className="popup-cancel">Cancelar</button>
+                <button onClick={confirmarRechazo} className="popup-confirm">
+                  Confirmar
+                </button>
+                <button
+                  onClick={() => setMostrarMotivoPopup(false)}
+                  className="popup-cancel"
+                >
+                  Cancelar
+                </button>
               </div>
             </div>
           </div>
