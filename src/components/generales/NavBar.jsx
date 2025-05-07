@@ -42,6 +42,7 @@ const Navbar = () => {
     localStorage.removeItem('rol');
     localStorage.removeItem('usuarioId');
     localStorage.removeItem('notificaciones');
+    localStorage.removeItem('usuario');
 
     navigate('/', { replace: true });
 

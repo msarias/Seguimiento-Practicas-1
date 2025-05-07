@@ -52,7 +52,7 @@ const LoginForm = () => {
         toast: true,
       });
 
-      navigate("/Inicio");
+      navigate("/inicio");
     } catch (err) {
       console.error("error login", err.response);
       const message = err.response?.data?.message || "Error al iniciar sesión";
