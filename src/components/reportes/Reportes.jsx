@@ -87,7 +87,7 @@ const Reportes = () => {
               >
                 <img
                   id="delete-img"
-                  src="../css/img/trash.png"
+                  src="../assets/img/trash.png"
                   alt="Eliminar"
                 />
               </button>

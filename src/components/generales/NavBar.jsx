@@ -81,7 +81,7 @@ const Navbar = () => {
   return (
     <nav className="navbar">
       <img
-        src="../css/img/sena-logo-verde.png"
+        src="../assets/img/sena-logo-verde.png"
         alt="Inicio"
         className="navbar-logo"
         draggable="false"
@@ -120,7 +120,7 @@ const Navbar = () => {
 
         {/* Icono de usuario */}
         <img
-          src="../css/img/user.png"
+          src="../assets/img/user.png"
           alt="Usuario"
           className="navbar-icon"
           draggable="false"
@@ -129,7 +129,7 @@ const Navbar = () => {
         {/* Icono de inicio */}
         <Link to={'/inicio'} draggable="false">
           <img
-            src="../css/img/home.png"
+            src="../assets/img/home.png"
             alt="Home"
             className="navbar-icon"
             draggable="false"
