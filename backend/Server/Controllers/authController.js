@@ -109,11 +109,11 @@ const login = async (req, res) => {
       return res.status(403).json({ message: "El tipo de cuenta no coincide con el rol del usuario." });
     }
 
-    /* const validarPassword = await bcrypt.compare(password.trim(), usuario.contraseña);
+    const validarPassword = await bcrypt.compare(password.trim(), usuario.contraseña);
     if (!validarPassword) {
       return res.status(401).json({ message: "Contraseña incorrecta" });
     }
-    console.log(password, usuario.contraseña, validarPassword); */
+    console.log(password, usuario.contraseña, validarPassword);
 
     console.log("JWT_SECRET:", process.env.JWT_SECRET);
 

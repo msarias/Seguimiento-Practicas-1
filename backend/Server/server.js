@@ -12,7 +12,7 @@ dotenv.config(); // Puedes usar directamente dotenv.config() sin require("dotenv
 const indexRoutes = require("./Routes/index.routes.js");
 
 // Importar y ejecutar asociaciones entre modelos
-require('./Models/Asociaciones');
+require("./Models/Asociaciones");
 
 // Crear el servidor
 const app = express();
@@ -35,7 +35,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
 
 // Servir archivos estáticos desde la carpeta "uploads"
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 // Rutas
 app.use("/api", indexRoutes); // Acceso a /api/fichas, /api/usuarios, etc.
@@ -43,5 +43,5 @@ app.use("/api", indexRoutes); // Acceso a /api/fichas, /api/usuarios, etc.
 // Puerto del servidor
 const port = 3000;
 app.listen(port, () => {
-  console.log("Servidor conectado en el puerto", port);
+  console.log("Servidor conectado en http://localhost:"+ port);
 });

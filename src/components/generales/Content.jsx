@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { API_URL } from "../../api/globalVars";
 
 const Content = () => {
   const { id } = useParams(); // Si el id viene de la URL
@@ -13,7 +14,8 @@ const Content = () => {
 
   const obtenerUsuario = async () => {
     try {
-      const response = await axios.get(`http://localhost:3000/api/usuarios/${userId}`, {
+      const url = `${API_URL}/api/usuarios/${userId}`;
+      const response = await axios.get(url, {
         headers: {
           "Content-Type": "application/json",
         },
@@ -45,7 +47,7 @@ const Content = () => {
   return (
     <div className="content">
       <section className="info-section">
-        <img src="../css/img/user.png" alt="Profile" />
+        <img src="../assets/img/user.png" alt="Profile" />
         <div>
           <h2>Información del Aprendiz</h2>
           <p>{usuario?.nombres}</p>

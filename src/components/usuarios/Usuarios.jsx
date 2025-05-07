@@ -10,7 +10,7 @@ const Usuarios = () => {
 
   const obtenerUsuarios = async () => {
     try {
-      const url = `${API_URL}/usuarios/listarUsuarios`;
+      const url = `${API_URL}/api/usuarios/listarUsuarios`;
       const response = await axios.get(url);
       const data = response.data;
       setUsuarios(data.usuarios || []);
@@ -30,14 +30,13 @@ const Usuarios = () => {
       <Sidebar />
       <div className="content">
         <h1>Usuarios</h1>
-        {error && <p className="error-message">{error}</p>}
         {usuarios.length > 0 ?  (
           usuarios.map((user) => (
             <div className="report-list__item" key={user.id}>
-              <p>{'Nombre: ' + user.nombres + ' ' + user.apellidos}</p>
-              <p>{'Correo: ' + user.correo}</p>
-              <p>{'Nro. Identificación: ' + user.identificacion}</p>
-              <p>{'Rol: ' + user.rol}</p>
+              <p>{user.nombres + user.apellidos}</p>
+              <p>{user.correo}</p>
+              <p>{user.identificacion}</p>
+              <p>{user.rol}</p>
             </div>
           ))
         ) : (
@@ -49,4 +48,3 @@ const Usuarios = () => {
 };
 
 export default Usuarios;
-

@@ -52,7 +52,7 @@ const Fichas = () => {
       const url = `${API_URL}/api/fichas`;
       await axios.post(url, formData);
 
-      Swal.fire({
+      await Swal.fire({
         icon: "success",
         timer: 1200,
         text: "Ficha creada exitosamente.",
@@ -61,9 +61,12 @@ const Fichas = () => {
         showConfirmButton: false,
       })
 
-      obtenerFichas();
+      await obtenerFichas();
+      setFormData({
+        codigo: "",
+        programa: "",
+      });
     } catch (error) {
-      console.error("Error al crear la ficha:", error.message);
       Swal.fire({
         icon: "error",
         title: "Error al crear ficha",
@@ -81,9 +84,26 @@ const Fichas = () => {
     const url = `${API_URL}/api/fichas/${id}`;
     try {
       await axios.delete(url);
+      await Swal.fire({
+        icon: "success",
+        title: "Ficha eliminada",
+        text: "La ficha fue eliminada exitosamente.",
+        toast: true,
+        position: "bottom-left",
+        timer: 1200,
+        showConfirmButton: false,
+      })
       obtenerFichas();
     } catch (error) {
-      console.error("Error al eliminar la ficha:", error.message);
+      Swal.fire({
+        icon: "error",
+        title: "Error al eliminar ficha",
+        text: error.response?.data?.message || 'Error eliminando la ficha',
+        toast: true,
+        position: "bottom-left",
+        timer: 1200,
+        showConfirmButton: false,
+      })
     }
   }
 
@@ -98,10 +118,19 @@ const Fichas = () => {
             <div className="">
               {fichas.map((ficha) => (
                 <div key={ficha.codigo} className="report-list__item">
-                  <b>{ficha.id}</b>
                   <p className="">Ficha: {ficha.codigo}</p>
                   <p className="">Programa: {ficha.programa}</p>
-                  <button id={ficha.id} onClick={eliminarFicha}>X</button>
+                  <button
+                id={ficha.id}
+                onClick={eliminarFicha}
+                className="report-list__button delete-button"
+              >
+                <img
+                  id="delete-img"
+                  src="../css/img/trash.png"
+                  alt="Eliminar"
+                />
+              </button>
                 </div>
               ))}
             </div>
@@ -109,7 +138,7 @@ const Fichas = () => {
             <p className="">No hay fichas registradas.</p>
           )}
         </div>
-        <div className="form-container">
+        <div className="form-container crear-ficha">
           <h2 className="register-title">Crear Nueva Ficha</h2>
           <form onSubmit={subirFicha} className="form">
             <label htmlFor="codigo" className="register-label">
