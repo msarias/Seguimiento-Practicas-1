@@ -639,10 +639,9 @@ body {
 
 .report-list__item {
   flex-wrap: wrap;
-  text-wrap: wrap;
+  text-wrap: balance;
   justify-content: space-between;
   background-color: #f0f0f0;
-  text-align: center;
   padding: 24px;
   column-gap: 20px;
   border-radius: 8px;
@@ -976,6 +975,9 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+.crear-ficha{
+  background-color: #f0f0f0;
 }
 
 /* Contenedor de aprendices vertical */
