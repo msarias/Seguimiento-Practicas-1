@@ -8,8 +8,8 @@ const Notificacion = sequelize.define('Notificacion', {
         allowNull: false,
     },
     id_usuario: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
+        type: DataTypes.INTEGER.UNSIGNED,
+        allowNull: true,
     },
     estado: {
         type: DataTypes.ENUM('pendiente', 'leida'),
@@ -20,7 +20,7 @@ const Notificacion = sequelize.define('Notificacion', {
         allowNull: true, // Puedes usar 'visita', 'bitacora', etc.
     },
 }, {
-    tableName: 'notificaciones',
+    tableName: 'notificacion',
 });
 
 module.exports = Notificacion;

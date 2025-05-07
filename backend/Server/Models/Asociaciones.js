@@ -15,7 +15,7 @@ Usuario.belongsTo(Ficha, {
 
 // Asociación Usuario -> Notificaciones
 Usuario.hasMany(Notificacion, {
-    foreignKey: 'id_usuario',
+    foreignKey: 'id',
     as: 'notificaciones',
 });
 
