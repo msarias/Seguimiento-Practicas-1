@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import axios from 'axios';
+import { API_URL } from '../../api/globalVars';
 
 const Navbar = () => {
   const [notificaciones, setNotificaciones] = useState([]);
@@ -13,7 +14,8 @@ const Navbar = () => {
       const usuarioId = localStorage.getItem("usuarioId");
       if (usuarioId) {
         try {
-          const response = await axios.get(`http://localhost:3000/notificaciones/usuario/${usuarioId}`);
+          const response = await axios.get(`http://localhost:3000/api/notificaciones/usuario/${usuarioId}`);
+
           setNotificaciones(response.data);
           localStorage.setItem("notificaciones", JSON.stringify(response.data));
         } catch (error) {
@@ -55,7 +57,6 @@ const Navbar = () => {
     });
   };
 
-  // ✅ Marcar la notificación como leída usando Axios
   const handleNotificacionLeida = async (id) => {
     const nuevas = notificaciones.map((n) =>
       n.id === id ? { ...n, estado: 'leida' } : n
@@ -64,7 +65,7 @@ const Navbar = () => {
     localStorage.setItem('notificaciones', JSON.stringify(nuevas));
 
     try {
-      await axios.patch(`http://localhost:3000/notificaciones/${id}`, { estado: 'leida' });
+      await axios.patch(`${API_URL}/api/notificaciones/${id}`, { estado: 'leida' });
 
       // Dispara evento para que otras partes actualicen
       window.dispatchEvent(new Event("notificacionesActualizadas"));
