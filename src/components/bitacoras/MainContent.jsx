@@ -10,7 +10,6 @@ const MainContent = () => {
       <Sidebar />
       <div className="content">
         <BitacoraList />
-
       </div>
     </div>
   );
