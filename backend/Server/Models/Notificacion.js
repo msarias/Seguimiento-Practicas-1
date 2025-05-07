@@ -1,4 +1,3 @@
-// models/Notificacion.js
 const { DataTypes } = require('sequelize');
 const sequelize = require('../Config/db'); // Asegúrate de importar tu instancia de Sequelize
 
