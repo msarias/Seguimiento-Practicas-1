@@ -77,7 +77,7 @@ const resetPassword = async (req, res) => {
       return res.status(404).json({ message: "Usuario no encontrado." });
     }
 
-    user.contraseña = await bcrypt.hash(password, 10);
+    user.contraseña = await bcrypt.hash(password, 2);
     await user.save();
 
     res.json({ message: "Contraseña restablecida correctamente." });

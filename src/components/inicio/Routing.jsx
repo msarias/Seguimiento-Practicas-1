@@ -13,6 +13,7 @@ import ResetPassword from "../login/ResetPassword";
 import NotFound from "./NotFound";
 import Content from "../generales/Content";
 import RutasProtegidas from "../utils/RutasProtegidas";
+import AjustesUsuario from "../usuarios/AjustesUsuario";
 
 function Routing() {
   const [user] = useLocalStorage("usuario");
@@ -32,6 +33,7 @@ function Routing() {
           <Route path="/fichas" element={<Fichas />} />
           <Route path="/bitacoras" element={<Bitacoras />} />
           <Route path="/reportes" element={<Reportes />} />
+          <Route path="/ajustes" element={<AjustesUsuario />} />
         </Route>
         <Route path="*" element={<NotFound />} />
       </Routes>
