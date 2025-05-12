@@ -1,7 +1,12 @@
 const { DataTypes } = require('sequelize');
-const sequelize = require('../Config/db'); // Asegúrate de importar tu instancia de Sequelize
+const sequelize = require('../Config/db'); // Instancia de Sequelize
 
 const Notificacion = sequelize.define('Notificacion', {
+    id: {
+        type: DataTypes.INTEGER.UNSIGNED,
+        autoIncrement: true,
+        primaryKey: true,
+    },
     mensaje: {
         type: DataTypes.STRING,
         allowNull: false,
@@ -14,12 +19,9 @@ const Notificacion = sequelize.define('Notificacion', {
         type: DataTypes.ENUM('pendiente', 'leida'),
         defaultValue: 'pendiente',
     },
-    tipo: {
-        type: DataTypes.STRING,
-        allowNull: true, // Puedes usar 'visita', 'bitacora', etc.
-    },
 }, {
     tableName: 'notificacion',
+    timestamps: false,
 });
 
 module.exports = Notificacion;

@@ -9,24 +9,23 @@ const Navbar = () => {
   const [mostrarPopup, setMostrarPopup] = useState(false);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const cargarNotificaciones = async () => {
-      const usuarioId = localStorage.getItem("usuarioId");
-      if (usuarioId) {
-        try {
-          const response = await axios.get(`http://localhost:3000/api/notificaciones/usuario/${usuarioId}`);
-
-          setNotificaciones(response.data);
-          localStorage.setItem("notificaciones", JSON.stringify(response.data));
-        } catch (error) {
-          console.error("Error al cargar notificaciones:", error);
-        }
-      } else {
-        const notificacionesGuardadas = JSON.parse(localStorage.getItem("notificaciones")) || [];
-        setNotificaciones(notificacionesGuardadas);
+  const cargarNotificaciones = async () => {
+    const usuarioId = localStorage.getItem("usuarioId");
+    if (usuarioId) {
+      try {
+        const response = await axios.get(`http://localhost:3000/api/notificaciones/usuario/${usuarioId}`);
+        setNotificaciones(response.data);
+        localStorage.setItem("notificaciones", JSON.stringify(response.data));
+      } catch (error) {
+        console.error("Error al cargar notificaciones:", error);
       }
-    };
+    } else {
+      const notificacionesGuardadas = JSON.parse(localStorage.getItem("notificaciones")) || [];
+      setNotificaciones(notificacionesGuardadas);
+    }
+  };
 
+  useEffect(() => {
     cargarNotificaciones();
 
     const handler = () => {
@@ -38,7 +37,7 @@ const Navbar = () => {
     return () => {
       window.removeEventListener("notificacionesActualizadas", handler);
     };
-  }, []);
+  }, []);  // Dependencias vacías para cargar las notificaciones al inicio
 
   const handleLogout = () => {
     localStorage.removeItem('rol');
@@ -66,9 +65,7 @@ const Navbar = () => {
     localStorage.setItem('notificaciones', JSON.stringify(nuevas));
 
     try {
-      await axios.patch(`${API_URL}/api/notificaciones/${id}`, { estado: 'leida' });
-
-      // Dispara evento para que otras partes actualicen
+      await axios.patch(`${API_URL}/api/notificaciones/${id}`);
       window.dispatchEvent(new Event("notificacionesActualizadas"));
     } catch (error) {
       console.error("Error al marcar notificación como leída:", error);

@@ -128,9 +128,8 @@ function Visitas() {
 				JSON.parse(localStorage.getItem("notificaciones")) || []
 			const nuevaNotificacion = {
 				id: Date.now(),
-				mensaje: `Tu visita del ${
-					visitaRechazar.fecha.split("T")[0]
-				} fue rechazada. Motivo: ${motivoRechazo}`,
+				mensaje: `Tu visita del ${visitaRechazar.fecha.split("T")[0]
+					} fue rechazada. Motivo: ${motivoRechazo}`,
 				estado: "pendiente",
 			}
 			localStorage.setItem(
