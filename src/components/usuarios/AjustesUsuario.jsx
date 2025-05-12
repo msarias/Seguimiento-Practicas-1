@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react'
 import axios from 'axios'
 import Swal from 'sweetalert2'
 import { API_URL } from '../../api/globalVars'
+import Navbar from '../generales/NavBar'
+import Sidebar from '../generales/Sidebar'
 
 const AjustesUsuario = () => {
 	const [formData, setFormData] = useState({
@@ -62,65 +64,69 @@ const AjustesUsuario = () => {
 	}
 
 	return (
-		<div className='form'>
-			<h2 className=''>Ajustes de Usuario</h2>
-			<form className='form' onSubmit={handleSubmit}>
-				<label className='register-label' htmlFor='nombres'>
-					Nombres
-				</label>
-				<input
-					className='register-input'
-					type='text'
-					id='nombres'
-					name='nombres'
-					placeholder='Ingrese sus nombres'
-					value={formData.nombres}
-					onChange={handleChange}
-				/>
+		<div className='container'>
+			<Navbar />
+			<Sidebar />
+			<div className='content'>
+				<div className='form'>
+					<h2 className=''>Ajustes de Usuario</h2>
+					<form className='form' onSubmit={handleSubmit}>
+						<label className='register-label' htmlFor='nombres'>
+							Nombres
+						</label>
+						<input
+							className='register-input'
+							type='text'
+							id='nombres'
+							name='nombres'
+							placeholder='Ingrese sus nombres'
+							value={formData.nombres}
+							onChange={handleChange}
+						/>
 
-				<label className='register-label' htmlFor='apellidos'>
-					Apellidos
-				</label>
-				<input
-					className='register-input'
-					type='text'
-					id='apellidos'
-					name='apellidos'
-					placeholder='Ingrese sus apellidos'
-					value={formData.apellidos}
-					onChange={handleChange}
-				/>
+						<label className='register-label' htmlFor='apellidos'>
+							Apellidos
+						</label>
+						<input
+							className='register-input'
+							type='text'
+							id='apellidos'
+							name='apellidos'
+							placeholder='Ingrese sus apellidos'
+							value={formData.apellidos}
+							onChange={handleChange}
+						/>
 
-				<label className='register-label' htmlFor='identificacion'>
-					Identificación
-				</label>
-				<input
-					className='register-input'
-					type='number'
-					id='identificacion'
-					name='identificacion'
-					placeholder='Ingrese su número de identificación'
-					value={formData.identificacion}
-					onChange={handleChange}
-				/>
+						<label className='register-label' htmlFor='identificacion'>
+							Identificación
+						</label>
+						<input
+							className='register-input'
+							type='number'
+							id='identificacion'
+							name='identificacion'
+							placeholder='Ingrese su número de identificación'
+							value={formData.identificacion}
+							onChange={handleChange}
+						/>
 
-				<label className='register-label' htmlFor='correo'>
-					Correo Electrónico
-				</label>
-				<input
-					className='register-input'
-					type='email'
-					id='correo'
-					name='correo'
-					placeholder='Ingrese su correo electrónico'
-					value={formData.correo}
-					onChange={handleChange}
-				/>
+						<label className='register-label' htmlFor='correo'>
+							Correo Electrónico
+						</label>
+						<input
+							className='register-input'
+							type='email'
+							id='correo'
+							name='correo'
+							placeholder='Ingrese su correo electrónico'
+							value={formData.correo}
+							onChange={handleChange}
+						/>
 
-				{/* <label className='register-label' htmlFor='contraseña'>
+						{/* <label className='register-label' htmlFor='contraseña'>
 					Nueva Contraseña
-				</label>
-				<input
+					</label>
+					<input
 					className='register-input'
 					type='password'
 					id='contraseña'
@@ -128,15 +134,14 @@ const AjustesUsuario = () => {
 					value={formData.contraseña}
 					onChange={handleChange}
 					placeholder='••••••••'
-				/> */}
+					/> */}
 
-				<button type='submit' className='register-button'>
-					Guardar Cambios
-				</button>
-				<mark style={{ padding: '4px' }}>
-					Los campos que no modifique se quedarán tal como están.
-				</mark>
-			</form>
+						<button type='submit' className='register-button'>
+							Guardar Cambios
+						</button>
+					</form>
+				</div>
+			</div>
 		</div>
 	)
 }
