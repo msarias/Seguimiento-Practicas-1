@@ -2,10 +2,11 @@ const Reporte = require('../Models/Reporte');
 
 exports.crearReporte = async (req, res) => {
   try {
-    const { id_usuario, fecha, nombre, motivo } = req.body;
+    const { id_usuario, nombre, motivo } = req.body;
+    let currentDate = String(new Date().toLocaleDateString());
     const nuevoReporte = await Reporte.create({
       id_usuario,
-      fecha,
+      fecha: currentDate,
       nombre,
       motivo
     });
@@ -57,12 +58,12 @@ exports.eliminarReporte = async (req, res) => {
 exports.actualizarReporte = async (req, res) => {
   try {
     const { id } = req.params;
-    const { id_usuario, fecha, nombre, motivo } = req.body;
+    const { id_usuario, nombre, motivo } = req.body;
     const reporte = await Reporte.findByPk(id);
     if (!reporte) {
       return res.status(404).json({ message: 'El reporte no exite' });
     }
-    await reporte.update({ id_usuario, fecha, nombre, motivo });
+    await reporte.update({ id_usuario, nombre, motivo });
     res.status(200).json({ message: 'Reporte actualizado' });
   } catch (error) {
     res.status(500).json({ error: error.message });

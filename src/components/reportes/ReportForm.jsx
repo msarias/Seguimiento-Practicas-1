@@ -1,15 +1,12 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import axios from "axios";
 import Swal from "sweetalert2";
-import { useNavigate } from "react-router-dom";
 import { API_URL } from "../../api/globalVars";
 
 const ReportForm = ({ onAddReporte, onClose }) => {
-  const navigate = useNavigate();
   const [reporte, setReporte] = useState({
     nombre: "",
     motivo: "",
-    fecha: "",
   });
 
   const handleChange = (e) => {
@@ -18,8 +15,8 @@ const ReportForm = ({ onAddReporte, onClose }) => {
   };
 
   const uploadReport = async () => {
-    const { nombre, motivo, fecha } = reporte;
-    if (!nombre || !motivo || !fecha){
+    const { nombre, motivo } = reporte;
+    if (!nombre || !motivo){
       await Swal.fire({
         icon: "error",
         title: "Error",
@@ -35,7 +32,7 @@ const ReportForm = ({ onAddReporte, onClose }) => {
       const { data } = await axios.post(url, reporte);
       if (data.nuevoReporte) {
         onAddReporte(data.nuevoReporte);
-        setReporte({ nombre: "", motivo: "", fecha: "" });
+        setReporte({ nombre: "", motivo: "" });
         onClose();
         console.log(data.nuevoReporte);
         
@@ -49,7 +46,6 @@ const ReportForm = ({ onAddReporte, onClose }) => {
           timer: 1200,
         });
       }
-      navigate(0);
     } catch (error) {
       console.error("Error al subir el reporte:", error.response.data);
     }
@@ -79,13 +75,13 @@ const ReportForm = ({ onAddReporte, onClose }) => {
         value={reporte.motivo}
         onChange={handleChange}
       />
-      <input
+      {/* <input
         type="date"
         name="fecha"
         className="report-form__input"
         value={reporte.fecha}
         onChange={handleChange}
-      />
+      /> */}
       <button type="submit" className="report-form__button">
         Subir Reporte
       </button>

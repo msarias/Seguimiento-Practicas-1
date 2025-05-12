@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import Swal from "sweetalert2";
-import Navbar from "../generales/NavBar";
 import Sidebar from "../generales/Sidebar";
+import Navbar from "../generales/NavBar";
 import { API_URL } from "../../api/globalVars";
 
 const Fichas = () => {
@@ -127,7 +127,7 @@ const Fichas = () => {
               >
                 <img
                   id="delete-img"
-                  src="../css/img/trash.png"
+                  src="../assets/img/trash.png"
                   alt="Eliminar"
                 />
               </button>
