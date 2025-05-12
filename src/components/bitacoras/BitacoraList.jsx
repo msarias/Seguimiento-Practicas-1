@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import BitacoraForm from './BitacoraForm';
 import axios from 'axios';
+import { API_URL } from "../../api/globalVars";
 
 const BitacoraList = () => {
   const [bitacoras, setBitacoras] = useState([]);
@@ -11,9 +12,15 @@ const BitacoraList = () => {
   const [motivoRechazo, setMotivoRechazo] = useState('');
   const [bitacoraRechazar, setBitacoraRechazar] = useState(null);
 
+  // URLs centralizadas
+  const urlBitacoras = `${API_URL}/api/bitacoras/verBitacoras`;
+  const urlAceptar = `${API_URL}/api/bitacoras/aceptar`;
+  const urlRechazar = `${API_URL}/api/bitacoras/rechazar`;
+  const urlUploads = `${API_URL}/api/uploads`;
+
   useEffect(() => {
     const rolGuardado = localStorage.getItem('rol');
-    const idGuardado = localStorage.getItem('usuarioId');  // Tomamos el id del usuario logueado
+    const idGuardado = localStorage.getItem('usuarioId');
     if (rolGuardado) {
       setRol(rolGuardado.toLowerCase());
     }
@@ -25,7 +32,7 @@ const BitacoraList = () => {
 
   const obtenerBitacoras = async () => {
     try {
-      const res = await fetch('http://localhost:3000/api/bitacoras/verBitacoras');
+      const res = await fetch(urlBitacoras);
       const data = await res.json();
       if (!res.ok) {
         setError('No se pudieron obtener las bitácoras');
@@ -38,7 +45,7 @@ const BitacoraList = () => {
 
   const handleAceptar = async (id) => {
     try {
-      await axios.put(`http://localhost:3000/api/bitacoras/aceptar/${id}`);
+      await axios.put(`${urlAceptar}/${id}`);
       obtenerBitacoras();
     } catch (error) {
       console.error('Error al aceptar bitácora:', error);
@@ -52,7 +59,8 @@ const BitacoraList = () => {
 
   const confirmarRechazo = async () => {
     try {
-      await axios.put(`http://localhost:3000/api/bitacoras/rechazar/${bitacoraRechazar.id}`,
+      await axios.put(
+        `${urlRechazar}/${bitacoraRechazar.id}`,
         { motivo: motivoRechazo },
         { headers: { 'Content-Type': 'application/json' } }
       );
@@ -75,7 +83,7 @@ const BitacoraList = () => {
   };
 
   const renderArchivo = (archivo) => {
-    const fileUrl = `http://localhost:3000/uploads/${archivo}`;
+    const fileUrl = `${urlUploads}/${archivo}`;
     return (
       <a href={fileUrl} target="_blank" rel="noopener noreferrer">
         Ver archivo

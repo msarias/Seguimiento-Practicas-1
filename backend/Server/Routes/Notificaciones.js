@@ -11,4 +11,6 @@ router.get('/usuario/:id_usuario', NotificacionController.obtenerNotificaciones)
 // Actualizar (marcar como leída o cambiar estado)
 router.put('/:id', NotificacionController.actualizarEstadoNotificacion);
 
+router.delete('/:id', NotificacionController.eliminarNotificacion);
+
 module.exports = router;

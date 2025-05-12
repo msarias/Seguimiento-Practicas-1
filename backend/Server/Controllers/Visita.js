@@ -1,4 +1,6 @@
 const Visita = require('../Models/Visita');
+const Notificacion = require('../Models/Notificacion');  // 👈🏽 Agrega esta línea
+const Usuario = require('../Models/Usuario'); // 👈🏽 Necesitamos traer el modelo de Usuario
 
 exports.crearVisita = async (req, res) => {
   try {
@@ -12,9 +14,29 @@ exports.crearVisita = async (req, res) => {
       direccion, 
       tipo, 
       fecha, 
-      estado: 'pendiente', // Por defecto al crearla
-      aprendiz_id  // 👈🏽 Aquí se guarda el id del aprendiz dueño de la visita
+      estado: 'pendiente',
+      aprendiz_id 
     });
+
+    const aprendiz = await Usuario.findByPk(aprendiz_id);
+    if (!aprendiz) {
+      return res.status(404).json({ message: 'Aprendiz no encontrado' });
+    }
+
+    const nombreAprendiz = aprendiz.nombres;
+    const apellidoAprendiz = aprendiz.apellidos;
+
+    // 👇🏽 Buscamos a todos los usuarios con rol 'instructor'
+    const instructores = await Usuario.findAll({ where: { rol: 'instructor' } });
+
+    // 👇🏽 Creamos una notificación para cada instructor
+    for (const instructor of instructores) {
+      await Notificacion.create({
+        mensaje: `Nuevo agendamiento de visita por el aprendiz: ${nombreAprendiz} ${apellidoAprendiz}`,
+        id_usuario: instructor.id, // 👈🏽 Aquí enviamos la notificación al instructor
+        tipo: 'visita'
+      });
+    }
 
     res.status(201).json({ nuevaVisita });
 
@@ -22,11 +44,12 @@ exports.crearVisita = async (req, res) => {
     res.status(500).json({
       error: {
         message: error.message || 'Error al crear la visita',
-        stack: error.stack, // Si es necesario para depuración
+        stack: error.stack,
       }
     });
   }
 };
+
 
 exports.verVisitaPorId = async (req, res) => {
   try {
@@ -129,14 +152,29 @@ exports.rechazarVisita = async (req, res) => {
   const { motivo } = req.body;
 
   try {
+    // Obtener la visita
     const visita = await Visita.findByPk(id);
     if (!visita) return res.status(404).json({ message: "Visita no encontrada" });
 
+    // Actualizar estado de la visita a 'rechazada' y guardar el motivo
     visita.estado = "rechazada";
-    visita.motivo = motivo; // Guardar motivo del rechazo
+    visita.motivo = motivo;
     await visita.save();
 
-    res.status(200).json({ message: "Visita rechazada con motivo" });
+    // Formatear la fecha
+    const fechaFormateada = visita.fecha.toISOString().split("T")[0]; // 'YYYY-MM-DD'
+
+    // Crear la notificación para el aprendiz
+    const mensaje = `Tu visita del ${fechaFormateada} fue rechazada. Motivo: ${motivo}`;
+    const id_usuario = visita.aprendiz_id;  // Obtener el ID del aprendiz asociado a la visita
+
+    const nuevaNotificacion = await Notificacion.create({
+      mensaje,
+      id_usuario,
+      estado: "pendiente", // Estado inicial    
+    });
+
+    res.status(200).json({ message: "Visita rechazada con motivo y notificación creada", data: nuevaNotificacion });
   } catch (error) {
     console.error("Error al rechazar visita:", error);
     res.status(500).json({
