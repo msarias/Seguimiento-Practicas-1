@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import NavBar from "../generales/NavBar";
-import Sidebar from "../generales/Sidebar";
 import ReportForm from "./ReportForm";
-import { API_URL } from "../../api/globalVars";
+import Sidebar from "../generales/Sidebar";
 import Swal from "sweetalert2";
+import { API_URL } from "../../api/globalVars";
 
 const Reportes = () => {
   const [mostrarFormulario, setMostrarFormulario] = useState(false);
@@ -24,6 +24,8 @@ const Reportes = () => {
       const url = `${API_URL}/api/reportes/verReportes`;
       const { data } = await axios.get(url);
       setReportes(data.reportes || []);
+      console.log(data.reportes);
+      
     } catch (error) {
       console.error("Error al obtener reportes:", error.message);
     }
@@ -52,6 +54,7 @@ const Reportes = () => {
       });
       const updatedReports = reportes.filter((reporte) => reporte.id !== id);
       setReportes(updatedReports);
+      obtenerReportes();
     } catch (error) {
       Swal.fire({
         icon: "error",

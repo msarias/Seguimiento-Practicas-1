@@ -21,7 +21,6 @@ const Reporte = Sequelize.define(
       allowNull: false,
       validate: {
         isDate: true,
-        isAfter: new Date().toISOString().split('T')[0],
       },
     },
     nombre: {
