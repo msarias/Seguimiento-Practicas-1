@@ -73,12 +73,28 @@ exports.crearUsuario = async (req, res) => {
 // Obtener todos los usuarios (sin importar su rol)
 exports.obtenerUsuarios = async (req, res) => {
 	try {
-		const usuarios = await Usuario.findAll()
-		if (usuarios.length === 0) {
+		const page = 1
+		const limit = 6
+		const offset = (page - 1) * limit
+
+		const { count, rows } = await Usuario.findAndCountAll({
+			limit,
+			offset
+		})
+
+		if (count === 0) {
 			return res.status(404).json({ message: 'No hay usuarios registrados' })
 		}
-		return res.status(200).json({ usuarios })
+
+		return res.status(200).json({
+			usuarios: rows,
+			total: count,
+			page,
+			limit,
+			totalPages: Math.ceil(count / limit)
+		})
 	} catch (error) {
+		console.error(error)
 		return res.status(500).json({ error: error.message })
 	}
 }
