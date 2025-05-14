@@ -66,11 +66,11 @@ const LoginForm = () => {
         <h2 id="login-title">Ingreso Seguimiento</h2>
 
         <form className="login-form" onSubmit={handleSubmit}>
-          <label className="login-label" htmlFor="login-select">
+          <label className="label login-label" htmlFor="login-select">
             Tipo de Cuenta
           </label>
           <select
-            className="login-input"
+            className="input login-input"
             id="login-select"
             name="typeAccount"
             value={typeAccount}
@@ -84,9 +84,10 @@ const LoginForm = () => {
             <option value="aprendiz">Aprendiz</option>
           </select>
 
-          <label className="login-label">Número de Documento</label>
+          <label className="label login-label" htmlFor="login-document">Número de Documento</label>
           <input
-            className="login-input"
+            className="input login-input"
+            id="login-document"
             type="text"
             placeholder="Ingrese su documento"
             value={document}
@@ -96,10 +97,11 @@ const LoginForm = () => {
             required
           />
 
-          <label className="login-label">Contraseña</label>
+          <label className="label login-label" htmlFor="login-password">Contraseña</label>
           <input
             type="password"
-            className="login-input"
+            className="input login-input"
+            id="login-password"
             placeholder="Ingrese su contraseña"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
@@ -107,14 +109,14 @@ const LoginForm = () => {
             required
           />
 
-          {error && <p className="error-message">{error}</p>}
+          {error && <p className="error-message">{error}</p>}{/* QUITAR ESTO */}
 
           <div className="recovery-block">
             <Link to="/forgot-password">Olvidé mi contraseña</Link>
             <Link to="/registro">Registrarme</Link>
           </div>
 
-          <button type="submit" className="login-button">Iniciar Sesión</button>
+          <button type="submit" className="button login-button">Iniciar Sesión</button>
 
         </form>
       </div>

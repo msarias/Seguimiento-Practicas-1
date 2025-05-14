@@ -168,7 +168,7 @@ function Visitas() {
 
 									{rol === "aprendiz" && (
 										<button
-											className="visit-list__buttone"
+											className="button register-button"
 											onClick={() => handleEditar(visita)}
 										>
 											Editar
@@ -202,7 +202,7 @@ function Visitas() {
 							<input
 								type="date"
 								name="dia"
-								className="visit-form__input"
+								className="input visit-input"
 								required
 								defaultValue={
 									modoEdicion ? visitaEditando.fecha.split("T")[0] : ""
@@ -212,28 +212,28 @@ function Visitas() {
 								type="text"
 								name="direccion-visita"
 								placeholder="Dirección de la visita"
-								className="visit-form__input"
+								className="input visit-input"
 								required
 								defaultValue={modoEdicion ? visitaEditando.direccion : ""}
 							/>
 							<select
 								name="tipo-visita"
-								className="login-input"
+								className="input visit-input"
 								required
 								defaultValue={modoEdicion ? visitaEditando.tipo : ""}
 							>
-								<option value="">Selecciona tipo</option>
+								<option value="">Selecciona tipo de visita</option>
 								<option value="Presencial">Presencial</option>
 								<option value="Virtual">Virtual</option>
 							</select>
-							<button type="submit" className="visit-form__button">
+							<button type="submit" className="button register-button">
 								{modoEdicion ? "Actualizar" : "Solicitar"}
 							</button>
 						</form>
 					)}
 
 					{rol === "aprendiz" && (
-						<button className="new-visit-button" onClick={toggleForm}>
+						<button className="button register-button" onClick={toggleForm}>
 							{showForm ? "Cancelar" : "Solicitar visita"}
 						</button>
 					)}

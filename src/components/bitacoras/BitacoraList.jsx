@@ -113,8 +113,8 @@ const BitacoraList = () => {
             <p>{b.fecha}</p>
             {rol === 'instructor' && (
               <div className="bitacora-buttons">
-                <button className="bitacora-list__button accept" onClick={() => handleAceptar(b.id)}>✔️</button>
-                <button className="bitacora-list__button reject" onClick={() => handleRechazar(b)}>❌</button>
+                <button className="button accept" onClick={() => handleAceptar(b.id)}>✔️</button>
+                <button className="button reject" onClick={() => handleRechazar(b)}>❌</button>
               </div>
             )}
           </div>

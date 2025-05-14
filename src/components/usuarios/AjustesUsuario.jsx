@@ -68,14 +68,14 @@ const AjustesUsuario = () => {
 			<Navbar />
 			<Sidebar />
 			<div className='content'>
-				<div className='form'>
+				<div className='register-form'>
 					<h2 className=''>Ajustes de Usuario</h2>
 					<form className='form' onSubmit={handleSubmit}>
-						<label className='register-label' htmlFor='nombres'>
+						<label className='label register-label' htmlFor='nombres'>
 							Nombres
 						</label>
 						<input
-							className='register-input'
+							className='input register-input'
 							type='text'
 							id='nombres'
 							name='nombres'
@@ -84,11 +84,11 @@ const AjustesUsuario = () => {
 							onChange={handleChange}
 						/>
 
-						<label className='register-label' htmlFor='apellidos'>
+						<label className='label register-label' htmlFor='apellidos'>
 							Apellidos
 						</label>
 						<input
-							className='register-input'
+							className='input register-input'
 							type='text'
 							id='apellidos'
 							name='apellidos'
@@ -97,11 +97,11 @@ const AjustesUsuario = () => {
 							onChange={handleChange}
 						/>
 
-						<label className='register-label' htmlFor='identificacion'>
+						<label className='label register-label' htmlFor='identificacion'>
 							Identificación
 						</label>
 						<input
-							className='register-input'
+							className='input register-input'
 							type='number'
 							id='identificacion'
 							name='identificacion'
@@ -110,11 +110,11 @@ const AjustesUsuario = () => {
 							onChange={handleChange}
 						/>
 
-						<label className='register-label' htmlFor='correo'>
+						<label className='label register-label' htmlFor='correo'>
 							Correo Electrónico
 						</label>
 						<input
-							className='register-input'
+							className='input register-input'
 							type='email'
 							id='correo'
 							name='correo'
@@ -136,7 +136,7 @@ const AjustesUsuario = () => {
 					placeholder='••••••••'
 					/> */}
 
-						<button type='submit' className='register-button'>
+						<button type='submit' className='button register-button'>
 							Guardar Cambios
 						</button>
 					</form>
