@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import BitacoraForm from './BitacoraForm';
+import React, { useEffect, useState, useCallback } from 'react';
 import axios from 'axios';
 import { API_URL } from "../../api/globalVars";
+import BitacoraForm from './BitacoraForm';
 
 const BitacoraList = () => {
   const [bitacoras, setBitacoras] = useState([]);
@@ -12,36 +12,28 @@ const BitacoraList = () => {
   const [motivoRechazo, setMotivoRechazo] = useState('');
   const [bitacoraRechazar, setBitacoraRechazar] = useState(null);
 
-  // URLs centralizadas
   const urlBitacoras = `${API_URL}/api/bitacoras/verBitacoras`;
   const urlAceptar = `${API_URL}/api/bitacoras/aceptar`;
   const urlRechazar = `${API_URL}/api/bitacoras/rechazar`;
   const urlUploads = `${API_URL}/api/uploads`;
 
+  const obtenerBitacoras = useCallback(async () => {
+    try {
+      const res = await axios.get(urlBitacoras);
+      setBitacoras(res.data);
+    } catch (error) {
+      console.error("Error al obtener las bitácoras:", error.response || error);
+      setError('Error al obtener bitácoras. Consulta la consola para más detalles.');
+    }
+  }, []);
+
   useEffect(() => {
     const rolGuardado = localStorage.getItem('rol');
     const idGuardado = localStorage.getItem('usuarioId');
-    if (rolGuardado) {
-      setRol(rolGuardado.toLowerCase());
-    }
-    if (idGuardado) {
-      setIdUsuario(idGuardado);
-    }
+    if (rolGuardado) setRol(rolGuardado.toLowerCase());
+    if (idGuardado) setIdUsuario(idGuardado);
     obtenerBitacoras();
-  }, []);
-
-  const obtenerBitacoras = async () => {
-    try {
-      const res = await fetch(urlBitacoras);
-      const data = await res.json();
-      if (!res.ok) {
-        setError('No se pudieron obtener las bitácoras');
-      }
-      setBitacoras(data);
-    } catch (error) {
-      setError('Error al obtener bitácoras');
-    }
-  };
+  }, [obtenerBitacoras]);
 
   const handleAceptar = async (id) => {
     try {
@@ -65,20 +57,28 @@ const BitacoraList = () => {
         { headers: { 'Content-Type': 'application/json' } }
       );
 
-      const notificaciones = JSON.parse(localStorage.getItem('notificaciones')) || [];
-      const nuevaNotificacion = {
-        id: Date.now(),
-        mensaje: `Tu bitácora ${bitacoraRechazar.codigo} fue rechazada. Motivo: ${motivoRechazo}`,
-        estado: 'pendiente',
-      };
-      localStorage.setItem('notificaciones', JSON.stringify([...notificaciones, nuevaNotificacion]));
+      const idAprendiz = bitacoraRechazar.aprendiz_id;
+const claveNotificaciones = `notificaciones_${idAprendiz}`;
+
+const notificaciones = JSON.parse(localStorage.getItem(claveNotificaciones)) || [];
+const nuevaNotificacion = {
+  id: Date.now(),
+  mensaje: `Tu bitácora fue rechazada. Motivo: ${motivoRechazo}`,
+  estado: 'pendiente',
+};
+
+localStorage.setItem(claveNotificaciones, JSON.stringify([...notificaciones, nuevaNotificacion]));
+window.dispatchEvent(new Event("notificacionesActualizadas"));
 
       setMostrarMotivoPopup(false);
       setMotivoRechazo('');
       setBitacoraRechazar(null);
       obtenerBitacoras();
     } catch (error) {
-      console.error('Error al rechazar bitácora:', error);
+      console.error('Error al rechazar bitácora:', error.response?.data || error);
+      setMostrarMotivoPopup(false);
+      setMotivoRechazo('');
+      setBitacoraRechazar(null);
     }
   };
 
@@ -91,26 +91,22 @@ const BitacoraList = () => {
     );
   };
 
-  // Filtrado: solo mostrar las propias bitácoras si es aprendiz
+  // ✅ Aquí se filtra correctamente por aprendiz
   const bitacorasFiltradas = rol === 'aprendiz'
-    ? bitacoras.filter((b) => b.id_usuario === Number(idUsuario))
+    ? bitacoras.filter((b) => String(b.aprendiz_id) === String(idUsuario))
     : bitacoras;
 
   return (
     <section className="bitacora-list">
       <h2 className="bitacora-list__title">Bitácoras</h2>
       {error && <p className="error-message">{error}</p>}
+
       {bitacorasFiltradas.length > 0 ? (
         bitacorasFiltradas.map((b, index) => (
           <div className={`report-list__item estado${b.estado}`} key={b.id}>
             <p><strong>Bitácora {index + 1}</strong></p>
-            {b.archivo ? (
-              renderArchivo(b.archivo)
-            ) : (
-              <p>Sin archivo</p>
-            )}
-            <p>{b.codigo}</p>
-            <p>{b.fecha}</p>
+            {b.archivo ? renderArchivo(b.archivo) : <p>Sin archivo</p>}
+            <p>Fecha: {b.fecha}</p>
             {rol === 'instructor' && (
               <div className="bitacora-buttons">
                 <button className="button accept" onClick={() => handleAceptar(b.id)}>✔️</button>
@@ -122,6 +118,7 @@ const BitacoraList = () => {
       ) : (
         <p>No hay bitácoras</p>
       )}
+
       {rol === 'aprendiz' && (
         <BitacoraForm bitacoras={bitacorasFiltradas} onAddBitacora={obtenerBitacoras} />
       )}

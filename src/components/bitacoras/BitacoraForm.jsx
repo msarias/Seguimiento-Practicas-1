@@ -6,14 +6,12 @@ import axios from 'axios';
 const BitacoraForm = ({ onAddBitacora, bitacoras }) => {
   const [isFormVisible, setIsFormVisible] = useState(false);
   const [bitacora, setBitacora] = useState({
-    usuarioId: '',
+    aprendiz_id: '',
     fecha: '',
     archivo: null,
   });
   const [rol, setRol] = useState('');
   const today = new Date().toISOString().split('T')[0];
-
-  const url = `${API_URL}/api/bitacoras`;
 
   useEffect(() => {
     const rolGuardado = localStorage.getItem('rol');
@@ -22,7 +20,7 @@ const BitacoraForm = ({ onAddBitacora, bitacoras }) => {
       setRol(rolGuardado.toLowerCase());
     }
     if (idGuardado) {
-      setBitacora((prev) => ({ ...prev, id_usuario: idGuardado }));
+      setBitacora((prev) => ({ ...prev, aprendiz_id: idGuardado }));
     }
   }, []);
 
@@ -34,7 +32,7 @@ const BitacoraForm = ({ onAddBitacora, bitacoras }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!bitacora.id_usuario || !bitacora.fecha || !bitacora.archivo) {
+    if (!bitacora.aprendiz_id || !bitacora.fecha || !bitacora.archivo) {
       alert('Completa todos los campos.');
       return;
     }
@@ -51,20 +49,13 @@ const BitacoraForm = ({ onAddBitacora, bitacoras }) => {
 
     try {
       const formData = new FormData();
-      formData.append('id_usuario', bitacora.id_usuario);
+      formData.append('aprendiz_id', bitacora.aprendiz_id);
       formData.append('fecha', bitacora.fecha);
       formData.append('archivo', bitacora.archivo);
 
-      const res = await fetch(url, {
-        method: 'POST',
-        body: formData,
+      const { data } = await axios.post(`${API_URL}/api/bitacoras`, formData, {
+        headers: { 'Content-Type': 'multipart/form-data' }
       });
-
-      if (!res.ok) {
-        throw new Error('Error al subir la bitácora.');
-      }
-
-      const data = await res.json();
 
       if (data.bitacora) {
         Swal.fire({
@@ -75,38 +66,19 @@ const BitacoraForm = ({ onAddBitacora, bitacoras }) => {
           timer: 1200,
           toast: true,
         });
+
         setIsFormVisible(false);
-        setBitacora({ id_usuario: bitacora.id_usuario, fecha: '', archivo: null });
+        setBitacora({ aprendiz_id: bitacora.aprendiz_id, fecha: '', archivo: null });
         onAddBitacora();
 
-        // Crear la notificación para el instructor (o para quien corresponda)
-        await crearNotificacion(data.bitacora);
+        // Notificar al Navbar
+        window.dispatchEvent(new Event("notificacionesActualizadas"));
       } else {
-        console.log('Ocurrió un error inesperado');
+        console.log('Error desconocido al subir la bitácora');
       }
+
     } catch (error) {
       console.error('Error al subir la bitácora:', error);
-    }
-  };
-
-  const crearNotificacion = async (bitacora) => {
-    const usuarioId = localStorage.getItem('usuarioId');
-    const mensaje = `El aprendiz ha subido una nueva bitácora con fecha ${bitacora.fecha}`;
-    const estado = 'pendiente'; // La notificación estará pendiente
-    const tipo = 'Bitácora';  // Tipo de notificación
-
-    try {
-      await axios.post(`${API_URL}/api/notificaciones`, {
-        mensaje,
-        usuarioId,  // El instructor debe recibir la notificación
-        estado,
-        tipo,
-      });
-
-      // Notificar a otros componentes de que las notificaciones han sido actualizadas
-      window.dispatchEvent(new Event("notificacionesActualizadas"));
-    } catch (error) {
-      console.error('Error al crear la notificación:', error);
     }
   };
 

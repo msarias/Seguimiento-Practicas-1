@@ -3,9 +3,10 @@ const { DataTypes } = require('sequelize');
 const sequelize = require('../Config/db.js');
 
 const Bitacoras = sequelize.define('Bitacoras', {
-  id_usuario: {
-    type: DataTypes.INTEGER,
-    allowNull: false
+  id: {
+    type: DataTypes.INTEGER.UNSIGNED,
+    autoIncrement: true,
+    primaryKey: true
   },
   fecha: {
     type: DataTypes.DATE,
@@ -22,6 +23,10 @@ const Bitacoras = sequelize.define('Bitacoras', {
   motivo: {
     type: DataTypes.STRING,
     allowNull: true
+  },
+  aprendiz_id: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
   }
 }, {
   tableName: 'bitacora', // asegúrate que esta tabla existe

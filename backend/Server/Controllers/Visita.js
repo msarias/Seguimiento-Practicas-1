@@ -1,6 +1,6 @@
 const Visita = require('../Models/Visita');
-const Notificacion = require('../Models/Notificacion');  // 👈🏽 Agrega esta línea
-const Usuario = require('../Models/Usuario'); // 👈🏽 Necesitamos traer el modelo de Usuario
+const Notificacion = require('../Models/Notificacion');
+const Usuario = require('../Models/Usuario');
 
 exports.crearVisita = async (req, res) => {
   try {
@@ -26,14 +26,12 @@ exports.crearVisita = async (req, res) => {
     const nombreAprendiz = aprendiz.nombres;
     const apellidoAprendiz = aprendiz.apellidos;
 
-    // 👇🏽 Buscamos a todos los usuarios con rol 'instructor'
     const instructores = await Usuario.findAll({ where: { rol: 'instructor' } });
 
-    // 👇🏽 Creamos una notificación para cada instructor
     for (const instructor of instructores) {
       await Notificacion.create({
         mensaje: `Nuevo agendamiento de visita por el aprendiz: ${nombreAprendiz} ${apellidoAprendiz}`,
-        id_usuario: instructor.id, // 👈🏽 Aquí enviamos la notificación al instructor
+        id_usuario: instructor.id,
         tipo: 'visita'
       });
     }
