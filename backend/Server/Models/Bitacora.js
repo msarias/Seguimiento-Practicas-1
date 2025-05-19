@@ -9,7 +9,7 @@ const Bitacoras = sequelize.define('Bitacoras', {
     primaryKey: true
   },
   fecha: {
-    type: DataTypes.DATE,
+    type: DataTypes.DATEONLY,
     allowNull: false
   },
   archivo: {
