@@ -94,15 +94,15 @@ const BitacoraForm = ({ onAddBitacora, bitacoras }) => {
 
   return (
     <form onSubmit={handleSubmit}>
-      <button className="add-bitacora" onClick={toggleForm}>Agregar Bitácora</button>
+      <button className="button register-button" onClick={toggleForm}>Agregar Bitácora</button>
       {isFormVisible && (
-        <section className="bitacora-form" id="bitacoraForm">
+        <section className="bitacora-form">
           <h2 className="bitacora-form__title">Agregar Bitácora</h2>
 
           <input
             type="file"
             name="archivo"
-            className="bitacora-form__input"
+            className="input report-input"
             onChange={handleChange}
             required
           />
@@ -110,7 +110,7 @@ const BitacoraForm = ({ onAddBitacora, bitacoras }) => {
           <input
             type="date"
             name="fecha"
-            className="bitacora-form__input"
+            className="input visit-input"
             value={bitacora.fecha}
             onChange={handleChange}
             max={today}
@@ -119,7 +119,7 @@ const BitacoraForm = ({ onAddBitacora, bitacoras }) => {
 
           <button
             type="submit"
-            className="bitacora-form__button"
+            className="button register-button"
             disabled={bitacoras.length >= 6}
           >
             {bitacoras.length >= 6 ? 'Has alcanzado el límite de 6 bitácoras' : 'Subir Bitácora'}

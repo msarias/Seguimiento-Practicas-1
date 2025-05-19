@@ -105,13 +105,13 @@ const RegisterForm = () => {
   return (
     <div className="form-container">
       <form className="form" onSubmit={handleSubmit}>
-        <label htmlFor="names-input" className="register-label">
+        <label htmlFor="names-input" className="label register-label">
           Nombres
         </label>
         <input
           type="text"
           id="names-input"
-          className="register-input"
+          className="input register-input"
           name="nombres"
           value={formData.nombres}
           onChange={(e)=>{
@@ -124,13 +124,13 @@ const RegisterForm = () => {
           pattern="[A-Za-z\s]+"
         />
 
-        <label htmlFor="lastnames-input" className="register-label">
+        <label htmlFor="lastnames-input" className="label register-label">
           Apellidos
         </label>
         <input
           type="text"
           id="lastnames-input"
-          className="register-input"
+          className="input register-input"
           name="apellidos"
           value={formData.apellidos}
           onChange={handleChange}
@@ -138,11 +138,11 @@ const RegisterForm = () => {
           required
         />
 
-        <label htmlFor="code-input" className="register-label">
+        <label htmlFor="code-input" className="label register-label">
           Número de ficha
         </label>
         <select
-          className="register-input"
+          className="input register-input"
           id="code-input"
           name="ficha"
           onChange={handleChange}
@@ -159,13 +159,13 @@ const RegisterForm = () => {
           )}
         </select>
 
-        <label htmlFor="document-input" className="register-label">
+        <label htmlFor="document-input" className="label register-label">
           Número de documento
         </label>
         <input
           type="text"
           id="document-input"
-          className="register-input"
+          className="input register-input"
           name="identificacion"
           value={formData.identificacion}
           onChange={handleChange}
@@ -173,13 +173,13 @@ const RegisterForm = () => {
           required
         />
 
-        <label htmlFor="email-input" className="register-label">
+        <label htmlFor="email-input" className="label register-label">
           Correo electrónico
         </label>
         <input
           type="email"
           id="email-input"
-          className="register-input"
+          className="input register-input"
           name="correo"
           value={formData.correo}
           onChange={handleChange}
@@ -187,13 +187,13 @@ const RegisterForm = () => {
           required
         />
 
-        <label htmlFor="password-input" className="register-label">
+        <label htmlFor="password-input" className="label register-label">
           Contraseña
         </label>
         <input
           type="password"
           id="password-input"
-          className="register-input"
+          className="input register-input"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           placeholder="Ingrese su contraseña"
@@ -201,11 +201,11 @@ const RegisterForm = () => {
         />
 
         <div className="log-in">
-          <button type="submit" className="register-button">
+          <button type="submit" className="button register-button">
             Registrarse
           </button>
           <Link to={"/"}>
-            <p>Iniciar Sesión</p>
+            <p className="log-in-link">Iniciar Sesión</p>
           </Link>
         </div>
       </form>

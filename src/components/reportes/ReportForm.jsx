@@ -63,7 +63,7 @@ const ReportForm = ({ onAddReporte, onClose }) => {
         type="text"
         name="nombre"
         placeholder="Nombre del reporte"
-        className="report-form__input"
+        className="input report-input"
         value={reporte.nombre}
         onChange={handleChange}
       />
@@ -71,7 +71,7 @@ const ReportForm = ({ onAddReporte, onClose }) => {
         type="text"
         name="motivo"
         placeholder="Motivo del reporte"
-        className="report-form__input"
+        className="input report-input"
         value={reporte.motivo}
         onChange={handleChange}
       />
@@ -82,7 +82,7 @@ const ReportForm = ({ onAddReporte, onClose }) => {
         value={reporte.fecha}
         onChange={handleChange}
       /> */}
-      <button type="submit" className="report-form__button">
+      <button type="submit" className="button register-button">
         Subir Reporte
       </button>
     </form>

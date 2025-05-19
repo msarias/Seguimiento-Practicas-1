@@ -100,7 +100,7 @@ const Reportes = () => {
 
         {rol === "instructor" && (
           <>
-            <button className="add-report" onClick={toggleForm}>
+            <button className="button register-button" onClick={toggleForm}>
               {mostrarFormulario ? "Cerrar Formulario" : "Agregar Reporte"}
             </button>
 

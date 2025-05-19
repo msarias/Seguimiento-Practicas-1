@@ -133,7 +133,7 @@ const Fichas = () => {
 									<button
 										id={ficha.id}
 										onClick={eliminarFicha}
-										className='report-list__button delete-button'>
+										className='button delete-button'>
 										<img
 											id='delete-img'
 											src='../assets/img/trash.png'
@@ -149,7 +149,7 @@ const Fichas = () => {
 				</div>
 
 				<>
-					<button className='register-button' onClick={toggleForm}>
+					<button className='button register-button' onClick={toggleForm}>
 						{mostrarFormulario ? 'Cerrar Formulario' : 'Agregar Ficha'}
 					</button>
 				</>
@@ -158,12 +158,12 @@ const Fichas = () => {
 					<div className='form-container crear-ficha'>
 						<h2 className='register-title'>Crear Nueva Ficha</h2>
 						<form onSubmit={subirFicha} className='form'>
-							<label htmlFor='codigo' className='register-label'>
+							<label htmlFor='codigo' className='label register-label'>
 								Código de Ficha:
 							</label>
 							<input
 								type='text'
-								className='register-input'
+								className='input register-input'
 								id='codigo'
 								name='codigo'
 								placeholder='Ingrese el código de la ficha'
@@ -172,12 +172,12 @@ const Fichas = () => {
 								onChange={handleChange}
 								required
 							/>
-							<label htmlFor='programa' className='register-label'>
+							<label htmlFor='programa' className='label register-label'>
 								Nombre del Programa:
 							</label>
 							<input
 								type='text'
-								className='register-input'
+								className='input register-input'
 								id='programa'
 								name='programa'
 								plaaceholder='Ingrese el nombre del programa'
@@ -185,7 +185,7 @@ const Fichas = () => {
 								onChange={handleChange}
 								required
 							/>
-							<button type='submit' className='register-button'>
+							<button type='submit' className='button register-button'>
 								Crear Ficha
 							</button>
 						</form>
