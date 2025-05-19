@@ -5,7 +5,7 @@ const NotFound = () => {
     <div className="not-found">
       <h1 className="not-found-title">Esta página no existe</h1>
       <p className="not-found-message">Inicie sesión para continuar...</p>
-      <Link to="/" className="button not-found-link">Volver a inicio</Link>
+      <Link draggable="false" to="/" className="button not-found-link">Volver a inicio</Link>
     </div>
   );
 };

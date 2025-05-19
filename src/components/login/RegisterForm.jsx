@@ -118,7 +118,7 @@ const RegisterForm = () => {
 						setFormData({ ...formData, nombres: e.target.value })
 					}}
 					placeholder='Ingrese sus nombres'
-					// required
+					required
 					minLength={3}
 					maxLength={45}
 					pattern='[A-Za-z\s]+'

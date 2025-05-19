@@ -93,7 +93,6 @@ const Navbar = () => {
 					className='navbar-notifications'
 					onClick={() => setMostrarPopup(!mostrarPopup)}>
 					<svg
-						xmlns='http://www.w3.org/2000/svg'
 						viewBox='0 0 24 24'
 						width='28'
 						height='28'
@@ -118,7 +117,7 @@ const Navbar = () => {
 				/>
 
 				{/* Icono de usuario */}
-				<Link to={'/ajustes'}>
+				<Link to={'/ajustes'} draggable='false'>
 					<img
 						src='../assets/img/user.png'
 						alt='Usuario'
