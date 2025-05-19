@@ -12,20 +12,23 @@ body {
 }
 
 /* ELEMENTOS GENERALES */
-.button{
+.button {
 	border: none;
 	padding: 8px 12px;
-	border-radius: 12px;
+	border-radius: 16px;
 	/* color: #fff; */
 	cursor: pointer;
 	/* font-size: 1rem; */
 	/* font-weight: 600; */
 	transition: background-color 0.3s ease;
 }
-.input{
+
+.input {
+	width: 100%;
 	padding: 8px 12px;
 	outline-color: transparent;
-	border-radius: 16px;
+	border-radius: 8px;
+	transition: border 0.2s ease, box-shadow 0.2s ease;
 }
 .input::placeholder {
 	font-size: 0.9rem;
@@ -37,16 +40,14 @@ body {
 	border-right: none;
 	border-left: none;
 }
-.label{
+.label {
 	display: block;
-	/* color: #0056b3; */
 	position: relative;
-	top: 5px;
 	margin-left: 10px;
+	margin-bottom: 4px;
 	text-transform: capitalize;
 	font-size: 1rem;
 	font-weight: 600;
-	/* background-color: rgba(102, 51, 153, 0.027); */
 	width: max-content;
 }
 
@@ -92,14 +93,14 @@ body {
 	flex-direction: column;
 	width: min(90%, 500px);
 	margin: auto;
-	margin-top: 30px;
+	margin-top: 40px;
 	border-radius: 1rem;
-	row-gap: 10px;
+	row-gap: 12px;
 }
 
 #login-title {
 	font-weight: 600;
-	font-size: 1.3rem;
+	font-size: 1.2rem;
 	text-align: center;
 	margin-bottom: 2rem;
 }
@@ -115,17 +116,25 @@ body {
 	color: #2e8602;
 	margin-left: 10px;
 }
+
 .login-input {
 	margin-bottom: 12px;
 	border: 1.5px solid #2e8602;
 }
 .login-input::placeholder {
-	font-size: 0.9rem;
-	color: #333;
+	transition: opacity 0.3s ease;
 }
+
 .login-input:focus {
 	border-bottom: 2.5px solid #45a049;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+	outline: none;
 }
+
+.login-input:focus::placeholder {
+	opacity: 0.5;
+}
+
 #login-select {
 	padding-left: 8px;
 }
@@ -143,12 +152,12 @@ body {
 }
 
 .login-button {
-	background: #45a049;
+	background-color: #2e8602;
 	color: #fff;
 }
 
 .login-button:hover {
-	background-color: #2e8602;
+	background-color: #45a049;
 }
 
 /* General Content */
@@ -166,7 +175,7 @@ body {
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	padding: 8px 16px;
+	padding: 8px 12px;
 	border-bottom: 3px solid #d3d3d3;
 	background-color: #f8f8f8;
 	grid-column: 1/3;
@@ -176,7 +185,7 @@ body {
 .navbar-items {
 	display: flex;
 	align-items: center;
-	gap: 15px;
+	column-gap: 16px;
 	padding: 4px 8px;
 	max-width: 100%;
 }
@@ -207,66 +216,31 @@ body {
 }
 
 /* Estilos generales para el icono de la campana */
-.navbar-notifications svg {
-	font-size: 24px;
-	color: #333;
+.navbar-notifications {
 	position: relative;
-}
-.notificacion-container {
-	position: relative;
-	display: inline-block;
-}
-
-.notificacion-badge {
-	position: absolute;
-	top: -6px;
-	right: -6px;
-	background: red;
-	color: white;
-	font-size: 10px;
-	font-weight: bold;
-	padding: 2px 5px;
-	border-radius: 50%;
-	min-width: 16px;
-	text-align: center;
-	line-height: 1;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
 
 .notification-count {
 	position: absolute;
-	top: -5px;
-	right: -5px;
-	background-color: red;
-	color: white;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	text-align: center;
+	width: 16px;
+	height: 16px;
+	padding: 4px;
 	border-radius: 50%;
-	padding: 5px;
-	font-size: 12px;
+	background-color: #bb2525;
+	color: white;
+	right: -4px;
+	top: 0;
+	font-size: .8rem;
 }
 
 /* Estilos del Popup */
-.notification-popup {
-	position: absolute;
-	top: 50px; /* Ajusta según sea necesario */
-	right: 0;
-	width: 300px;
-	background-color: #fff;
-	border-radius: 10px;
-	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-	padding: 20px;
-	z-index: 10;
-	animation: fadeIn 0.3s ease-in-out;
-}
-
-/* Animación de aparición */
-@keyframes fadeIn {
-	from {
-		opacity: 0;
-	}
-	to {
-		opacity: 1;
-	}
-}
-
 .notification-popup {
 	position: absolute;
 	top: 70px;
@@ -278,12 +252,13 @@ body {
 	border: 1px solid #ccc;
 	border-radius: 12px;
 	box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
-	padding: 20px;
+	padding: 8px 16px;
 	z-index: 1000;
+	animation: fadeIn .5s ease;
 }
 
 .notification-item {
-	border-bottom: 1px solid #eaeaea;
+	border-bottom: 2px solid #eaeaea;
 	padding: 10px 0;
 }
 
@@ -301,17 +276,6 @@ body {
 	cursor: pointer;
 }
 
-.notification-count {
-	background-color: red;
-	color: white;
-	padding: 2px 8px;
-	border-radius: 12px;
-	font-size: 12px;
-	position: absolute;
-	top: 5px;
-	right: 0px;
-}
-
 .cerrar-popup {
 	margin-top: 15px;
 	background-color: #6c757d;
@@ -320,7 +284,22 @@ body {
 	border: none;
 	border-radius: 8px;
 	cursor: pointer;
+	transition: background-color .3s ease;
 }
+.cerrar-popup:hover{
+	background-color: #9ea2a3;
+}
+
+/* Animación de aparición */
+@keyframes fadeIn {
+	from {
+		opacity: 0;
+	}
+	to {
+		opacity: 1;
+	}
+}
+
 
 .sidebar {
 	background-color: #f8f8f8;
@@ -344,22 +323,17 @@ body {
 	height: 50px;
 	text-transform: uppercase;
 	/* background-color: inherit; */
-	/* color: #000; */
+	color: #000;
 	border-bottom: #d3d3d3 3px solid;
 }
-/* 
-.button{
-	border: none;
-	padding: 8px 12px;
-	border-radius: 12px;
-	color: #fff;
-	cursor: pointer;
-	transition: background-color 0.3s ease;
-	font-size: 1rem;
-} */
+
+.sidebar-link {
+	text-decoration: none;
+	color: inherit;
+}
 
 .content {
-	overflow: hidden;
+	overflow-y: scroll;
 	display: flex;
 	flex-direction: column;
 	padding: 16px 12px;
@@ -401,7 +375,6 @@ body {
 .bitacora-list__title {
 	font-size: 20px;
 }
-
 
 /* Formulario para agregar bitácora */
 .bitacora-form {
@@ -626,7 +599,8 @@ body {
 
 /* Register Component */
 .form-container {
-	padding: 10px 5px;
+	padding: 8px;
+	border-radius: 8px;
 	margin-top: 2rem;
 	display: flex;
 	flex-direction: column;
@@ -635,22 +609,18 @@ body {
 	text-align: center;
 	justify-self: center;
 	width: min(90%, 500px);
-	background-color: #fdfdfd;
 }
-.register-title {
-	font-size: 1.4rem;
-	color: #0056b3;
-}
-.form {
+
+.register-form {
 	justify-content: center;
 	display: flex;
 	flex-direction: column;
 	text-align: start;
-	margin-top: 30px;
-	padding: 8px 12px;
+	padding: 4px 8px;
 	row-gap: 12px;
-	width: 80%;
-	height: auto;
+	width: 100%;
+	height: 100%;
+	background-color: inherit;
 }
 .register-label {
 	color: #0056b3;
@@ -658,20 +628,30 @@ body {
 
 .register-input {
 	border: 1.5px solid #007bff;
+	margin-bottom: 12px;
 }
 
 .register-input:focus {
 	border-bottom: 2.5px solid #007bff;
+	outline: none;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
+.register-input::placeholder {
+	transition: opacity 0.3s ease;
+}
+.register-input:focus::placeholder {
+	opacity: 0.5;
+}
+
 .register-button {
-	background-color: #007bff;
+	background-color: #0056b3;
 	color: #fff;
 	font-size: 1rem;
 }
 .register-button:hover {
-	background-color: #0056b3;
+	background-color: #007bff;
 }
-.log-in-link{
+.log-in-link {
 	margin-left: 10px;
 	margin-bottom: 10px;
 }
@@ -718,7 +698,7 @@ body {
 	color: #333;
 	text-align: center;
 }
-.not-found-link{
+.not-found-link {
 	color: #fff;
 	background-color: #007bff;
 	text-decoration: none;
@@ -728,7 +708,6 @@ body {
 .not-found-link:hover {
 	background-color: #0056b3;
 }
-
 
 /* MEDIA QUERIES */
 
@@ -779,11 +758,7 @@ body {
 	}
 }
 
-.crear-ficha {
-	background-color: #f2f2f2;
-	align-self: center;
-}
-
+/* LO QUE HIZO JEFFERSON PERO NO ESTÁ */
 /* Contenedor de aprendices vertical */
 .aprendices-contenedor {
 	border-top: 1px solid #ccc;
