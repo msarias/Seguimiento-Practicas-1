@@ -12,20 +12,23 @@ body {
 }
 
 /* ELEMENTOS GENERALES */
-.button{
+.button {
 	border: none;
 	padding: 8px 12px;
-	border-radius: 12px;
+	border-radius: 16px;
 	/* color: #fff; */
 	cursor: pointer;
 	/* font-size: 1rem; */
 	/* font-weight: 600; */
 	transition: background-color 0.3s ease;
 }
-.input{
+
+.input {
+	width: 100%;
 	padding: 8px 12px;
 	outline-color: transparent;
-	border-radius: 16px;
+	border-radius: 8px;
+	transition: border 0.2s ease, box-shadow 0.2s ease;
 }
 .input::placeholder {
 	font-size: 0.9rem;
@@ -37,16 +40,14 @@ body {
 	border-right: none;
 	border-left: none;
 }
-.label{
+.label {
 	display: block;
-	/* color: #0056b3; */
 	position: relative;
-	top: 5px;
 	margin-left: 10px;
+	margin-bottom: 4px;
 	text-transform: capitalize;
 	font-size: 1rem;
 	font-weight: 600;
-	/* background-color: rgba(102, 51, 153, 0.027); */
 	width: max-content;
 }
 
@@ -92,14 +93,14 @@ body {
 	flex-direction: column;
 	width: min(90%, 500px);
 	margin: auto;
-	margin-top: 30px;
+	margin-top: 40px;
 	border-radius: 1rem;
-	row-gap: 10px;
+	row-gap: 12px;
 }
 
 #login-title {
 	font-weight: 600;
-	font-size: 1.3rem;
+	font-size: 1.2rem;
 	text-align: center;
 	margin-bottom: 2rem;
 }
@@ -115,17 +116,25 @@ body {
 	color: #2e8602;
 	margin-left: 10px;
 }
+
 .login-input {
 	margin-bottom: 12px;
 	border: 1.5px solid #2e8602;
 }
 .login-input::placeholder {
-	font-size: 0.9rem;
-	color: #333;
+	transition: opacity 0.3s ease;
 }
+
 .login-input:focus {
 	border-bottom: 2.5px solid #45a049;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+	outline: none;
 }
+
+.login-input:focus::placeholder {
+	opacity: 0.5;
+}
+
 #login-select {
 	padding-left: 8px;
 }
@@ -143,12 +152,12 @@ body {
 }
 
 .login-button {
-	background: #45a049;
+	background-color: #2e8602;
 	color: #fff;
 }
 
 .login-button:hover {
-	background-color: #2e8602;
+	background-color: #45a049;
 }
 
 /* General Content */
@@ -344,22 +353,17 @@ body {
 	height: 50px;
 	text-transform: uppercase;
 	/* background-color: inherit; */
-	/* color: #000; */
+	color: #000;
 	border-bottom: #d3d3d3 3px solid;
 }
-/* 
-.button{
-	border: none;
-	padding: 8px 12px;
-	border-radius: 12px;
-	color: #fff;
-	cursor: pointer;
-	transition: background-color 0.3s ease;
-	font-size: 1rem;
-} */
+
+.sidebar-link {
+	text-decoration: none;
+	color: inherit;
+}
 
 .content {
-	overflow: hidden;
+	overflow-y: scroll;
 	display: flex;
 	flex-direction: column;
 	padding: 16px 12px;
@@ -401,7 +405,6 @@ body {
 .bitacora-list__title {
 	font-size: 20px;
 }
-
 
 /* Formulario para agregar bitácora */
 .bitacora-form {
@@ -626,7 +629,8 @@ body {
 
 /* Register Component */
 .form-container {
-	padding: 10px 5px;
+	padding: 8px;
+	border-radius: 8px;
 	margin-top: 2rem;
 	display: flex;
 	flex-direction: column;
@@ -635,22 +639,18 @@ body {
 	text-align: center;
 	justify-self: center;
 	width: min(90%, 500px);
-	background-color: #fdfdfd;
 }
-.register-title {
-	font-size: 1.4rem;
-	color: #0056b3;
-}
-.form {
+
+.register-form {
 	justify-content: center;
 	display: flex;
 	flex-direction: column;
 	text-align: start;
-	margin-top: 30px;
-	padding: 8px 12px;
+	padding: 4px 8px;
 	row-gap: 12px;
-	width: 80%;
-	height: auto;
+	width: 100%;
+	height: 100%;
+	background-color: inherit;
 }
 .register-label {
 	color: #0056b3;
@@ -658,20 +658,30 @@ body {
 
 .register-input {
 	border: 1.5px solid #007bff;
+	margin-bottom: 12px;
 }
 
 .register-input:focus {
 	border-bottom: 2.5px solid #007bff;
+	outline: none;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
+.register-input::placeholder {
+	transition: opacity 0.3s ease;
+}
+.register-input:focus::placeholder {
+	opacity: 0.5;
+}
+
 .register-button {
-	background-color: #007bff;
+	background-color: #0056b3;
 	color: #fff;
 	font-size: 1rem;
 }
 .register-button:hover {
-	background-color: #0056b3;
+	background-color: #007bff;
 }
-.log-in-link{
+.log-in-link {
 	margin-left: 10px;
 	margin-bottom: 10px;
 }
@@ -718,7 +728,7 @@ body {
 	color: #333;
 	text-align: center;
 }
-.not-found-link{
+.not-found-link {
 	color: #fff;
 	background-color: #007bff;
 	text-decoration: none;
@@ -728,7 +738,6 @@ body {
 .not-found-link:hover {
 	background-color: #0056b3;
 }
-
 
 /* MEDIA QUERIES */
 
@@ -779,11 +788,7 @@ body {
 	}
 }
 
-.crear-ficha {
-	background-color: #f2f2f2;
-	align-self: center;
-}
-
+/* LO QUE HIZO JEFFERSON PERO NO ESTÁ */
 /* Contenedor de aprendices vertical */
 .aprendices-contenedor {
 	border-top: 1px solid #ccc;

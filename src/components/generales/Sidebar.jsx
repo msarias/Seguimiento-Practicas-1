@@ -17,7 +17,7 @@ const Sidebar = () => {
 		<div className='sidebar'>
 			{rol === 'instructor' && (
 				<>
-					<Link to='/usuarios'>
+					<Link className='sidebar-link' to='/usuarios'>
 						<button className='button sidebar-button'>
 							<svg
 								width='24'
@@ -36,7 +36,7 @@ const Sidebar = () => {
 							Usuarios
 						</button>
 					</Link>
-					<Link to='/fichas'>
+					<Link className='sidebar-link' to='/fichas'>
 						<button className='button sidebar-button'>
 							<svg
 								width='24'
@@ -60,7 +60,7 @@ const Sidebar = () => {
 				</>
 			)}
 
-      <Link to='/bitacoras'>
+			<Link className='sidebar-link' to='/bitacoras'>
 				<button className='button sidebar-button'>
 					<svg
 						width='24'
@@ -80,8 +80,8 @@ const Sidebar = () => {
 					Bitácoras
 				</button>
 			</Link>
-      
-			<Link to='/reportes'>
+
+			<Link className='sidebar-link' to='/reportes'>
 				<button className='button sidebar-button'>
 					<svg
 						width='24'
@@ -103,7 +103,7 @@ const Sidebar = () => {
 				</button>
 			</Link>
 
-			<Link to='/visitas'>
+			<Link className='sidebar-link' to='/visitas'>
 				<button className='button sidebar-button'>
 					<svg
 						width='24'
@@ -132,7 +132,7 @@ const Sidebar = () => {
 				</button>
 			</Link>
 
-			<Link to='/ajustes'>
+			<Link className='sidebar-link' to='/ajustes'>
 				<button className='button sidebar-button'>
 					<svg
 						width='24'
