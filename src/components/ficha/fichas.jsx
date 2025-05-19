@@ -125,9 +125,9 @@ const Fichas = () => {
 				<div className=''>
 					<h3 className=''>Listado de Fichas</h3>
 					{fichas?.length > 0 ? (
-						<div className=''>
+						<div className='seccion-fichas'>
 							{fichas.map((ficha) => (
-								<div key={ficha.codigo} className='report-list__item'>
+								<div key={ficha.codigo} className='fichas-item'>
 									<p className=''>Ficha: {ficha.codigo}</p>
 									<p className=''>Programa: {ficha.programa}</p>
 									<button
@@ -155,7 +155,7 @@ const Fichas = () => {
 				</>
 
 				{mostrarFormulario && (
-					<div className='form-container crear-ficha'>
+					<div className='form-container'>
 						<h2 className='register-title'>Crear Nueva Ficha</h2>
 						<form onSubmit={subirFicha} className='form'>
 							<label htmlFor='codigo' className='label register-label'>

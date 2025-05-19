@@ -692,6 +692,25 @@ body {
 	pointer-events: none;
 }
 
+/* FICHAS */
+.seccion-fichas{
+}
+.fichas-item{
+	display: grid;
+	flex-wrap: wrap;
+	text-wrap: balance;
+	justify-content: space-between;
+	background-color: #f8f8f8;
+	padding: 24px;
+	column-gap: 10px;
+	border-radius: 8px;
+	margin-top: 12px;
+	margin-bottom: 12px;
+	grid-auto-flow: column;
+	align-items: center;
+	border-left: 1px solid #000;
+}
+
 /* Not Found Page */
 .not-found {
 	height: 100vh;
