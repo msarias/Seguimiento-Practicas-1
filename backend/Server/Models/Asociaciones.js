@@ -1,6 +1,7 @@
-const Usuario = require('./Usuario'); // Importa Usuario
-const Ficha = require('./Ficha'); // Importa Ficha
-const Notificacion = require('./Notificacion'); // Importa Notificacion
+const Usuario = require('./Usuario');
+const Ficha = require('./Ficha');
+const Notificacion = require('./Notificacion');
+const Bitacora = require('./Bitacora');
 
 // Asociación Ficha -> Usuarios
 Ficha.hasMany(Usuario, {
@@ -22,4 +23,15 @@ Usuario.hasMany(Notificacion, {
 Notificacion.belongsTo(Usuario, {
     foreignKey: 'id_usuario',
     as: 'usuario',
+});
+
+// Asociación Usuario -> Bitácoras (aprendiz)
+Usuario.hasMany(Bitacora, {
+    foreignKey: 'aprendiz_id',
+    as: 'bitacoras',
+});
+
+Bitacora.belongsTo(Usuario, {
+    foreignKey: 'aprendiz_id',
+    as: 'aprendiz',
 });
