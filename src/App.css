@@ -336,8 +336,7 @@ body {
 	overflow-y: scroll;
 	display: flex;
 	flex-direction: column;
-	padding: 16px 12px;
-	row-gap: 1.8rem;
+	padding: 4px;
 	grid-column: 2/3;
 	grid-row: 2/3;
 }
@@ -367,13 +366,27 @@ body {
 	margin-right: 1rem;
 }
 
+/* BITÁCORAS */
 /* Lista de bitácoras */
 .bitacora-list {
+	overflow-y: scroll;
 	padding: 8px 12px;
 }
 
 .bitacora-list__title {
-	font-size: 20px;
+	font-size: 1rem;
+	margin-bottom: 20px;
+}
+.bitacora-item{
+	text-wrap: balance;
+	justify-content: space-between;
+	padding: 8px 12px;
+	border-radius: 8px;
+	display: grid;
+	margin-bottom: 15px;
+	grid-template-columns: repeat(3, 1fr);
+	grid-auto-flow: column;
+	align-items: center;
 }
 
 /* Formulario para agregar bitácora */
@@ -388,21 +401,28 @@ body {
 }
 
 /* VISITAS */
-/* ESTILOS DE VISITAS POR REVISAR: Jefferson */
 .visits-section {
-	overflow: scroll;
-	overflow-x: hidden;
-	background-color: #ffffff;
-	padding: 20px;
-	border-radius: 8px;
+	overflow-y: scroll;
+	padding: 8px 12px;
+	/* border-radius: 8px; */
 	margin-bottom: 20px;
 }
 .visit-list__title {
-	font-size: 20px;
+	font-size: 1rem;
 	margin-bottom: 10px;
 }
+.visit-item{
+	text-wrap: balance;
+	padding: 8px 12px;
+	border-radius: 8px;
+	display: grid;
+	margin-bottom: 15px;
+	grid-template-columns: repeat(3, 1fr);
+	grid-auto-flow: column;
+	align-items: center;
+}
 
-.visit-list__button {
+.visit-button {
 	padding: 3px 4px 2px;
 	align-items: center;
 	background-color: transparent;
@@ -415,27 +435,22 @@ body {
 	display: flex;
 	flex-direction: column;
 	gap: 4px;
-	grid-column-end: end;
-}
-.visit-row button:hover {
-	background-color: #45a049;
 }
 
+
 .visit-form {
-	background-color: #f2f2f2;
+	background-color: #fdfdfd;
 	padding: 20px;
 	border-radius: 8px;
 	margin-top: 20px;
 	display: flex;
 	flex-direction: column;
 	margin-bottom: 20px;
-	row-gap: 10px;
+	row-gap: 12px;
 }
 .visit-input {
-	width: 100%;
 	margin-bottom: 16px;
-	border: 1px solid #d3d3d3;
-	border-radius: none;
+	border: 1.5px solid #d3d3d3;
 }
 
 .estado {
@@ -449,17 +464,17 @@ body {
 
 .estadopendiente {
 	border-color: orange;
-	background-color: #feedc7df;
+	background-color: #feedc728;
 }
 
 .estadoaceptada {
 	border-color: green;
-	background-color: #cefce1;
+	background-color: #cefce127;
 }
 
 .estadorechazada {
 	border-color: red;
-	background-color: #ffe6e6;
+	background-color: #ffe6e63b;
 }
 .popup-overlay {
 	position: fixed;

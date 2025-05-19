@@ -160,7 +160,7 @@ function Visitas() {
 							visitas.map((visita) => (
 								<div
 									key={visita.id}
-									className={`report-list__item estado${visita.estado}`}
+									className={`visit-item estado${visita.estado}`}
 								>
 									<p>{visita.direccion}</p>
 									<p>{visita.tipo}</p>
@@ -178,13 +178,13 @@ function Visitas() {
 									{rol === "instructor" && (
 										<div className="visit-buttons">
 											<button
-												className="visit-list__button accept"
+												className="visit-button accept"
 												onClick={() => handleAceptar(visita.id)}
 											>
 												✔️
 											</button>
 											<button
-												className="visit-list__button reject"
+												className="visit-button reject"
 												onClick={() => handleRechazar(visita)}
 											>
 												❌
@@ -198,7 +198,7 @@ function Visitas() {
 
 					{showForm && (
 						<form className="visit-form" onSubmit={handleAddOrUpdateVisita}>
-							<h2>{modoEdicion ? "Editar Visita" : "Solicitud de Visita"}</h2>
+							<h3>{modoEdicion ? "Editar Visita" : "Solicitud de Visita"}</h3>
 							<input
 								type="date"
 								name="dia"

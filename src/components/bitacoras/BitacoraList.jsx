@@ -98,12 +98,12 @@ window.dispatchEvent(new Event("notificacionesActualizadas"));
 
   return (
     <section className="bitacora-list">
-      <h2 className="bitacora-list__title">Bitácoras</h2>
+      <h3 className="bitacora-list__title">Bitácoras</h3>
       {error && <p className="error-message">{error}</p>}
 
       {bitacorasFiltradas.length > 0 ? (
         bitacorasFiltradas.map((b, index) => (
-          <div className={`report-list__item estado${b.estado}`} key={b.id}>
+          <div className={`bitacora-item estado${b.estado}`} key={b.id}>
             <p><strong>Bitácora {index + 1}</strong></p>
             {b.archivo ? renderArchivo(b.archivo) : <p>Sin archivo</p>}
             <p>Fecha: {b.fecha}</p>
