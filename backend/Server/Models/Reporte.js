@@ -9,7 +9,7 @@ const Reporte = Sequelize.define(
 			autoIncrement: true,
 			primaryKey: true
 		},
-		id_aprendiz: {
+		id_usuario: {
 			type: DataTypes.INTEGER.UNSIGNED,
 			allowNull: true,
 			validate: {
@@ -36,6 +36,10 @@ const Reporte = Sequelize.define(
 			validate: {
 				len: [0, 255]
 			}
+		},
+		estado: {
+			type: DataTypes.STRING,
+			defaultValue: 'Pendiente'
 		}
 	},
 	{

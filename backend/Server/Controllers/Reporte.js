@@ -1,19 +1,45 @@
-const Reporte = require('../Models/Reporte')
+const Reporte = require('../Models/Reporte');
+const Notificacion = require('../Models/Notificacion');
+const Usuario = require('../Models/Usuario');
 
 exports.crearReporte = async (req, res) => {
-	try {
-		const { id_usuario, nombre, motivo } = req.body
-		let currentDate = new Date().toISOString().split('T')[0]
-		const nuevoReporte = await Reporte.create({
-			id_usuario,
-			fecha: currentDate,
-			nombre,
-			motivo
-		})
-		res.status(201).json({ nuevoReporte })
-	} catch (error) {
-		res.status(500).json({ error: error.message })
-	}
+  try {
+    const { id_usuario, nombre, motivo } = req.body
+    const currentDate = new Date().toISOString().split('T')[0]
+
+    // Validar que el instructor exista
+    const instructor = await Usuario.findByPk(id_usuario)
+    if (!instructor) {
+      return res.status(404).json({ error: 'Instructor no encontrado' })
+    }
+
+    // Crear el reporte
+    const nuevoReporte = await Reporte.create({
+      id_usuario,
+      fecha: currentDate,
+      nombre,
+      motivo,
+      estado: 'pendiente'
+    })
+
+    // Buscar todos los aprendices
+    const aprendices = await Usuario.findAll({ where: { rol: 'aprendiz' } })
+
+    // Crear notificación para cada aprendiz
+    for (const aprendiz of aprendices) {
+      await Notificacion.create({
+        mensaje: `El instructor ${instructor.nombres} ${instructor.apellidos} ha subido un nuevo reporte.`,
+        id_usuario: aprendiz.id,
+        tipo: 'reporte',
+        estado: 'pendiente'
+      })
+    }
+
+    res.status(201).json({ nuevoReporte })
+  } catch (error) {
+    console.error('Error al crear el reporte o las notificaciones:', error)
+    res.status(500).json({ error: error.message })
+  }
 }
 
 exports.verReportePorId = async (req, res) => {
