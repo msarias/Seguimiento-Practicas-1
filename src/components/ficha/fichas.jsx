@@ -122,29 +122,27 @@ const Fichas = () => {
 			<Navbar />
 			<Sidebar />
 			<div className='content'>
-				<div className=''>
-					<h3 className=''>Listado de Fichas</h3>
+				<div className='seccion-fichas'>
+					<h3>Listado de Fichas</h3>
 					{fichas?.length > 0 ? (
-						<div className='seccion-fichas'>
-							{fichas.map((ficha) => (
-								<div key={ficha.codigo} className='fichas-item'>
-									<p className=''>Ficha: {ficha.codigo}</p>
-									<p className=''>Programa: {ficha.programa}</p>
-									<button
-										id={ficha.id}
-										onClick={eliminarFicha}
-										className='button delete-button'>
-										<img
-											id='delete-img'
-											src='../assets/img/trash.png'
-											alt='Eliminar'
-										/>
-									</button>
-								</div>
-							))}
-						</div>
+						fichas.map((ficha) => (
+							<div key={ficha.codigo} className='fichas-item'>
+								<p>Ficha: {ficha.codigo}</p>
+								<p>Programa: {ficha.programa}</p>
+								<button
+									id={ficha.id}
+									onClick={eliminarFicha}
+									className='button delete-button'>
+									<img
+										id='delete-img'
+										src='../assets/img/trash.png'
+										alt='Eliminar'
+									/>
+								</button>
+							</div>
+						))
 					) : (
-						<p className=''>No hay fichas registradas.</p>
+						<p>No hay fichas registradas.</p>
 					)}
 				</div>
 
@@ -155,15 +153,12 @@ const Fichas = () => {
 				</>
 
 				{mostrarFormulario && (
-					<div className='form-container'>
+					<div className='report-form'>
 						<h2 className='register-title'>Crear Nueva Ficha</h2>
-						<form onSubmit={subirFicha} className='form'>
-							<label htmlFor='codigo' className='label register-label'>
-								Código de Ficha:
-							</label>
+						<form onSubmit={subirFicha} className='register-form'>
 							<input
 								type='text'
-								className='input register-input'
+								className='input report-input'
 								id='codigo'
 								name='codigo'
 								placeholder='Ingrese el código de la ficha'
@@ -172,15 +167,12 @@ const Fichas = () => {
 								onChange={handleChange}
 								required
 							/>
-							<label htmlFor='programa' className='label register-label'>
-								Nombre del Programa:
-							</label>
 							<input
 								type='text'
-								className='input register-input'
+								className='input report-input'
 								id='programa'
 								name='programa'
-								plaaceholder='Ingrese el nombre del programa'
+								placeholder='Ingrese el nombre del programa'
 								value={formData.programa}
 								onChange={handleChange}
 								required

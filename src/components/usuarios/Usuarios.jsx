@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import axios from 'axios'
 import Navbar from '../generales/NavBar'
 import Sidebar from '../generales/Sidebar'
@@ -22,8 +22,6 @@ const Usuarios = () => {
 			)
 
 			const data = response.data
-      console.log(data);
-      
 			setUsuarios(data.usuarios || [])
 			seTtotalPaginas(data.totalPages || 1)
 		} catch (error) {
