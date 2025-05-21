@@ -229,15 +229,15 @@ body {
 	justify-content: center;
 	align-items: center;
 	text-align: center;
-	width: 16px;
-	height: 16px;
+	width: 20px;
+	height: 20px;
 	padding: 4px;
 	border-radius: 50%;
 	background-color: #bb2525;
 	color: white;
 	right: -4px;
-	top: 0;
-	font-size: .8rem;
+	top: -8px;
+	font-size: 0.8rem;
 }
 
 /* Estilos del Popup */
@@ -254,7 +254,7 @@ body {
 	box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
 	padding: 8px 16px;
 	z-index: 1000;
-	animation: fadeIn .5s ease;
+	animation: fadeIn 0.5s ease;
 }
 
 .notification-item {
@@ -284,9 +284,9 @@ body {
 	border: none;
 	border-radius: 8px;
 	cursor: pointer;
-	transition: background-color .3s ease;
+	transition: background-color 0.3s ease;
 }
-.cerrar-popup:hover{
+.cerrar-popup:hover {
 	background-color: #9ea2a3;
 }
 
@@ -300,7 +300,7 @@ body {
 	}
 }
 
-
+/* SIDEBAR */
 .sidebar {
 	background-color: #f8f8f8;
 	display: flex;
@@ -318,13 +318,27 @@ body {
 	width: 100%;
 	display: flex;
 	align-items: center;
-	padding-left: 15px;
+	padding: 0 16px;
 	column-gap: 20px;
-	height: 50px;
+	height: 48px;
 	text-transform: uppercase;
-	/* background-color: inherit; */
+	color: #222;
+	background-color: transparent;
+	border-bottom: 2px solid #e0e0e0;
+	cursor: pointer;
+	font-weight: 400;
+	outline: none;
+	transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.sidebar-button:hover,
+.sidebar-button:focus {
+	background-color: #f0f0f0;
 	color: #000;
-	border-bottom: #d3d3d3 3px solid;
+}
+
+.sidebar-button:active {
+	background-color: #e0e0e0;
 }
 
 .sidebar-link {
@@ -377,7 +391,7 @@ body {
 	font-size: 1rem;
 	margin-bottom: 20px;
 }
-.bitacora-item{
+.bitacora-item {
 	text-wrap: balance;
 	justify-content: space-between;
 	padding: 8px 12px;
@@ -411,7 +425,7 @@ body {
 	font-size: 1rem;
 	margin-bottom: 10px;
 }
-.visit-item{
+.visit-item {
 	text-wrap: balance;
 	padding: 8px 12px;
 	border-radius: 8px;
@@ -436,7 +450,6 @@ body {
 	flex-direction: column;
 	gap: 4px;
 }
-
 
 .visit-form {
 	background-color: #fdfdfd;
@@ -560,7 +573,7 @@ body {
 
 .report-list__button {
 	padding: 10px;
-	background-color: #4caf50;
+	background-color: #eaeaea;
 	border: none;
 	border-radius: 4px;
 	cursor: pointer;
@@ -685,7 +698,12 @@ body {
 	justify-content: center;
 	align-items: center;
 	width: max-content;
+	transition: background-color 0.3s ease;
 }
+.delete-button:hover {
+	background-color: #eaeaea;
+}
+
 #delete-img {
 	width: 25px;
 	height: 25px;
@@ -693,9 +711,11 @@ body {
 }
 
 /* FICHAS */
-.seccion-fichas{
+.seccion-fichas {
+	width: 100%;
+	padding: 8px;
 }
-.fichas-item{
+.fichas-item {
 	display: grid;
 	flex-wrap: wrap;
 	text-wrap: balance;

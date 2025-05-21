@@ -24,7 +24,6 @@ const Reportes = () => {
 			const url = `${API_URL}/api/reportes/verReportes`
 			const { data } = await axios.get(url)
 			setReportes(data.reportes || [])
-			console.log(data.reportes)
 		} catch (error) {
 			console.error('Error al obtener reportes:', error.message)
 		}
@@ -72,7 +71,7 @@ const Reportes = () => {
 			<NavBar />
 			<Sidebar />
 			<div className='content'>
-				<h2 className='report-list__title'>Reportes</h2>
+				<h3 className='report-list__title'>Reportes</h3>
 
 				{reportes.length === 0 ? (
 					<p>No existen reportes</p>
