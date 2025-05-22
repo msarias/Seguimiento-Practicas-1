@@ -73,17 +73,17 @@ exports.crearUsuario = async (req, res) => {
 // Obtener todos los usuarios (sin importar su rol)
 exports.obtenerUsuarios = async (req, res) => {
 	try {
-		const page = 1
-		const limit = 6
-		const offset = (page - 1) * limit
+		const page = parseInt(req.query.page) || 1;
+		const limit = parseInt(req.query.limit) || 6;
+		const offset = (page - 1) * limit;
 
 		const { count, rows } = await Usuario.findAndCountAll({
 			limit,
 			offset
-		})
+		});
 
 		if (count === 0) {
-			return res.status(404).json({ message: 'No hay usuarios registrados' })
+			return res.status(404).json({ message: 'No hay usuarios registrados' });
 		}
 
 		return res.status(200).json({
@@ -92,12 +92,12 @@ exports.obtenerUsuarios = async (req, res) => {
 			page,
 			limit,
 			totalPages: Math.ceil(count / limit)
-		})
+		});
 	} catch (error) {
-		console.error(error)
-		return res.status(500).json({ error: error.message })
+		console.error(error);
+		return res.status(500).json({ error: error.message });
 	}
-}
+};
 
 // Obtener usuario por ID (ya sea aprendiz o instructor)
 exports.obtenerUsuarioPorId = async (req, res) => {
