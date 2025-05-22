@@ -44,7 +44,8 @@ const Reportes = () => {
 					title: 'Error en reportes',
 					toast: true,
 					position: 'bottom-left',
-					text: error.message
+					text: error.message,
+          icon: 'error'
 				})
         console.error("Error al obtener reportes:", error.message);
       }
