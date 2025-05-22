@@ -32,7 +32,6 @@ const Reportes = () => {
           limite: 6
         }
       });
-
       setReportes(data.reportes || []);
       setTotalPaginas(data.totalPaginas);
     } catch (error) {
@@ -40,13 +39,13 @@ const Reportes = () => {
         setReportes([]);
         setTotalPaginas(1);
       } else {
-				Swal({
-					title: 'Error en reportes',
-					toast: true,
-					position: 'bottom-left',
-					text: error.message,
-          icon: 'error'
-				})
+        Swal({
+          title: "Error en reportes",
+          toast: true,
+          position: "bottom-left",
+          text: error.message,
+          icon: "error"
+        });
         console.error("Error al obtener reportes:", error.message);
       }
     }
@@ -82,11 +81,9 @@ const Reportes = () => {
         title: "Error al eliminar reporte",
         text: "No se pudo eliminar el reporte.",
         toast: true,
-        timer: 1200,
         showConfirmButton: false,
         position: "bottom-left",
-				icon: 'error',
-				timer: 1200
+        timer: 1200
       });
     }
   };
